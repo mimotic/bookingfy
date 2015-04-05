@@ -1,9 +1,12 @@
 <?php
+
  require_once("Rest.php");
+
+
  class Api extends Rest {
-   const servidor = "localhost";
-   const usuario_db = "usuario";
-   const pwd_db = "";
+   const servidor = "www";
+   const usuario_db = "root";
+   const pwd_db = "root";
    const nombre_db = "autorizacion";
    private $_conn = NULL;
    private $_metodo;
@@ -34,6 +37,10 @@
      );
      return $errores[$id];
    }
+
+
+
+
    public function procesarLLamada() {
      if (isset($_REQUEST['url'])) {
        //si por ejemplo pasamos explode('/','////controller///method////args///') el resultado es un array con elem vacios;
@@ -58,11 +65,35 @@
      }
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(0)), 404);
    }
+
+
+
+
+
+
+
+
    private function convertirJson($data) {
      return json_encode($data);
    }
 
    private function usuarios() {
+     if ($_SERVER['REQUEST_METHOD'] != "GET") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     $query = $this->_conn->query("SELECT id, nombre, email FROM usuario");
+     $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+     $num = count($filas);
+     if ($num > 0) {
+       $respuesta['estado'] = 'correcto';
+       $respuesta['usuarios'] = $filas;
+       $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+     }
+     $this->mostrarRespuesta($this->devolverError(2), 204);
+   }
+
+
+   private function mo() {
      if ($_SERVER['REQUEST_METHOD'] != "GET") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
