@@ -1,0 +1,21 @@
+{
+  "name": "bookingfy",
+  "version": "1.0.0",
+  "authors": [
+    "mimotic"
+  ],
+  "description": "bookingfy",
+  "main": "src/public/index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "bookingfy.com",
+  "dependencies": {
+    "normalize.styl": "~3.0.2"
+  }
+}
