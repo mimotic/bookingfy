@@ -2,6 +2,7 @@ module.exports = function(grunt){
 
 	// modules calls
 	grunt.loadNpmTasks('grunt-contrib-connect'); // levantar servidores
+	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-stylus'); // compilar stylus
 	grunt.loadNpmTasks('grunt-contrib-watch'); // observar cambios sobre archivos
 	grunt.loadNpmTasks('grunt-contrib-cssmin'); // minificar los css
@@ -29,7 +30,7 @@ module.exports = function(grunt){
 
 			scripts: {
 			   	files: ['src/public/**/*', '!src/public/css/*'],
-			   	tasks: ['stylus'],
+			   	tasks: ['stylus', 'browserify'],
 			   	options: {
 			        livereload: true,
 			    },
@@ -38,6 +39,9 @@ module.exports = function(grunt){
 
 		},
 
+		browserify: {
+      		'src/public/js/app.js': ['src/public/js/main.js']
+    	},
 
 		cssmin: { // minificado de css
 		  target: {
@@ -77,7 +81,7 @@ module.exports = function(grunt){
 	});
 
 	// tareas
-	grunt.registerTask('default',['stylus','connect:server','watch:scripts']);
+	grunt.registerTask('default',['stylus','browserify','connect:server','watch:scripts']);
 
 	grunt.task.registerTask('genstylus', ['stylus']);
 

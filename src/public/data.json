@@ -1,0 +1,72 @@
+{
+  "Hockey": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Cesped artificial"
+      }
+    ]
+  },
+  "Futbol 11": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista cesped"
+      }
+    ]
+  },
+  "Futbol sala": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista sala"
+      }
+    ]
+  },
+  "Padel": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista 1"
+      },
+      {
+        "name": "Pista 2"
+      }
+    ]
+  },
+  "Tenis": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista 1"
+      },
+      {
+        "name": "Pista 2"
+      }
+    ]
+  },
+  "Baloncesto": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista 2"
+      }
+    ]
+  },
+  "Voleybol": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista 1"
+      }
+    ]
+  },
+  "Voley playa": {
+    "precio": 10,
+    "pistas": [
+      {
+        "name": "Pista arena"
+      }
+    ]
+  }
+}
