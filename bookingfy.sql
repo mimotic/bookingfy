@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 05-04-2015 a las 21:49:37
+-- Tiempo de generación: 06-04-2015 a las 17:15:58
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.14
 
@@ -26,10 +26,11 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `deporte`
 --
 
+DROP TABLE IF EXISTS `deporte`;
 CREATE TABLE IF NOT EXISTS `deporte` (
 `id` int(6) NOT NULL,
-  `nombre` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -37,10 +38,11 @@ CREATE TABLE IF NOT EXISTS `deporte` (
 -- Estructura de tabla para la tabla `horarios`
 --
 
+DROP TABLE IF EXISTS `horarios`;
 CREATE TABLE IF NOT EXISTS `horarios` (
 `id` int(6) NOT NULL,
   `inicio` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -48,12 +50,13 @@ CREATE TABLE IF NOT EXISTS `horarios` (
 -- Estructura de tabla para la tabla `pistas`
 --
 
+DROP TABLE IF EXISTS `pistas`;
 CREATE TABLE IF NOT EXISTS `pistas` (
 `id` int(6) NOT NULL,
   `id_deporte` int(6) NOT NULL,
   `precio_pista` decimal(10,0) NOT NULL,
   `precio_luz` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -61,15 +64,16 @@ CREATE TABLE IF NOT EXISTS `pistas` (
 -- Estructura de tabla para la tabla `reservas`
 --
 
+DROP TABLE IF EXISTS `reservas`;
 CREATE TABLE IF NOT EXISTS `reservas` (
 `id` int(6) NOT NULL,
-  `id_usuario` int(255) NOT NULL,
-  `id_pista` int(255) NOT NULL,
-  `id_hora` int(255) NOT NULL,
-  `fecha_pista` int(255) NOT NULL,
+  `id_usuario` int(6) NOT NULL,
+  `id_pista` int(6) NOT NULL,
+  `id_hora` int(6) NOT NULL,
+  `fecha_pista` date NOT NULL,
   `luz` int(1) NOT NULL,
-  `fecha_reserva` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `fecha_log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10210 ;
 
 -- --------------------------------------------------------
 
@@ -77,17 +81,18 @@ CREATE TABLE IF NOT EXISTS `reservas` (
 -- Estructura de tabla para la tabla `usuarios`
 --
 
+DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
 `id` int(6) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
   `expediente` varchar(50) DEFAULT NULL,
-  `dni` varchar(50) NOT NULL,
+  `dni` varchar(15) NOT NULL,
   `mail` varchar(50) NOT NULL,
   `password` int(50) NOT NULL,
   `rol` int(1) NOT NULL DEFAULT '0',
   `fecha_alta` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Índices para tablas volcadas
@@ -115,17 +120,16 @@ ALTER TABLE `pistas`
 -- Indices de la tabla `reservas`
 --
 ALTER TABLE `reservas`
- ADD PRIMARY KEY (`id`),
- ADD UNIQUE KEY (`id_pista`,`id_hora`,`fecha_pista`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `tripla` (`id_pista`,`id_hora`,`fecha_pista`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
  ADD PRIMARY KEY (`id`),
- ADD UNIQUE KEY `expediente`,
- ADD UNIQUE KEY `dni`,
- ADD UNIQUE KEY `mail`;
+ ADD UNIQUE KEY (`expediente`),
+ ADD UNIQUE KEY (`dni`),
+ ADD UNIQUE KEY (`mail`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
