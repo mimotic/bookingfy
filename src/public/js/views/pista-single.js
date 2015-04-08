@@ -6,28 +6,28 @@ var Backbone   = require('backbone'),
 module.exports = Backbone.View.extend({
 
   tagName: 'li',
-  className: 'deporte',
+  className: 'pista',
 
   events: {
     'click': 'navigate'
   },
 
-  template: Handlebars.compile($("#deporte-template").html()),
+  template: Handlebars.compile($("#pista-template").html()),
 
   initialize: function () {
     this.listenTo(this.model, "change", this.render, this);
   },
 
   render: function () {
-    var deporte = this.model.toJSON();
-    var html = this.template(deporte);
+    var pista = this.model.toJSON();
+    var html = this.template(pista);
     this.$el.html(html);
     return this;
   },
 
 
   navigate: function () {
-    Backbone.app.navigate(this.model.get("name"), { trigger: true });
+    // Backbone.app.navigate(this.model.get("name"), { trigger: true });
   }
 
 });

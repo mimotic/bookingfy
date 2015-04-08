@@ -4,11 +4,13 @@ var Backbone      = require('backbone'),
     Deporte       = require('../models/deporte'),
     Pista         = require('../models/pista'),
     DeportesView  = require('../views/deportes-list'),
+    PistasView  = require('../views/pistas-list'),
     $             = require('jquery');
 
 module.exports = Backbone.Router.extend({
   routes: {
-    "": "index"
+    "": "index",
+    ":name": "loadPistas"
   },
 
   initialize: function () {
@@ -18,13 +20,13 @@ module.exports = Backbone.Router.extend({
     this.deportes = new Deportes();
     this.pistas = new Pistas();
     this.deporteslist = new DeportesView({ collection: this.deportes });
+    this.pistaslist = new PistasView({ collection: this.pistas });
 
-    Backbone.history.start();
+    Backbone.history.start({pushState: true});
   },
 
 
   index: function () {
-    console.log('dentro del index');
     this.fetchData();
   },
 
@@ -50,10 +52,40 @@ module.exports = Backbone.Router.extend({
   addDeporte: function (name, deporte) {
     this.deportes.add(new Deporte({
       name: name,
-      precio: deporte.precio
+      precio: deporte.precio,
+      pistas: deporte.pistas
+    }));
+  },
+
+
+  loadPistas: function(name){
+
+    if (Object.keys(this.jsonData).length === 0) {
+      var self = this;
+
+      this.fetchData().done(function () {
+        self.addPistas(name);
+      });
+
+    } else {
+      this.addPistas(name);
+    }
+  },
+
+  addPistas: function (name) {
+    this.pistas.reset();
+
+    this.current.deporte = this.jsonData[name];
+    this.current.deporte.pistas.forEach(this.addPista, this);
+  },
+
+  addPista: function (name) {
+    var deporte = this.current.deporte;
+
+    this.pistas.add(new Pista({
+      name: name.name
     }));
   }
-
 
 
 });
