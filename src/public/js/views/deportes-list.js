@@ -10,6 +10,11 @@ module.exports = Backbone.View.extend({
 
   initialize: function () {
     this.listenTo(this.collection, "add", this.addOne, this);
+    this.listenTo(this.collection, "reset", this.resetear, this);
+  },
+
+  resetear: function () {
+    this.$el.empty();
   },
 
   render: function () {

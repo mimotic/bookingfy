@@ -10,17 +10,20 @@ var Backbone      = require('backbone'),
 module.exports = Backbone.Router.extend({
   routes: {
     "": "index",
-    ":name": "loadPistas"
+    ":name": "loadPistas",
+
   },
 
   initialize: function () {
-    console.log('inicializacion');
+    var self = this;
+    console.log(this.el);
     this.current = {};
     this.jsonData = {};
     this.deportes = new Deportes();
     this.pistas = new Pistas();
     this.deporteslist = new DeportesView({ collection: this.deportes });
     this.pistaslist = new PistasView({ collection: this.pistas });
+
 
     Backbone.history.start({pushState: true});
   },
@@ -39,6 +42,9 @@ module.exports = Backbone.Router.extend({
       self.jsonData = data;
 
       console.log(data);
+
+      self.deportes.reset();
+      self.pistas.reset();
 
       for (var name in data) {
         if (data.hasOwnProperty(name)) {

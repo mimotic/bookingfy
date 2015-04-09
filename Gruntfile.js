@@ -2,12 +2,15 @@ module.exports = function(grunt){
 
 	// modules calls
 	grunt.loadNpmTasks('grunt-contrib-connect'); // levantar servidores
-	grunt.loadNpmTasks('grunt-browserify');
+	grunt.loadNpmTasks('grunt-browserify'); // inyección de dependencias backbone
 	grunt.loadNpmTasks('grunt-contrib-stylus'); // compilar stylus
 	grunt.loadNpmTasks('grunt-contrib-watch'); // observar cambios sobre archivos
 	grunt.loadNpmTasks('grunt-contrib-cssmin'); // minificar los css
 	grunt.loadNpmTasks('grunt-contrib-uglify'); // minificar js
 	grunt.loadNpmTasks('grunt-contrib-stylus'); // stylus
+
+	// load module reescritura de urls para el server
+	modRewrite = require('connect-modrewrite')
 
 	// config modules
 	grunt.config.init({
@@ -22,6 +25,15 @@ module.exports = function(grunt){
 	                livereload: true,
 	                open: true,
 	                base: 'src/public',
+	                middleware: function(connect, options) { // reescritura urls
+				        var middlewares;
+				        middlewares = [];
+				        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
+				        options.base.forEach(function(base) {
+				          return middlewares.push(connect["static"](base));
+				        });
+				        return middlewares;
+				    }
 		    	}
 			}
 		},
