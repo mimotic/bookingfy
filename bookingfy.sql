@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `horarios` (
 DROP TABLE IF EXISTS `pistas`;
 CREATE TABLE IF NOT EXISTS `pistas` (
 `id` int(6) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
   `id_deporte` int(6) NOT NULL,
   `precio_pista` decimal(10,0) NOT NULL,
   `precio_luz` decimal(10,0) NOT NULL
@@ -72,7 +73,8 @@ CREATE TABLE IF NOT EXISTS `reservas` (
   `id_hora` int(6) NOT NULL,
   `fecha_pista` date NOT NULL,
   `luz` int(1) NOT NULL,
-  `fecha_log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `fecha_log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `anulado` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10210 ;
 
 -- --------------------------------------------------------
@@ -120,7 +122,7 @@ ALTER TABLE `pistas`
 -- Indices de la tabla `reservas`
 --
 ALTER TABLE `reservas`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `tripla` (`id_pista`,`id_hora`,`fecha_pista`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `cuatripla` (`id_pista`,`id_hora`,`fecha_pista`,`anulado`);
 
 --
 -- Indices de la tabla `usuarios`
