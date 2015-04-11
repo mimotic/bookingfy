@@ -4,19 +4,21 @@ var Backbone      = require('backbone'),
     Deporte       = require('../models/deporte'),
     Pista         = require('../models/pista'),
     DeportesView  = require('../views/deportes-list'),
-    PistasView  = require('../views/pistas-list'),
+    PistasView    = require('../views/pistas-list'),
+    LoginView     = require('../views/login.js'),
     $             = require('jquery');
 
 module.exports = Backbone.Router.extend({
   routes: {
     "": "index",
+    "login": "loadLogin",
+    "reservas": "loadDeportes",
     ":name": "loadPistas",
 
   },
 
   initialize: function () {
     var self = this;
-    console.log(this.el);
     this.current = {};
     this.jsonData = {};
     this.deportes = new Deportes();
@@ -25,11 +27,20 @@ module.exports = Backbone.Router.extend({
     this.pistaslist = new PistasView({ collection: this.pistas });
 
 
+
     Backbone.history.start({pushState: true});
   },
 
+  index: function(){
 
-  index: function () {
+  },
+
+  loadLogin: function(){
+    this.login = new LoginView();
+  },
+
+
+  loadDeportes: function () {
     this.fetchData();
   },
 
@@ -65,6 +76,8 @@ module.exports = Backbone.Router.extend({
 
 
   loadPistas: function(name){
+
+    this.deportes.reset();
 
     if (Object.keys(this.jsonData).length === 0) {
       var self = this;

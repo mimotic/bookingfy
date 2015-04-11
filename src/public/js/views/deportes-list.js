@@ -10,10 +10,10 @@ module.exports = Backbone.View.extend({
 
   initialize: function () {
     this.listenTo(this.collection, "add", this.addOne, this);
-    this.listenTo(this.collection, "reset", this.resetear, this);
+    this.listenTo(this.collection, "reset", this.reset, this);
   },
 
-  resetear: function () {
+  reset: function () {
     this.$el.empty();
   },
 
