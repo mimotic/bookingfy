@@ -22,7 +22,7 @@ module.exports = Backbone.View.extend({
 
     Prueba = new Usuarios().fetch();
 
-    console.log('mosadasd');
+    console.log(Prueba);
   },
 
   render: function () {
