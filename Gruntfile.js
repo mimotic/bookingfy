@@ -35,7 +35,7 @@ module.exports = function(grunt){
 			        port:80,
 	                livereload: true,
 	                open: true,
-	                base: 'src/public',
+	                base: 'src/dev',
 	                middleware: function(connect, options) { // reescritura urls
 				        var middlewares;
 				        middlewares = [];
@@ -52,7 +52,7 @@ module.exports = function(grunt){
 		watch: { // observa cambios sobre archivos
 
 			scripts: {
-			   	files: ['src/public/**/*', '!src/public/css/*'],
+			   	files: ['src/dev/**/*', '!src/dev/css/*'],
 			   	tasks: ['stylus', 'browserify'],
 			   	options: {
 			        livereload: true,
@@ -63,7 +63,7 @@ module.exports = function(grunt){
 		},
 
 		browserify: {
-      		'src/public/js/app.js': ['src/public/js/main.js']
+      		'src/dev/js/app.js': ['src/dev/js/main.js']
     	},
 
 		cssmin: { // minificado de css
@@ -93,10 +93,10 @@ module.exports = function(grunt){
 	    stylus: {
 		  compile: {
 		    options: {
-		      paths: ['src/public/stylus'],
+		      paths: ['src/dev/stylus'],
 		    },
 		    files: {
-		      'src/public/css/style.css': ['src/public/stylus/style.styl']
+		      'src/dev/css/style.css': ['src/dev/stylus/style.styl']
 		    }
 		  }
 		}
