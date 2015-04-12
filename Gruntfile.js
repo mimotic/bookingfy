@@ -8,6 +8,7 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-cssmin'); // minificar los css
 	grunt.loadNpmTasks('grunt-contrib-uglify'); // minificar js
 	grunt.loadNpmTasks('grunt-contrib-stylus'); // stylus
+	grunt.loadNpmTasks('grunt-open'); // open url
 
 	// load module reescritura de urls para el server
 	modRewrite = require('connect-modrewrite')
@@ -15,13 +16,23 @@ module.exports = function(grunt){
 	// config modules
 	grunt.config.init({
 
+		open: { // abre url en el navegador especificado
+		    dev: {
+		      path: 'http://bookingfy.dev/',
+		      app: 'Google Chrome',
+		      options: {
+		      	livereload: true
+		      }
+		    }
+		},
+
 		connect: { // lanza servidor
 
 		    server: {
 
 		     	options: {
-			        hostname: 'www',
-			        port:8080,
+			        hostname: 'bookingfy.dev',
+			        port:80,
 	                livereload: true,
 	                open: true,
 	                base: 'src/public',
@@ -93,7 +104,7 @@ module.exports = function(grunt){
 	});
 
 	// tareas
-	grunt.registerTask('default',['stylus','browserify','connect:server','watch:scripts']);
+	grunt.registerTask('default',['stylus','browserify','open:dev','watch:scripts']);
 
 	grunt.task.registerTask('genstylus', ['stylus']);
 

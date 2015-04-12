@@ -1,5 +1,6 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
+    Usuarios = require('../collections/usuarios'),
     $          = require('jquery'),
     app        = Backbone.app;
 
@@ -15,6 +16,13 @@ module.exports = Backbone.View.extend({
   initialize: function () {
     // this.listenTo(this.model, "change", this.render, this);
     this.render();
+
+   // Backbone.emulateHTTP = true;
+    var Prueba;
+
+    Prueba = new Usuarios().fetch();
+
+    console.log('mosadasd');
   },
 
   render: function () {

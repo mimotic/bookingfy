@@ -1,6 +1,7 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
+    Plantilla  = require('../partials/plantilla_deporte'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -12,9 +13,11 @@ module.exports = Backbone.View.extend({
     'click': 'navigate'
   },
 
-  template: Handlebars.compile($("#deporte-template").html()),
+  template: Handlebars.compile( Plantilla.deporte ),
+
 
   initialize: function () {
+    console.log( Plantilla.deporte );
     this.listenTo(this.model, "change", this.render, this);
   },
 

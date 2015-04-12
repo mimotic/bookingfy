@@ -32,7 +32,7 @@ module.exports = Backbone.Router.extend({
   },
 
   index: function(){
-
+    this.login = new LoginView();
   },
 
   loadLogin: function(){
