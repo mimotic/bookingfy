@@ -1,5 +1,5 @@
 {
-  "Hockey": {
+  "hockey": {
     "precio": 10,
     "pistas": [
       {
@@ -7,7 +7,7 @@
       }
     ]
   },
-  "Futbol 11": {
+  "futbol-11": {
     "precio": 10,
     "pistas": [
       {
@@ -15,7 +15,7 @@
       }
     ]
   },
-  "Futbol sala": {
+  "futbol-sala": {
     "precio": 10,
     "pistas": [
       {
@@ -23,7 +23,7 @@
       }
     ]
   },
-  "Padel": {
+  "padel": {
     "precio": 10,
     "pistas": [
       {
@@ -34,7 +34,7 @@
       }
     ]
   },
-  "Tenis": {
+  "tenis": {
     "precio": 10,
     "pistas": [
       {
@@ -45,7 +45,7 @@
       }
     ]
   },
-  "Baloncesto": {
+  "baloncesto": {
     "precio": 10,
     "pistas": [
       {
@@ -56,7 +56,7 @@
       }
     ]
   },
-  "Voleybol": {
+  "voleybol": {
     "precio": 10,
     "pistas": [
       {
@@ -64,7 +64,7 @@
       }
     ]
   },
-  "Voley playa": {
+  "voley-playa": {
     "precio": 10,
     "pistas": [
       {

@@ -23,13 +23,14 @@ module.exports = Backbone.View.extend({
 
   render: function () {
     var deporte = this.model.toJSON();
+    //deporte.name = deporte.name.replace('-', ' ');
     var html = this.template(deporte);
     this.$el.html(html);
     return this;
   },
 
   navigate: function () {
-    Backbone.app.navigate(this.model.get("name"), { trigger: true });
+    Backbone.app.navigate( 'campus/' + this.model.get("name"), { trigger: true });
   }
 
 });

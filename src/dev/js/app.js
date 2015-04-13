@@ -20092,14 +20092,21 @@ var Backbone = require('backbone'),
 module.exports = Backbone.Collection.extend({
   model: Deporte
 });
-},{"../models/deporte":40,"backbone":1}],37:[function(require,module,exports){
+},{"../models/deporte":41,"backbone":1}],37:[function(require,module,exports){
+var Backbone = require('backbone'),
+    Hora    = require('../models/hora');
+
+module.exports = Backbone.Collection.extend({
+  model: Hora
+});
+},{"../models/hora":42,"backbone":1}],38:[function(require,module,exports){
 var Backbone = require('backbone'),
     Pista    = require('../models/pista');
 
 module.exports = Backbone.Collection.extend({
   model: Pista
 });
-},{"../models/pista":41,"backbone":1}],38:[function(require,module,exports){
+},{"../models/pista":43,"backbone":1}],39:[function(require,module,exports){
 var Backbone = require('backbone'),
     Usuario    = require('../models/usuario');
 
@@ -20108,7 +20115,7 @@ module.exports = Backbone.Collection.extend({
 	url: '/api/usuarios/',
   	model: Usuario
 });
-},{"../models/usuario":42,"backbone":1}],39:[function(require,module,exports){
+},{"../models/usuario":44,"backbone":1}],40:[function(require,module,exports){
 var Backbone    = require('backbone'),
     Router      = require('./routers/router'),
     $           = require('jquery');
@@ -20118,59 +20125,78 @@ Backbone.$  = $;
 $(function () {
   Backbone.app = new Router();
 });
-},{"./routers/router":44,"backbone":1,"jquery":34}],40:[function(require,module,exports){
+},{"./routers/router":47,"backbone":1,"jquery":34}],41:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({});
 
-},{"backbone":1}],41:[function(require,module,exports){
-var Backbone = require('backbone');
-
-module.exports = Backbone.Model.extend({});
 },{"backbone":1}],42:[function(require,module,exports){
+var Backbone = require('backbone');
+
+module.exports = Backbone.Model.extend({});
+},{"backbone":1}],43:[function(require,module,exports){
+arguments[4][42][0].apply(exports,arguments)
+},{"backbone":1,"dup":42}],44:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
 	//urlRoot: 'http:80//localhost/',
 	url: '/api/usuarios/'
 });
-},{"backbone":1}],43:[function(require,module,exports){
+},{"backbone":1}],45:[function(require,module,exports){
+var plantillas = plantillas || {};
+
+plantillas.calendario = '{{name}}';
+
+module.exports = plantillas;
+},{}],46:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.deporte = '{{name}}';
 
 module.exports = plantillas;
-},{}],44:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var Backbone      = require('backbone'),
     Deportes      = require('../collections/deportes'),
     Pistas        = require('../collections/pistas'),
+    Horas        = require('../collections/horas'),
     Deporte       = require('../models/deporte'),
     Pista         = require('../models/pista'),
+    Hora         = require('../models/hora'),
     DeportesView  = require('../views/deportes-list'),
     PistasView    = require('../views/pistas-list'),
-    LoginView     = require('../views/login.js'),
+    LoginView     = require('../views/login'),
+    CalendarioView     = require('../views/calendario-list'),
     $             = require('jquery');
 
 module.exports = Backbone.Router.extend({
   routes: {
     "": "index",
     "login": "loadLogin",
-    "reservas": "loadDeportes",
-    ":name": "loadPistas",
-
+    "campus": "loadDeportes",
+    "campus/:name": "loadPistas"
   },
 
   initialize: function () {
     var self = this;
     this.current = {};
+
+    //jsons
     this.jsonData = {};
+    this.jsonData2 = {};
+
+    // models
     this.deportes = new Deportes();
     this.pistas = new Pistas();
+    this.horas = new Horas();
+
+    //collections
     this.deporteslist = new DeportesView({ collection: this.deportes });
     this.pistaslist = new PistasView({ collection: this.pistas });
+    this.calendario = new CalendarioView({ collection: this.horas });
 
-
-
+    // history
+    // pushState only works in html5
     Backbone.history.start({pushState: true});
   },
 
@@ -20182,11 +20208,9 @@ module.exports = Backbone.Router.extend({
     this.login = new LoginView();
   },
 
-
   loadDeportes: function () {
     this.fetchData();
   },
-
 
   fetchData: function () {
     var self = this;
@@ -20217,7 +20241,6 @@ module.exports = Backbone.Router.extend({
     }));
   },
 
-
   loadPistas: function(name){
 
     this.deportes.reset();
@@ -20232,6 +20255,10 @@ module.exports = Backbone.Router.extend({
     } else {
       this.addPistas(name);
     }
+    console.log('before fetchdata');
+    this.fetchDataCalendario();
+    console.log('after fetchdata');
+
   },
 
   addPistas: function (name) {
@@ -20247,12 +20274,107 @@ module.exports = Backbone.Router.extend({
     this.pistas.add(new Pista({
       name: name.name
     }));
+  },
+
+  fetchDataCalendario: function () {
+
+    console.log('IN');
+
+    var self = this;
+
+    this.horas.reset();
+
+    // Load Data
+    return $.getJSON('calendario.json').then(function (data) {
+        console.log('data: ' + data);
+      self.jsonData2 = data;
+      for (var name in data) {
+        if (data.hasOwnProperty(name)) {
+          self.addHora(name, data[name]);
+        }
+      }
+
+
+    });
+  },
+
+  addHora: function (name, hora) {
+    this.horas.add(new Hora({
+      name: name,
+      estado: hora.estado
+    }));
   }
 
 
 });
 
-},{"../collections/deportes":36,"../collections/pistas":37,"../models/deporte":40,"../models/pista":41,"../views/deportes-list":46,"../views/login.js":47,"../views/pistas-list":49,"backbone":1,"jquery":34}],45:[function(require,module,exports){
+},{"../collections/deportes":36,"../collections/horas":37,"../collections/pistas":38,"../models/deporte":41,"../models/hora":42,"../models/pista":43,"../views/calendario-list":48,"../views/deportes-list":51,"../views/login":52,"../views/pistas-list":54,"backbone":1,"jquery":34}],48:[function(require,module,exports){
+var Backbone   = require('backbone'),
+    Handlebars = require('handlebars'),
+    HoraView  = require('../views/calendario-single'),
+    $          = require('jquery');
+
+module.exports = Backbone.View.extend({
+  el: $('#calendario'),
+
+  initialize: function () {
+    this.listenTo(this.collection, "add", this.addOne, this);
+    this.listenTo(this.collection, "reset", this.resetear, this);
+  },
+
+  resetear: function () {
+    this.$el.empty();
+  },
+
+  render: function () {
+    this.collection.forEach(this.addOne, this);
+  },
+
+  addOne: function (hora) {
+    var horaView = new HoraView({ model: hora });
+    this.$el.append(horaView.render().el);
+  }
+
+});
+
+},{"../views/calendario-single":49,"backbone":1,"handlebars":22,"jquery":34}],49:[function(require,module,exports){
+var Backbone   = require('backbone'),
+    Handlebars = require('handlebars'),
+    $          = require('jquery'),
+    Plantilla  = require('../partials/plantilla_calendario');
+
+module.exports = Backbone.View.extend({
+
+  tagName: 'li',
+  className: 'hora',
+
+  events: {
+    'click': 'reservar'
+  },
+
+  template: Handlebars.compile( Plantilla.calendario ),
+
+
+  initialize: function () {
+    this.listenTo(this.model, "change", this.render, this);
+  },
+
+  render: function () {
+    var hora = this.model.toJSON();
+    var html = this.template(hora);
+    this.$el.html(html);
+    return this;
+  },
+
+  reservar: function () {
+
+    alert('this.model.toJSON().estado');
+    // Backbone.app.navigate( 'campus/' + this.model.get("name"), { trigger: true });
+  }
+
+});
+
+},{"../partials/plantilla_calendario":45,"backbone":1,"handlebars":22,"jquery":34}],50:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -20278,17 +20400,18 @@ module.exports = Backbone.View.extend({
 
   render: function () {
     var deporte = this.model.toJSON();
+    //deporte.name = deporte.name.replace('-', ' ');
     var html = this.template(deporte);
     this.$el.html(html);
     return this;
   },
 
   navigate: function () {
-    Backbone.app.navigate(this.model.get("name"), { trigger: true });
+    Backbone.app.navigate( 'campus/' + this.model.get("name"), { trigger: true });
   }
 
 });
-},{"../partials/plantilla_deporte":43,"backbone":1,"handlebars":22,"jquery":34}],46:[function(require,module,exports){
+},{"../partials/plantilla_deporte":46,"backbone":1,"handlebars":22,"jquery":34}],51:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     DeporteView  = require('../views/deporte-single'),
@@ -20319,7 +20442,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../views/deporte-single":45,"backbone":1,"handlebars":22,"jquery":34}],47:[function(require,module,exports){
+},{"../views/deporte-single":50,"backbone":1,"handlebars":22,"jquery":34}],52:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Usuarios = require('../collections/usuarios'),
@@ -20359,7 +20482,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../collections/usuarios":38,"backbone":1,"handlebars":22,"jquery":34}],48:[function(require,module,exports){
+},{"../collections/usuarios":39,"backbone":1,"handlebars":22,"jquery":34}],53:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -20393,7 +20516,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"backbone":1,"handlebars":22,"jquery":34}],49:[function(require,module,exports){
+},{"backbone":1,"handlebars":22,"jquery":34}],54:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     PistaView  = require('../views/pista-single'),
@@ -20423,4 +20546,4 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../views/pista-single":48,"backbone":1,"handlebars":22,"jquery":34}]},{},[39]);
+},{"../views/pista-single":53,"backbone":1,"handlebars":22,"jquery":34}]},{},[40]);
