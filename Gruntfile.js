@@ -62,7 +62,7 @@ module.exports = function(grunt){
 
 		},
 
-		browserify: {
+		browserify: { // gestión de dependencias js
       		'src/dev/js/app.js': ['src/dev/js/main.js']
     	},
 
@@ -90,7 +90,7 @@ module.exports = function(grunt){
 	    },
 
 
-	    stylus: {
+	    stylus: { // compilación stylus
 		  compile: {
 		    options: {
 		      paths: ['src/dev/stylus'],
