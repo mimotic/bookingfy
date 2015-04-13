@@ -1,11 +1,14 @@
 var Backbone      = require('backbone'),
     Deportes      = require('../collections/deportes'),
     Pistas        = require('../collections/pistas'),
+    Horas        = require('../collections/horas'),
     Deporte       = require('../models/deporte'),
     Pista         = require('../models/pista'),
+    Hora         = require('../models/hora'),
     DeportesView  = require('../views/deportes-list'),
     PistasView    = require('../views/pistas-list'),
-    LoginView     = require('../views/login.js'),
+    LoginView     = require('../views/login'),
+    CalendarioView    = require('../views/calendario-list'),
     $             = require('jquery');
 
 module.exports = Backbone.Router.extend({
@@ -14,18 +17,19 @@ module.exports = Backbone.Router.extend({
     "login": "loadLogin",
     "reservas": "loadDeportes",
     ":name": "loadPistas",
-
   },
 
   initialize: function () {
     var self = this;
     this.current = {};
     this.jsonData = {};
+    this.jsonData2 = {};
     this.deportes = new Deportes();
     this.pistas = new Pistas();
+    this.horas = new Horas();
     this.deporteslist = new DeportesView({ collection: this.deportes });
     this.pistaslist = new PistasView({ collection: this.pistas });
-
+    this.calendariolist = new CalendarioView({ collection: this.horas });
 
 
     Backbone.history.start({pushState: true});
@@ -89,6 +93,8 @@ module.exports = Backbone.Router.extend({
     } else {
       this.addPistas(name);
     }
+
+    this.fetchDataCalendario();
   },
 
   addPistas: function (name) {
@@ -104,7 +110,34 @@ module.exports = Backbone.Router.extend({
     this.pistas.add(new Pista({
       name: name.name
     }));
-  }
+  },
 
+
+  fetchDataCalendario: function () {
+    var self = this;
+
+    this.horas.reset();
+
+    // Load Data
+    return $.getJSON('calendar.json').then(function (data) {
+      self.jsonData2 = data;
+
+      console.log(data);
+
+      for (var name in data) {
+        if (data.hasOwnProperty(name)) {
+          self.addHora(name, data[name]);
+        }
+      }
+
+    });
+  },
+
+  addHora: function (name, hora) {
+    this.horas.add(new Hora({
+      name: name,
+      estado: hora.estado
+    }));
+  }
 
 });
