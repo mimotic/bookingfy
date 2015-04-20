@@ -20240,6 +20240,7 @@ module.exports = Backbone.Router.extend({
   loadPistas: function(name){
 
     this.deportes.reset();
+    this.horas.reset();
 
     if (Object.keys(this.jsonData).length === 0) {
       var self = this;
@@ -20252,7 +20253,7 @@ module.exports = Backbone.Router.extend({
       this.addPistas(name);
     }
 
-    this.fetchDataCalendario();
+    // this.fetchDataCalendario();
   },
 
   addPistas: function (name) {
@@ -20268,13 +20269,14 @@ module.exports = Backbone.Router.extend({
     this.pistas.add(new Pista({
       name: name.name
     }));
+    this.fetchDataCalendario();
   },
 
 
   fetchDataCalendario: function () {
     var self = this;
 
-    this.horas.reset();
+    // this.horas.reset();
 
     // Load Data
     return $.getJSON('calendar.json').then(function (data) {
@@ -20283,12 +20285,23 @@ module.exports = Backbone.Router.extend({
       console.log(data);
 
       for (var name in data) {
+        console.log("var name: " + name);
         if (data.hasOwnProperty(name)) {
-          self.addHora(name, data[name]);
+          // self.addHora(name, data[name]);
+          self.addCalendario(data[name]);
         }
       }
 
     });
+  },
+
+  addCalendario: function(calendario){
+    for (var name in calendario) {
+        console.log("var name: " + name);
+        if (calendario.hasOwnProperty(name)) {
+          this.addHora(name, calendario[name]);
+        }
+      }
   },
 
   addHora: function (name, hora) {
