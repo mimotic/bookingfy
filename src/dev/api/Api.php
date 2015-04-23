@@ -7,7 +7,7 @@
    const servidor = "www";
    const usuario_db = "root";
    const pwd_db = "root";
-   const nombre_db = "autorizacion";
+   const nombre_db = "bookingfy";
    private $_conn = NULL;
    private $_metodo;
    private $_argumentos;
@@ -38,9 +38,6 @@
      return $errores[$id];
    }
 
-
-
-
    public function procesarLLamada() {
      if (isset($_REQUEST['url'])) {
        //si por ejemplo pasamos explode('/','////controller///method////args///') el resultado es un array con elem vacios;
@@ -66,22 +63,120 @@
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(0)), 404);
    }
 
-
-
-
-
-
-
-
    private function convertirJson($data) {
      return json_encode($data);
    }
+
+
+
+
+
+
+   // crear usuario nuevo
+
+   // por consola:
+   // curl -d "nombre=mike&apellidos=algo&expediente=123456&dni=123456h&mail=miguel@algo.com&password=1234" http://bookingfy.dev/api/nuevoUsuario
+
+
+   private function nuevoUsuario() {
+     if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset($this->datosPeticion['nombre'], $this->datosPeticion['apellidos'], $this->datosPeticion['expediente'], $this->datosPeticion['dni'], $this->datosPeticion['mail'], $this->datosPeticion['password'] )) {
+
+       $nombre = $this->datosPeticion['nombre'];
+       $apellidos = $this->datosPeticion['apellidos'];
+       $expediente = $this->datosPeticion['expediente'];
+       $dni = $this->datosPeticion['dni'];
+       $password = $this->datosPeticion['password'];
+       $mail = $this->datosPeticion['mail'];
+
+       if (!$this->existeUsuario($mail)) {
+         $query = $this->_conn->prepare("INSERT into usuarios (nombre,apellidos,expediente,dni,mail,password) VALUES (:nombre,:apellidos,:expediente,:dni,:mail,:password)");
+         $query->bindValue(":nombre", $nombre);
+         $query->bindValue(":apellidos", $apellidos);
+         $query->bindValue(":expediente", $expediente);
+         $query->bindValue(":dni", $dni);
+         $query->bindValue(":mail", $mail);
+         $query->bindValue(":password", sha1($password));
+         $query->execute();
+         if ($query->rowCount() == 1) {
+           $id = $this->_conn->lastInsertId();
+           $respuesta['estado'] = 'correcto';
+           $respuesta['msg'] = 'usuario creado correctamente';
+           $respuesta['usuario']['id'] = $id;
+           $respuesta['usuario']['nombre'] = $nombre;
+           $respuesta['usuario']['mail'] = $mail;
+           $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+         }
+         else
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+       }
+       else
+         $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 400);
+     } else {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+     }
+   }
+
+   // crear administador nuevo
+
+   // por consola:
+   // curl -d "nombre=ignacio&apellidos=rodriguez&expediente=1234as56&dni=12344256h&mail=ignacio@algo.com&password=asd123" http://bookingfy.dev/api/nuevoAdmin
+
+
+   private function nuevoAdmin() {
+     if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset($this->datosPeticion['nombre'], $this->datosPeticion['apellidos'], $this->datosPeticion['expediente'], $this->datosPeticion['dni'], $this->datosPeticion['mail'], $this->datosPeticion['password'] )) {
+
+       $nombre = $this->datosPeticion['nombre'];
+       $apellidos = $this->datosPeticion['apellidos'];
+       $expediente = $this->datosPeticion['expediente'];
+       $dni = $this->datosPeticion['dni'];
+       $password = $this->datosPeticion['password'];
+       $mail = $this->datosPeticion['mail'];
+       $rol = 1;
+
+       if (!$this->existeUsuario($mail)) {
+         $query = $this->_conn->prepare("INSERT into usuarios (nombre,apellidos,expediente,dni,mail,password,rol) VALUES (:nombre,:apellidos,:expediente,:dni,:mail,:password,:rol)");
+         $query->bindValue(":nombre", $nombre);
+         $query->bindValue(":apellidos", $apellidos);
+         $query->bindValue(":expediente", $expediente);
+         $query->bindValue(":dni", $dni);
+         $query->bindValue(":mail", $mail);
+         $query->bindValue(":password", sha1($password));
+         $query->bindValue(":rol", $rol);
+         $query->execute();
+         if ($query->rowCount() == 1) {
+           $id = $this->_conn->lastInsertId();
+           $respuesta['estado'] = 'correcto';
+           $respuesta['msg'] = 'usuario administrador creado correctamente';
+           $respuesta['usuario']['id'] = $id;
+           $respuesta['usuario']['nombre'] = $nombre;
+           $respuesta['usuario']['mail'] = $mail;
+           $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+         }
+         else
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+       }
+       else
+         $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 400);
+     } else {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+     }
+   }
+
+   // Recoger Listado de Usuarios (limitar a usurios rol 1 - administradores)
+
+   // curl http://bookingfy.dev/api/usuarios
 
    private function usuarios() {
      if ($_SERVER['REQUEST_METHOD'] != "GET") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
-     $query = $this->_conn->query("SELECT id, nombre, email FROM usuario");
+     $query = $this->_conn->query("SELECT id, nombre, apellidos, expediente,dni, mail, rol, fecha_alta FROM usuarios");
      $filas = $query->fetchAll(PDO::FETCH_ASSOC);
      $num = count($filas);
      if ($num > 0) {
@@ -108,28 +203,33 @@
      $this->mostrarRespuesta($this->devolverError(2), 204);
    }
 
+
+   // Login
+   //
    private function login() {
      if ($_SERVER['REQUEST_METHOD'] != "POST") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
-     if (isset($this->datosPeticion['email'], $this->datosPeticion['pwd'])) {
+     if (isset($this->datosPeticion['mail'], $this->datosPeticion['password'])) {
     //el constructor del padre ya se encarga de sanear los datos de entrada
-       $email = $this->datosPeticion['email'];
-       $pwd = $this->datosPeticion['pwd'];
-       if (!empty($email) and !empty($pwd)) {
+       $email = $this->datosPeticion['mail'];
+       $password = $this->datosPeticion['password'];
+       if (!empty($email) and !empty($password)) {
          if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
            //consulta preparada ya hace mysqli_real_escape()
-           $query = $this->_conn->prepare("SELECT id, nombre, email, fRegistro FROM usuario WHERE
-           email=:email AND password=:pwd ");
-           $query->bindValue(":email", $email);
-           $query->bindValue(":pwd", sha1($pwd));
+           $query = $this->_conn->prepare("SELECT id, nombre, mail, rol FROM usuario WHERE
+           mail=:email AND password=:password ");
+           $query->bindValue(":mail", $email);
+           $query->bindValue(":password", $password);
            $query->execute();
            if ($fila = $query->fetch(PDO::FETCH_ASSOC)) {
              $respuesta['estado'] = 'correcto';
              $respuesta['msg'] = 'datos pertenecen a usuario registrado';
              $respuesta['usuario']['id'] = $fila['id'];
              $respuesta['usuario']['nombre'] = $fila['nombre'];
-             $respuesta['usuario']['email'] = $fila['email'];
+             $respuesta['usuario']['mail'] = $fila['mail'];
+             $respuesta['usuario']['rol'] = $fila['rol'];
+
              $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
            }
          }
@@ -137,6 +237,11 @@
      }
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(3)), 400);
    }
+
+
+
+
+
 
    private function actualizarNombre($idUsuario) {
      if ($_SERVER['REQUEST_METHOD'] != "PUT") {
@@ -196,6 +301,7 @@
        return false;
    }
 
+
    private function crearUsuario() {
      if ($_SERVER['REQUEST_METHOD'] != "POST") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
@@ -205,7 +311,7 @@
        $pwd = $this->datosPeticion['pwd'];
        $email = $this->datosPeticion['email'];
        if (!$this->existeUsuario($email)) {
-         $query = $this->_conn->prepare("INSERT into usuario (nombre,email,password,fRegistro) VALUES (:nombre, :email, :pwd, NOW())");
+         $query = $this->_conn->prepare("INSERT into usuario (nombre,email,pwd,fRegistro) VALUES (:nombre, :email, :pwd, NOW())");
          $query->bindValue(":nombre", $nombre);
          $query->bindValue(":email", $email);
          $query->bindValue(":pwd", sha1($pwd));
