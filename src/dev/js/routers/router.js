@@ -8,6 +8,7 @@ var Backbone      = require('backbone'),
     DeportesView  = require('../views/deportes-list'),
     PistasView    = require('../views/pistas-list'),
     LoginView     = require('../views/login'),
+    RegistroView     = require('../views/registro'),
     CalendarioView    = require('../views/calendario-list'),
     $             = require('jquery');
 
@@ -15,6 +16,7 @@ module.exports = Backbone.Router.extend({
   routes: {
     "": "index",
     "login": "loadLogin",
+    "registro": "loadRegistro",
     "reservas": "loadDeportes",
     ":name": "loadPistas",
   },
@@ -45,6 +47,9 @@ module.exports = Backbone.Router.extend({
     this.login = new LoginView();
   },
 
+  loadRegistro: function(){
+    this.registro = new RegistroView();
+  },
 
   loadDeportes: function () {
     this.fetchData();

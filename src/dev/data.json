@@ -1,9 +1,10 @@
 {
   "Hockey": {
-    "precio": 10,
     "pistas": [
       {
-        "name": "Cesped artificial"
+        "name": "Cesped artificial",
+        "precio": 10,
+        "luz": 5
       }
     ]
   },

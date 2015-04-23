@@ -3,6 +3,7 @@ var Backbone   = require('backbone'),
     Usuarios = require('../collections/usuarios'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_login'),
+    Sha1       = require('sha1'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -37,10 +38,12 @@ module.exports = Backbone.View.extend({
     if(evt) evt.preventDefault();
 
         var url = '/api/login';
+        var user = $('#login_user_input');
+        var pwd = $('#login_pass_input');
         console.log('Loggin in... ');
         var formValues = {
-            email: $('#login_user_input').val(),
-            password: $('#login_pass_input').val()
+            mail: user.val(),
+            password: Sha1(pwd.val())
         };
 
         $.ajax({
@@ -51,13 +54,14 @@ module.exports = Backbone.View.extend({
             success:function (data) {
                 console.log(["Login request details: ", data]);
 
-                if(data.error) {  // If there is an error, show the error messages
+                if(data.estado=="error") {  // If there is an error, show the error messages
                     // $('.alert-error').text(data.error.text).show();
-                    alert('ERROR');
+                    alert('ERROR: ' + data.msg);
                 }
                 else { // If not, send them back to the home page
                     // window.location.replace('#');
-                    alert(this.$("#login_user_input").val() + ' esta dentro');
+                    // alert(user.val() + ' esta dentro');
+                    Backbone.app.navigate("reservas", { trigger: true });
                 }
             }
         });
