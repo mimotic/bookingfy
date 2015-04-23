@@ -1,12 +1,13 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     PistaView  = require('../views/pista-single'),
+    Plantilla  = require('../partials/plantilla_pista'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
   el: $('#pistas'),
 
-  template: Handlebars.compile($("#pista-template").html()),
+  template: Handlebars.compile(Plantilla.pista),
 
   initialize: function () {
     this.listenTo(this.collection, "add", this.addOne, this);

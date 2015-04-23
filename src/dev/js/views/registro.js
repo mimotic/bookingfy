@@ -1,27 +1,26 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
+    Usuarios = require('../collections/usuarios'),
     $          = require('jquery'),
-    Plantilla  = require('../partials/plantilla_pista'),
+    Plantilla  = require('../partials/plantilla_registro'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
+  el: $('#registro'),
 
-  tagName: 'li',
-  className: 'pista',
+  // events: {
+  //   'click': 'navigate'
+  // },
 
-  events: {
-    'click': 'navigate'
-  },
-
-  template: Handlebars.compile(Plantilla.pista),
+  template: Handlebars.compile(Plantilla.registro),
 
   initialize: function () {
-    this.listenTo(this.model, "change", this.render, this);
+    // this.listenTo(this.model, "change", this.render, this);
+    this.render();
   },
 
   render: function () {
-    var pista = this.model.toJSON();
-    var html = this.template(pista);
+    var html = this.template();
     this.$el.html(html);
     return this;
   },

@@ -22,9 +22,9 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.append("<ul class='tipo-pistas text-center'>");
+    // this.$el.append("<ul class='tipo-pistas text-center'>");
     this.collection.forEach(this.addOne, this);
-    this.$el.append("</ul>");
+    // this.$el.append("</ul>");
     console.log($el);
   },
 

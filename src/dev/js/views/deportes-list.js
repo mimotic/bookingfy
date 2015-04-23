@@ -1,12 +1,13 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     DeporteView  = require('../views/deporte-single'),
+    Plantilla  = require('../partials/plantilla_deporte'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
   el: $('#deportes'),
 
-  template: Handlebars.compile($("#deporte-template").html()),
+  template: Handlebars.compile(Plantilla.deporte),
 
   initialize: function () {
     this.listenTo(this.collection, "add", this.addOne, this);
