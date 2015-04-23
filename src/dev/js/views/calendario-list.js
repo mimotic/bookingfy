@@ -4,6 +4,10 @@ var Backbone   = require('backbone'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
+
+  tagName: 'ul',
+  className: 'tipo-pistas',
+
   el: $('#calendario'),
 
   // template: Handlebars.compile($("#pista-template").html()),
@@ -18,7 +22,10 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
+    this.$el.append("<ul class='tipo-pistas text-center'>");
     this.collection.forEach(this.addOne, this);
+    this.$el.append("</ul>");
+    console.log($el);
   },
 
   addOne: function (hora) {

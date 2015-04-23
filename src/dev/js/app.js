@@ -20185,9 +20185,11 @@ module.exports = Backbone.Router.extend({
     this.deportes = new Deportes();
     this.pistas = new Pistas();
     this.horas = new Horas();
+    this.horas2 = new Horas();
     this.deporteslist = new DeportesView({ collection: this.deportes });
     this.pistaslist = new PistasView({ collection: this.pistas });
     this.calendariolist = new CalendarioView({ collection: this.horas });
+    this.calendariolist2 = new CalendarioView({ collection: this.horas2 });
 
 
     Backbone.history.start({pushState: true});
@@ -20241,6 +20243,7 @@ module.exports = Backbone.Router.extend({
 
     this.deportes.reset();
     this.horas.reset();
+    this.horas2.reset();
 
     if (Object.keys(this.jsonData).length === 0) {
       var self = this;
@@ -20284,31 +20287,41 @@ module.exports = Backbone.Router.extend({
 
       console.log(data);
 
+      var i=0;
       for (var name in data) {
         console.log("var name: " + name);
         if (data.hasOwnProperty(name)) {
           // self.addHora(name, data[name]);
-          self.addCalendario(data[name]);
+          self.addCalendario(i, data[name]);
+          i++;
         }
       }
 
     });
   },
 
-  addCalendario: function(calendario){
+  addCalendario: function(i, calendario){
+    console.log("var i: " +i);
     for (var name in calendario) {
-        console.log("var name: " + name);
+        // console.log("var name: " + name);
         if (calendario.hasOwnProperty(name)) {
-          this.addHora(name, calendario[name]);
+          this.addHora(i, name, calendario[name]);
         }
       }
   },
 
-  addHora: function (name, hora) {
-    this.horas.add(new Hora({
-      name: name,
-      estado: hora.estado
-    }));
+  addHora: function (i, name, hora) {
+    if(i==0){
+      this.horas.add(new Hora({
+        name: name,
+        estado: hora.estado
+      }));
+    }else{
+      this.horas2.add(new Hora({
+        name: name,
+        estado: hora.estado
+      }));
+    }
   }
 
 });
@@ -20320,6 +20333,10 @@ var Backbone   = require('backbone'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
+
+  tagName: 'ul',
+  className: 'tipo-pistas',
+
   el: $('#calendario'),
 
   // template: Handlebars.compile($("#pista-template").html()),
@@ -20334,7 +20351,10 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
+    this.$el.append("<ul class='tipo-pistas text-center'>");
     this.collection.forEach(this.addOne, this);
+    this.$el.append("</ul>");
+    console.log($el);
   },
 
   addOne: function (hora) {
