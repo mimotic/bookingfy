@@ -206,26 +206,26 @@
      }
    }
 
-   // AÑADIR HORA [POST]
-   // curl -d "inicio=09:00" http://bookingfy.dev/api/nuevaHora
+   // AÑADIR DEPORTE [POST]
+   // curl -d "nombre=Hockey" http://bookingfy.dev/api/nuevoDeporte
    private function nuevoDeporte() {
      if ($_SERVER['REQUEST_METHOD'] != "POST") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
-     if (isset( $this->datosPeticion['inicio'] )) {
+     if (isset( $this->datosPeticion['nombre'] )) {
 
-       $inicio = $this->datosPeticion['inicio'];
+       $nombre = $this->datosPeticion['nombre'];
 
        if (!$this->existeUsuario($mail)) {
-         $query = $this->_conn->prepare("INSERT into horarios (inicio) VALUES (:inicio)");
-         $query->bindValue(":inicio", $inicio);
+         $query = $this->_conn->prepare("INSERT into deporte (nombre) VALUES (:nombre)");
+         $query->bindValue(":nombre", $nombre);
          $query->execute();
          if ($query->rowCount() == 1) {
            $id = $this->_conn->lastInsertId();
            $respuesta['estado'] = 'correcto';
-           $respuesta['msg'] = 'Horario creado correctamente';
+           $respuesta['msg'] = 'Deporte creado correctamente';
            $respuesta['horas']['id'] = $id;
-           $respuesta['horas']['inicio'] = $inicio;
+           $respuesta['horas']['nombre'] = $nombre;
            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
          }
          else
@@ -237,6 +237,31 @@
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
      }
    }
+
+
+   // LISTAR USUARIOS [GET]
+   // curl http://bookingfy.dev/api/diaStatus
+   private function diaStatus() {
+     if ($_SERVER['REQUEST_METHOD'] != "GET") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset( $this->datosPeticion['dia'] )) {
+        $dia = $this->datosPeticion['dia'];
+     }
+
+
+     $query = $this->_conn->query("SELECT id, nombre, apellidos, expediente,dni, mail, rol, fecha_alta FROM usuarios");
+     $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+     $num = count($filas);
+     if ($num > 0) {
+       $respuesta['estado'] = 'correcto';
+       $respuesta['usuarios'] = $filas;
+       $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+     }
+     $this->mostrarRespuesta($this->devolverError(2), 204);
+   }
+
+
    // LISTAR USUARIOS [GET]
    // curl http://bookingfy.dev/api/usuarios
    private function usuarios() {
