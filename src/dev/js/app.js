@@ -22746,7 +22746,13 @@ module.exports = Backbone.Router.extend({
     "login": "loadLogin",
     "registro": "loadRegistro",
     "reservas": "loadDeportes",
-    ":name": "loadPistas",
+    "pistas/:name": "loadPistas",
+    "*path"  : "notFound"
+  },
+
+  notFound: function(path) {
+    var msg = "Unable to find path: " + path;
+    alert(msg);
   },
 
   initialize: function () {
@@ -22820,15 +22826,18 @@ module.exports = Backbone.Router.extend({
     this.horas.reset();
     this.horas2.reset();
 
-    if (Object.keys(this.jsonData).length === 0) {
+    if (Object.keys(this.jsonData).length === 0) {console.log('aka');
       var self = this;
 
       this.fetchData().done(function () {
         self.addPistas(name);
       });
 
+
+
     } else {
       this.addPistas(name);
+     console.log('aki');
     }
 
     // this.fetchDataCalendario();
@@ -23005,7 +23014,7 @@ module.exports = Backbone.View.extend({
   },
 
   navigate: function () {
-    Backbone.app.navigate(this.model.get("name"), { trigger: true });
+    Backbone.app.navigate( 'pistas/' + this.model.get("name"), { trigger: true });
   }
 
 });
