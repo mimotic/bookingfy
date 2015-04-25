@@ -120,7 +120,7 @@
            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
          }
          else
-           $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 200);
        }
        else
          $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 400);
@@ -312,7 +312,7 @@
          }
        }
      }
-     $this->mostrarRespuesta($this->convertirJson($this->devolverError(3)), 400);
+     $this->mostrarRespuesta($this->convertirJson($this->devolverError(3)), 200);
    }
 
 

@@ -1,17 +1,17 @@
 var plantillas = plantillas || {};
 
-plantillas.registro = '<label for="name">Nombre: </label>'
-		+ '<input id="name" type="text" name="" value="">'
-		+ '<label for="surname">Apellidos: </label>'
-		+ '<input id="surname" type="text" name="" value="">'
-		+ '<label for="dni">DNI: </label>'
-		+ '<input id="dni" type="text" name="" value="">'
-		+ '<label for="expediente">Id. expediente: </label>'
-		+ '<input id="expediente" type="text" name="" value="">'
-		+ '<label for="email">Email: </label>'
-		+ '<input id="email" type="text" name="" value="">'
-		+ '<label for="pass">Contraseña: </label>'
-		+ '<input id="pass" type="password" name="" value="">'
-		+ '<a href="#">Registrarse</a>';
+plantillas.registro = '<label for="reg_name">Nombre: </label>'
+		+ '<input id="reg_name" type="text" name="" value="">'
+		+ '<label for="reg_surname">Apellidos: </label>'
+		+ '<input id="reg_surname" type="text" name="" value="">'
+		+ '<label for="reg_dni">DNI: </label>'
+		+ '<input id="reg_dni" type="text" name="" value="">'
+		+ '<label for="reg_expediente">Id. expediente: </label>'
+		+ '<input id="reg_expediente" type="text" name="" value="">'
+		+ '<label for="reg_email">Email: </label>'
+		+ '<input id="reg_email" type="text" name="" value="">'
+		+ '<label for="reg_pass">Contraseña: </label>'
+		+ '<input id="reg_pass" type="password" name="" value="">'
+		+ '<a id="doregister" href="#">Registrarse</a>';
 
 module.exports = plantillas;

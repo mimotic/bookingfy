@@ -66,7 +66,6 @@ module.exports = Backbone.View.extend({
             }
         });
 
-
   },
 
   navigate: function () {

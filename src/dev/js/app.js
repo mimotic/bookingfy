@@ -21958,11 +21958,11 @@ module.exports = plantillas;
 var plantillas = plantillas || {};
 
 plantillas.login = '<label for="user">Email: </label>'
-		+ '<input id="login_user_input" type="text" name="" value="">'
+		+ '<input id="login_user_input" type="email" name="login_user_input" value="" required>'
 		+ '<label for="pass">Contraseña: </label>'
-		+ '<input id="login_pass_input" type="password" name="" value="">'
+		+ '<input id="login_pass_input" type="password" name="login_pass_input" value="" required>'
 		+ '<a id="dologin" href="#">Entrar</a>'
-		+ '<br><a id="doregistro" href="registro"> Crear cuenta</a>';
+		+ '<br><a id="goregistro" href="registro"> Crear cuenta</a>';
 
 module.exports = plantillas;
 },{}],55:[function(require,module,exports){
@@ -21974,19 +21974,19 @@ module.exports = plantillas;
 },{}],56:[function(require,module,exports){
 var plantillas = plantillas || {};
 
-plantillas.registro = '<label for="name">Nombre: </label>'
-		+ '<input id="name" type="text" name="" value="">'
-		+ '<label for="surname">Apellidos: </label>'
-		+ '<input id="surname" type="text" name="" value="">'
-		+ '<label for="dni">DNI: </label>'
-		+ '<input id="dni" type="text" name="" value="">'
-		+ '<label for="expediente">Id. expediente: </label>'
-		+ '<input id="expediente" type="text" name="" value="">'
-		+ '<label for="email">Email: </label>'
-		+ '<input id="email" type="text" name="" value="">'
-		+ '<label for="pass">Contraseña: </label>'
-		+ '<input id="pass" type="password" name="" value="">'
-		+ '<a href="#">Registrarse</a>';
+plantillas.registro = '<label for="reg_name">Nombre: </label>'
+		+ '<input id="reg_name" type="text" name="" value="">'
+		+ '<label for="reg_surname">Apellidos: </label>'
+		+ '<input id="reg_surname" type="text" name="" value="">'
+		+ '<label for="reg_dni">DNI: </label>'
+		+ '<input id="reg_dni" type="text" name="" value="">'
+		+ '<label for="reg_expediente">Id. expediente: </label>'
+		+ '<input id="reg_expediente" type="text" name="" value="">'
+		+ '<label for="reg_email">Email: </label>'
+		+ '<input id="reg_email" type="text" name="" value="">'
+		+ '<label for="reg_pass">Contraseña: </label>'
+		+ '<input id="reg_pass" type="password" name="" value="">'
+		+ '<a id="doregister" href="#">Registrarse</a>';
 
 module.exports = plantillas;
 },{}],57:[function(require,module,exports){
@@ -22374,7 +22374,6 @@ module.exports = Backbone.View.extend({
             }
         });
 
-
   },
 
   navigate: function () {
@@ -22459,9 +22458,10 @@ var Backbone   = require('backbone'),
 module.exports = Backbone.View.extend({
   el: $('#registro'),
 
-  // events: {
-  //   'click': 'navigate'
-  // },
+  events: {
+    'click #doregister': 'register'
+  },
+
 
   template: Handlebars.compile(Plantilla.registro),
 
@@ -22475,6 +22475,49 @@ module.exports = Backbone.View.extend({
     this.$el.html(html);
     return this;
   },
+
+
+  register: function(evt){
+    if(evt) evt.preventDefault();
+
+        var url = '/api/nuevoUsuario';
+        var name = $('#reg_name');
+        var surname = $('#reg_surname');
+        var dni = $('#reg_dni');
+        var expediente = $('#reg_expediente');
+        var email = $('#reg_email');
+        var pwd = $('#reg_pass');
+        console.log('Register in... ');
+        var formValues = {
+            nombre: name.val(),
+            apellidos: surname.val(),
+            expediente: expediente.val(),
+            dni: dni.val(),
+            password: pwd.val(),
+            mail: email.val()
+        };
+
+        $.ajax({
+            url:url,
+            type:'POST',
+            dataType:"json",
+            data: formValues,
+            success:function (data) {
+                console.log(["Register request details: ", data]);
+
+                if(data.estado=="error") {  // If there is an error, show the error messages
+                    // $('.alert-error').text(data.error.text).show();
+                    alert('ERROR: ' + data.msg);
+                }
+                else { // If not, send them back to the home page
+                    // window.location.replace('#');
+                    // alert(user.val() + ' esta dentro');
+                    Backbone.app.navigate("reservas", { trigger: true });
+                }
+            }
+        });
+
+    },
 
 
   navigate: function () {
