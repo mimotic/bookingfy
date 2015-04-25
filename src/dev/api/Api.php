@@ -123,7 +123,7 @@
            $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 200);
        }
        else
-         $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 400);
+         $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 200);
      } else {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
      }
