@@ -18,7 +18,13 @@ module.exports = Backbone.Router.extend({
     "login": "loadLogin",
     "registro": "loadRegistro",
     "reservas": "loadDeportes",
-    "pistas/:nameDeporte": "loadPistas"
+    "pistas/:nameDeporte": "loadPistas",
+    "*path"  : "notFound"
+  },
+
+  notFound: function(path) {
+    var msg = "Unable to find path: " + path;
+    alert(msg);
   },
 
   initialize: function () {
@@ -123,12 +129,14 @@ module.exports = Backbone.Router.extend({
     this.horas.reset();
     this.horas2.reset();
 
-    if (Object.keys(this.jsonData).length === 0) {
+    if (Object.keys(this.jsonData).length === 0) {console.log('aka');
       var self = this;
 
       this.fetchData().done(function () {
         self.addPistas(nameDeporte);
       });
+
+
 
     } else {
       this.addPistas(nameDeporte);
@@ -187,7 +195,7 @@ module.exports = Backbone.Router.extend({
   },
 
   addHora: function (i, name, hora) {
-    if(i==0){
+    if(i===0){
       this.horas.add(new Hora({
         name: name,
         estado: hora.estado

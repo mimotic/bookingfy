@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<base href="/">
+	<base href="/" />
 	<meta charset="UTF-8">
 	<title>bookingfy</title>
 	<meta name="robots" content="noindex">
@@ -12,9 +12,11 @@
 <body>
 
 	<header class="header">
-		<figure class="logo">
-			<img src="img/logo.png" alt="logo" />
-		</figure>
+		<a href="/">
+			<figure class="logo">
+				<img src="img/logo.png" alt="logo" />
+			</figure>
+		</a>
 	</header>
 
 	<section id="titulo-pistas">
@@ -26,37 +28,25 @@
 		</div>
 	</section>
 
-	<section id="login">
+	<section id="login"></section>
 
-	</section>
+	<section id="registro"></section>
 
-	<section id="registro">
-
+	<section>
+		<ul class="tipo-pistas text-center" id="deportes"></ul>
 	</section>
 
 	<section>
-		<ul class="tipo-pistas text-center" id="deportes">
-
-		</ul>
+		<ul class="tipo-pistas text-center" id="pistas"></ul>
 	</section>
 
-	<section>
-		<ul class="tipo-pistas text-center" id="pistas">
-
-		</ul>
-	</section>
-
-	<section id="calendario">
-
-	</section>
+	<section id="calendario"></section>
 
 	<footer class="footer">
 		<p class="text-center">&copy; 2015 Universidad Francisco de Vitoria</p>
 	</footer>
 
-
-
-
+	<!-- lógica de negocio -->
   	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
