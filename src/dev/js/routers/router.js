@@ -18,7 +18,7 @@ module.exports = Backbone.Router.extend({
     "login": "loadLogin",
     "registro": "loadRegistro",
     "reservas": "loadDeportes",
-    ":name": "loadPistas",
+    "pistas/:nameDeporte": "loadPistas"
   },
 
   initialize: function () {
@@ -39,6 +39,13 @@ module.exports = Backbone.Router.extend({
     Backbone.history.start({pushState: true});
   },
 
+  execute: function(callback, args) {
+    console.log('nueva url ' + callback);
+    // args.push(parseQueryString(args.pop()));
+    if (callback) callback.apply(this, args);
+  },
+
+
   index: function(){
     this.login = new LoginView();
   },
@@ -49,10 +56,6 @@ module.exports = Backbone.Router.extend({
 
   loadRegistro: function(){
     this.registro = new RegistroView();
-  },
-
-  loadDeportes: function () {
-    this.fetchData();
   },
 
 
@@ -68,25 +71,53 @@ module.exports = Backbone.Router.extend({
       self.deportes.reset();
       self.pistas.reset();
 
-      for (var name in data) {
-        if (data.hasOwnProperty(name)) {
-          self.addDeporte(name, data[name]);
-        }
-      }
+      // for (var nameDeporte in data) {
+      //   if (data.hasOwnProperty(nameDeporte)) {
+      //     self.addDeporte(nameDeporte, data[nameDeporte]);
+      //   }
+      // }
 
     });
   },
 
-  addDeporte: function (name, deporte) {
+
+  loadDeportes: function () {
+    this.deportes.reset();
+    this.pistas.reset();
+    this.horas.reset();
+    this.horas2.reset();
+
+    if (Object.keys(this.jsonData).length === 0) {
+      var self = this;
+
+      this.fetchData().done(function () {
+        self.addDeportes();
+      });
+
+    } else {
+      this.addDeportes();
+    }
+  },
+
+
+  addDeportes: function () {
+    for (var nameDeporte in this.jsonData) {
+      if (this.jsonData.hasOwnProperty(nameDeporte)) {
+            this.addDeporte(nameDeporte, this.jsonData[nameDeporte]);
+      }
+    }
+  },
+
+  addDeporte: function (nameDeporte, deporte) {
     this.deportes.add(new Deporte({
-      name: name,
+      nameDeporte: nameDeporte,
       precio: deporte.precio,
       pistas: deporte.pistas
     }));
   },
 
 
-  loadPistas: function(name){
+  loadPistas: function(nameDeporte){
 
     this.deportes.reset();
     this.horas.reset();
@@ -96,20 +127,18 @@ module.exports = Backbone.Router.extend({
       var self = this;
 
       this.fetchData().done(function () {
-        self.addPistas(name);
+        self.addPistas(nameDeporte);
       });
 
     } else {
-      this.addPistas(name);
+      this.addPistas(nameDeporte);
     }
-
-    // this.fetchDataCalendario();
   },
 
-  addPistas: function (name) {
+  addPistas: function (nameDeporte) {
     this.pistas.reset();
 
-    this.current.deporte = this.jsonData[name];
+    this.current.deporte = this.jsonData[nameDeporte];
     this.current.deporte.pistas.forEach(this.addPista, this);
   },
 
@@ -119,6 +148,7 @@ module.exports = Backbone.Router.extend({
     this.pistas.add(new Pista({
       name: name.name
     }));
+
     this.fetchDataCalendario();
   },
 
@@ -128,7 +158,6 @@ module.exports = Backbone.Router.extend({
 
     // this.horas.reset();
 
-    // Load Data
     return $.getJSON('calendar.json').then(function (data) {
       self.jsonData2 = data;
 

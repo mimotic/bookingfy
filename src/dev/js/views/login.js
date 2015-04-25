@@ -22,11 +22,11 @@ module.exports = Backbone.View.extend({
     this.render();
 
    // Backbone.emulateHTTP = true;
-    var Prueba;
+    // var Prueba;
 
-    Prueba = new Usuarios().fetch();
+    // Prueba = new Usuarios().fetch();
 
-    console.log(Prueba);
+    // console.log(Prueba);
   },
 
   render: function () {

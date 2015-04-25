@@ -9,9 +9,9 @@ module.exports = Backbone.View.extend({
   tagName: 'li',
   className: 'hora',
 
-  events: {
-    'click': 'navigate'
-  },
+  // events: {
+  //   'click': 'navigate'
+  // },
 
   template: Handlebars.compile(Plantilla.calendario),
 
