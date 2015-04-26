@@ -313,6 +313,7 @@
        }
      }
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(3)), 200);
+     // $this->mostrarRespuesta($this->convertirJson($this->datosPeticion['mail']), 200);
    }
 
 

@@ -35,10 +35,13 @@
   "dependencies": {
     "backbone": "^1.1.2",
     "backbone.localstorage": "^1.1.16",
+    "bootstrap": "^3.3.4",
+    "bootstrap-datepicker": "^1.4.0",
     "browserify": "^9.0.7",
     "handlebars": "^3.0.1",
     "jquery": "^1.11.2",
     "jquery-ui": "^1.10.5",
+    "moment": "^2.10.2",
     "sha1": "^1.1.0",
     "underscore": "^1.8.3",
     "validator": "^3.39.0"

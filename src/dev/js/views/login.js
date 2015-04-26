@@ -77,6 +77,7 @@ module.exports = Backbone.View.extend({
 
           formValues.password = Sha1(formValues.password);
 
+
           $.ajax({
               url:url,
               type:'POST',
@@ -87,16 +88,15 @@ module.exports = Backbone.View.extend({
 
                   if(data.estado=="error") {  // If there is an error, show the error messages
                        $('#error').html(data.msg).slideDown();
-                  }
-                  else { // If not, send them back to the home page
-                      // window.location.replace('#');
-                      // alert(user.val() + ' esta dentro');
+                  } else {
                       $('#error').html('Welcome !!!').slideDown();
                       Sesion.setSesiondata(data.usuario);
                       Backbone.app.navigate("reservas", { trigger: true });
                   }
               }
           });
+
+
         }else{
 
           mensajesError = _.omit(validar.datos, function(value, key, object) {
