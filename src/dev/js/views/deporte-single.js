@@ -17,7 +17,6 @@ module.exports = Backbone.View.extend({
 
 
   initialize: function () {
-    console.log( Plantilla.deporte );
     this.listenTo(this.model, "change", this.render, this);
   },
 

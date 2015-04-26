@@ -1,4 +1,264 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
+ * Backbone localStorage Adapter
+ * Version 1.1.16
+ *
+ * https://github.com/jeromegn/Backbone.localStorage
+ */
+(function (root, factory) {
+  if (typeof exports === 'object' && typeof require === 'function') {
+    module.exports = factory(require("backbone"));
+  } else if (typeof define === "function" && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(["backbone"], function(Backbone) {
+      // Use global variables if the locals are undefined.
+      return factory(Backbone || root.Backbone);
+    });
+  } else {
+    factory(Backbone);
+  }
+}(this, function(Backbone) {
+// A simple module to replace `Backbone.sync` with *localStorage*-based
+// persistence. Models are given GUIDS, and saved into a JSON object. Simple
+// as that.
+
+// Generate four random hex digits.
+function S4() {
+   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+};
+
+// Generate a pseudo-GUID by concatenating random hexadecimal.
+function guid() {
+   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+};
+
+function isObject(item) {
+  return item === Object(item);
+}
+
+function contains(array, item) {
+  var i = array.length;
+  while (i--) if (array[i] === item) return true;
+  return false;
+}
+
+function extend(obj, props) {
+  for (var key in props) obj[key] = props[key]
+  return obj;
+}
+
+function result(object, property) {
+    if (object == null) return void 0;
+    var value = object[property];
+    return (typeof value === 'function') ? object[property]() : value;
+}
+
+// Our Store is represented by a single JS object in *localStorage*. Create it
+// with a meaningful name, like the name you'd give a table.
+// window.Store is deprectated, use Backbone.LocalStorage instead
+Backbone.LocalStorage = window.Store = function(name, serializer) {
+  if( !this.localStorage ) {
+    throw "Backbone.localStorage: Environment does not support localStorage."
+  }
+  this.name = name;
+  this.serializer = serializer || {
+    serialize: function(item) {
+      return isObject(item) ? JSON.stringify(item) : item;
+    },
+    // fix for "illegal access" error on Android when JSON.parse is passed null
+    deserialize: function (data) {
+      return data && JSON.parse(data);
+    }
+  };
+  var store = this.localStorage().getItem(this.name);
+  this.records = (store && store.split(",")) || [];
+};
+
+extend(Backbone.LocalStorage.prototype, {
+
+  // Save the current state of the **Store** to *localStorage*.
+  save: function() {
+    this.localStorage().setItem(this.name, this.records.join(","));
+  },
+
+  // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
+  // have an id of it's own.
+  create: function(model) {
+    if (!model.id && model.id !== 0) {
+      model.id = guid();
+      model.set(model.idAttribute, model.id);
+    }
+    this.localStorage().setItem(this._itemName(model.id), this.serializer.serialize(model));
+    this.records.push(model.id.toString());
+    this.save();
+    return this.find(model);
+  },
+
+  // Update a model by replacing its copy in `this.data`.
+  update: function(model) {
+    this.localStorage().setItem(this._itemName(model.id), this.serializer.serialize(model));
+    var modelId = model.id.toString();
+    if (!contains(this.records, modelId)) {
+      this.records.push(modelId);
+      this.save();
+    }
+    return this.find(model);
+  },
+
+  // Retrieve a model from `this.data` by id.
+  find: function(model) {
+    return this.serializer.deserialize(this.localStorage().getItem(this._itemName(model.id)));
+  },
+
+  // Return the array of all models currently in storage.
+  findAll: function() {
+    var result = [];
+    for (var i = 0, id, data; i < this.records.length; i++) {
+      id = this.records[i];
+      data = this.serializer.deserialize(this.localStorage().getItem(this._itemName(id)));
+      if (data != null) result.push(data);
+    }
+    return result;
+  },
+
+  // Delete a model from `this.data`, returning it.
+  destroy: function(model) {
+    this.localStorage().removeItem(this._itemName(model.id));
+    var modelId = model.id.toString();
+    for (var i = 0, id; i < this.records.length; i++) {
+      if (this.records[i] === modelId) {
+        this.records.splice(i, 1);
+      }
+    }
+    this.save();
+    return model;
+  },
+
+  localStorage: function() {
+    return localStorage;
+  },
+
+  // Clear localStorage for specific collection.
+  _clear: function() {
+    var local = this.localStorage(),
+      itemRe = new RegExp("^" + this.name + "-");
+
+    // Remove id-tracking item (e.g., "foo").
+    local.removeItem(this.name);
+
+    // Match all data items (e.g., "foo-ID") and remove.
+    for (var k in local) {
+      if (itemRe.test(k)) {
+        local.removeItem(k);
+      }
+    }
+
+    this.records.length = 0;
+  },
+
+  // Size of localStorage.
+  _storageSize: function() {
+    return this.localStorage().length;
+  },
+
+  _itemName: function(id) {
+    return this.name+"-"+id;
+  }
+
+});
+
+// localSync delegate to the model or collection's
+// *localStorage* property, which should be an instance of `Store`.
+// window.Store.sync and Backbone.localSync is deprecated, use Backbone.LocalStorage.sync instead
+Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(method, model, options) {
+  var store = result(model, 'localStorage') || result(model.collection, 'localStorage');
+
+  var resp, errorMessage;
+  //If $ is having Deferred - use it.
+  var syncDfd = Backbone.$ ?
+    (Backbone.$.Deferred && Backbone.$.Deferred()) :
+    (Backbone.Deferred && Backbone.Deferred());
+
+  try {
+
+    switch (method) {
+      case "read":
+        resp = model.id != undefined ? store.find(model) : store.findAll();
+        break;
+      case "create":
+        resp = store.create(model);
+        break;
+      case "update":
+        resp = store.update(model);
+        break;
+      case "delete":
+        resp = store.destroy(model);
+        break;
+    }
+
+  } catch(error) {
+    if (error.code === 22 && store._storageSize() === 0)
+      errorMessage = "Private browsing is unsupported";
+    else
+      errorMessage = error.message;
+  }
+
+  if (resp) {
+    if (options && options.success) {
+      if (Backbone.VERSION === "0.9.10") {
+        options.success(model, resp, options);
+      } else {
+        options.success(resp);
+      }
+    }
+    if (syncDfd) {
+      syncDfd.resolve(resp);
+    }
+
+  } else {
+    errorMessage = errorMessage ? errorMessage
+                                : "Record Not Found";
+
+    if (options && options.error)
+      if (Backbone.VERSION === "0.9.10") {
+        options.error(model, errorMessage, options);
+      } else {
+        options.error(errorMessage);
+      }
+
+    if (syncDfd)
+      syncDfd.reject(errorMessage);
+  }
+
+  // add compatibility with $.ajax
+  // always execute callback for success and error
+  if (options && options.complete) options.complete(resp);
+
+  return syncDfd && syncDfd.promise();
+};
+
+Backbone.ajaxSync = Backbone.sync;
+
+Backbone.getSyncMethod = function(model, options) {
+  var forceAjaxSync = options && options.ajaxSync;
+
+  if(!forceAjaxSync && (result(model, 'localStorage') || result(model.collection, 'localStorage'))) {
+    return Backbone.localSync;
+  }
+
+  return Backbone.ajaxSync;
+};
+
+// Override 'Backbone.sync' to default to localSync,
+// the original 'Backbone.sync' is still available in 'Backbone.ajaxSync'
+Backbone.sync = function(method, model, options) {
+  return Backbone.getSyncMethod(model, options).apply(this, [method, model, options]);
+};
+
+return Backbone.LocalStorage;
+}));
+
+},{"backbone":2}],2:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1608,7 +1868,7 @@
 
 }));
 
-},{"underscore":2}],2:[function(require,module,exports){
+},{"underscore":3}],3:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3158,9 +3418,9 @@
   }
 }.call(this));
 
-},{}],3:[function(require,module,exports){
-
 },{}],4:[function(require,module,exports){
+
+},{}],5:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -4493,7 +4753,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":5,"ieee754":6,"is-array":7}],5:[function(require,module,exports){
+},{"base64-js":6,"ieee754":7,"is-array":8}],6:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -4619,7 +4879,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
@@ -4705,7 +4965,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128;
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 
 /**
  * isArray
@@ -4740,7 +5000,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4968,7 +5228,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":9}],9:[function(require,module,exports){
+},{"_process":10}],10:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5028,7 +5288,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (global){
 "use strict";
 /*globals Handlebars: true */
@@ -5081,7 +5341,7 @@ Handlebars['default'] = Handlebars;
 
 exports["default"] = Handlebars;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./handlebars.runtime":11,"./handlebars/compiler/ast":13,"./handlebars/compiler/base":14,"./handlebars/compiler/compiler":16,"./handlebars/compiler/javascript-compiler":18}],11:[function(require,module,exports){
+},{"./handlebars.runtime":12,"./handlebars/compiler/ast":14,"./handlebars/compiler/base":15,"./handlebars/compiler/compiler":17,"./handlebars/compiler/javascript-compiler":19}],12:[function(require,module,exports){
 (function (global){
 "use strict";
 /*globals Handlebars: true */
@@ -5130,7 +5390,7 @@ Handlebars['default'] = Handlebars;
 
 exports["default"] = Handlebars;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./handlebars/base":12,"./handlebars/exception":23,"./handlebars/runtime":24,"./handlebars/safe-string":25,"./handlebars/utils":26}],12:[function(require,module,exports){
+},{"./handlebars/base":13,"./handlebars/exception":24,"./handlebars/runtime":25,"./handlebars/safe-string":26,"./handlebars/utils":27}],13:[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -5374,7 +5634,7 @@ var createFrame = function(object) {
   return frame;
 };
 exports.createFrame = createFrame;
-},{"./exception":23,"./utils":26}],13:[function(require,module,exports){
+},{"./exception":24,"./utils":27}],14:[function(require,module,exports){
 "use strict";
 var AST = {
   Program: function(statements, blockParams, strip, locInfo) {
@@ -5517,7 +5777,7 @@ var AST = {
 // Must be exported as an object rather than the root of the module as the jison lexer
 // must modify the object to operate properly.
 exports["default"] = AST;
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 var parser = require("./parser")["default"];
 var AST = require("./ast")["default"];
@@ -5546,7 +5806,7 @@ function parse(input, options) {
 }
 
 exports.parse = parse;
-},{"../utils":26,"./ast":13,"./helpers":17,"./parser":19,"./whitespace-control":22}],15:[function(require,module,exports){
+},{"../utils":27,"./ast":14,"./helpers":18,"./parser":20,"./whitespace-control":23}],16:[function(require,module,exports){
 "use strict";
 var isArray = require("../utils").isArray;
 
@@ -5701,7 +5961,7 @@ CodeGen.prototype = {
 };
 
 exports["default"] = CodeGen;
-},{"../utils":26,"source-map":28}],16:[function(require,module,exports){
+},{"../utils":27,"source-map":29}],17:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 var isArray = require("../utils").isArray;
@@ -6203,7 +6463,7 @@ function transformLiteralToPath(sexpr) {
     sexpr.path = new AST.PathExpression(false, 0, [literal.original+''], literal.original+'', literal.loc);
   }
 }
-},{"../exception":23,"../utils":26,"./ast":13}],17:[function(require,module,exports){
+},{"../exception":24,"../utils":27,"./ast":14}],18:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 
@@ -6323,7 +6583,7 @@ exports.prepareRawBlock = prepareRawBlock;function prepareBlock(openBlock, progr
 }
 
 exports.prepareBlock = prepareBlock;
-},{"../exception":23}],18:[function(require,module,exports){
+},{"../exception":24}],19:[function(require,module,exports){
 "use strict";
 var COMPILER_REVISION = require("../base").COMPILER_REVISION;
 var REVISION_CHANGES = require("../base").REVISION_CHANGES;
@@ -7397,7 +7657,7 @@ function strictLookup(requireTerminal, compiler, parts, type) {
 }
 
 exports["default"] = JavaScriptCompiler;
-},{"../base":12,"../exception":23,"../utils":26,"./code-gen":15}],19:[function(require,module,exports){
+},{"../base":13,"../exception":24,"../utils":27,"./code-gen":16}],20:[function(require,module,exports){
 "use strict";
 /* jshint ignore:start */
 /* istanbul ignore next */
@@ -7956,7 +8216,7 @@ function Parser () { this.yy = {}; }Parser.prototype = parser;parser.Parser = Pa
 return new Parser;
 })();exports["default"] = handlebars;
 /* jshint ignore:end */
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 var Visitor = require("./visitor")["default"];
 
@@ -8097,7 +8357,7 @@ PrintVisitor.prototype.Hash = function(hash) {
 PrintVisitor.prototype.HashPair = function(pair) {
   return pair.key + '=' + this.accept(pair.value);
 };
-},{"./visitor":21}],21:[function(require,module,exports){
+},{"./visitor":22}],22:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 var AST = require("./ast")["default"];
@@ -8221,7 +8481,7 @@ Visitor.prototype = {
 };
 
 exports["default"] = Visitor;
-},{"../exception":23,"./ast":13}],22:[function(require,module,exports){
+},{"../exception":24,"./ast":14}],23:[function(require,module,exports){
 "use strict";
 var Visitor = require("./visitor")["default"];
 
@@ -8434,7 +8694,7 @@ function omitLeft(body, i, multiple) {
 }
 
 exports["default"] = WhitespaceControl;
-},{"./visitor":21}],23:[function(require,module,exports){
+},{"./visitor":22}],24:[function(require,module,exports){
 "use strict";
 
 var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
@@ -8466,7 +8726,7 @@ function Exception(message, node) {
 Exception.prototype = new Error();
 
 exports["default"] = Exception;
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -8687,7 +8947,7 @@ exports.noop = noop;function initData(context, data) {
   }
   return data;
 }
-},{"./base":12,"./exception":23,"./utils":26}],25:[function(require,module,exports){
+},{"./base":13,"./exception":24,"./utils":27}],26:[function(require,module,exports){
 "use strict";
 // Build out our basic SafeString type
 function SafeString(string) {
@@ -8699,7 +8959,7 @@ SafeString.prototype.toString = SafeString.prototype.toHTML = function() {
 };
 
 exports["default"] = SafeString;
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 "use strict";
 /*jshint -W004 */
 var escape = {
@@ -8803,7 +9063,7 @@ exports.blockParams = blockParams;function appendContextPath(contextPath, id) {
 }
 
 exports.appendContextPath = appendContextPath;
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 
@@ -8831,7 +9091,7 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions[".hbs"] = extension;
 }
 
-},{"../dist/cjs/handlebars":10,"../dist/cjs/handlebars/compiler/printer":20,"../dist/cjs/handlebars/compiler/visitor":21,"fs":3}],28:[function(require,module,exports){
+},{"../dist/cjs/handlebars":11,"../dist/cjs/handlebars/compiler/printer":21,"../dist/cjs/handlebars/compiler/visitor":22,"fs":4}],29:[function(require,module,exports){
 /*
  * Copyright 2009-2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE.txt or:
@@ -8841,7 +9101,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-consumer":34,"./source-map/source-map-generator":35,"./source-map/source-node":36}],29:[function(require,module,exports){
+},{"./source-map/source-map-consumer":35,"./source-map/source-map-generator":36,"./source-map/source-node":37}],30:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8940,7 +9200,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":37,"amdefine":38}],30:[function(require,module,exports){
+},{"./util":38,"amdefine":39}],31:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9084,7 +9344,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./base64":31,"amdefine":38}],31:[function(require,module,exports){
+},{"./base64":32,"amdefine":39}],32:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9128,7 +9388,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":38}],32:[function(require,module,exports){
+},{"amdefine":39}],33:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9210,7 +9470,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":38}],33:[function(require,module,exports){
+},{"amdefine":39}],34:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -9298,7 +9558,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":37,"amdefine":38}],34:[function(require,module,exports){
+},{"./util":38,"amdefine":39}],35:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9875,7 +10135,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":29,"./base64-vlq":30,"./binary-search":32,"./util":37,"amdefine":38}],35:[function(require,module,exports){
+},{"./array-set":30,"./base64-vlq":31,"./binary-search":33,"./util":38,"amdefine":39}],36:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -10277,7 +10537,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":29,"./base64-vlq":30,"./mapping-list":33,"./util":37,"amdefine":38}],36:[function(require,module,exports){
+},{"./array-set":30,"./base64-vlq":31,"./mapping-list":34,"./util":38,"amdefine":39}],37:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -10693,7 +10953,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./source-map-generator":35,"./util":37,"amdefine":38}],37:[function(require,module,exports){
+},{"./source-map-generator":36,"./util":38,"amdefine":39}],38:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -11014,7 +11274,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":38}],38:[function(require,module,exports){
+},{"amdefine":39}],39:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 0.1.0 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
@@ -11317,7 +11577,7 @@ function amdefine(module, requireFn) {
 module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules/handlebars/node_modules/source-map/node_modules/amdefine/amdefine.js")
-},{"_process":9,"path":8}],39:[function(require,module,exports){
+},{"_process":10,"path":9}],40:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.11.2
  * http://jquery.com/
@@ -21665,7 +21925,7 @@ return jQuery;
 
 }));
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 var charenc = {
   // UTF-8 encoding
   utf8: {
@@ -21700,7 +21960,7 @@ var charenc = {
 
 module.exports = charenc;
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function() {
   var base64map
       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
@@ -21798,7 +22058,7 @@ module.exports = charenc;
   module.exports = crypt;
 })();
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 (function (Buffer){
 (function() {
   var crypt = require('crypt'),
@@ -21884,9 +22144,9 @@ module.exports = charenc;
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":4,"charenc":40,"crypt":41}],43:[function(require,module,exports){
-arguments[4][2][0].apply(exports,arguments)
-},{"dup":2}],44:[function(require,module,exports){
+},{"buffer":5,"charenc":41,"crypt":42}],44:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],45:[function(require,module,exports){
 /*!
  * Copyright (c) 2014 Chris O'Hara <cohara87@gmail.com>
  *
@@ -22620,28 +22880,28 @@ arguments[4][2][0].apply(exports,arguments)
 
 });
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 var Backbone = require('backbone'),
     Deporte    = require('../models/deporte');
 
 module.exports = Backbone.Collection.extend({
   model: Deporte
 });
-},{"../models/deporte":50,"backbone":1}],46:[function(require,module,exports){
+},{"../models/deporte":51,"backbone":2}],47:[function(require,module,exports){
 var Backbone = require('backbone'),
     Hora    = require('../models/hora');
 
 module.exports = Backbone.Collection.extend({
   model: Hora
 });
-},{"../models/hora":51,"backbone":1}],47:[function(require,module,exports){
+},{"../models/hora":52,"backbone":2}],48:[function(require,module,exports){
 var Backbone = require('backbone'),
     Pista    = require('../models/pista');
 
 module.exports = Backbone.Collection.extend({
   model: Pista
 });
-},{"../models/pista":52,"backbone":1}],48:[function(require,module,exports){
+},{"../models/pista":53,"backbone":2}],49:[function(require,module,exports){
 var Backbone = require('backbone'),
     Usuario    = require('../models/usuario');
 
@@ -22650,7 +22910,7 @@ module.exports = Backbone.Collection.extend({
 	url: '/api/usuarios/',
   	model: Usuario
 });
-},{"../models/usuario":53,"backbone":1}],49:[function(require,module,exports){
+},{"../models/usuario":55,"backbone":2}],50:[function(require,module,exports){
 var Backbone    = require('backbone'),
     Router      = require('./routers/router'),
     $           = require('jquery');
@@ -22658,39 +22918,86 @@ var Backbone    = require('backbone'),
 Backbone.$  = $;
 
 $(function () {
-  Backbone.app = new Router();
+  	Backbone.app = new Router();
 });
-},{"./routers/router":59,"backbone":1,"jquery":39}],50:[function(require,module,exports){
+},{"./routers/router":61,"backbone":2,"jquery":40}],51:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({});
 
-},{"backbone":1}],51:[function(require,module,exports){
+},{"backbone":2}],52:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({});
-},{"backbone":1}],52:[function(require,module,exports){
-arguments[4][51][0].apply(exports,arguments)
-},{"backbone":1,"dup":51}],53:[function(require,module,exports){
+},{"backbone":2}],53:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"backbone":2,"dup":52}],54:[function(require,module,exports){
+var Backbone = require('backbone');
+var LocalStorage = require('backbone.localStorage');
+
+
+    var Mysesion = Backbone.Model.extend({
+
+         localStorage: new LocalStorage("sesion")
+
+    });
+
+module.exports = {
+    instance: new Mysesion({ id: 1 }),
+
+    // Static method
+    getInstance: function () {
+        // "instance" can be "this.instance" (static property)
+        // but it is better if it is private
+
+        // if (!this.instance) {
+            // this.instance = new Mysesion({ id: 1 });
+            this.instance.fetch();
+        // }
+        console.log("get instance");
+        console.log(this.instance);
+        return this.instance;
+    },
+
+    setSesiondata: function(data){
+      this.instance = new Mysesion({ id: 1 });
+      this.instance.save(data);
+
+      console.log("set sesion data");
+      console.log(this.instance);
+    }
+};
+},{"backbone":2,"backbone.localStorage":1}],55:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
 	//urlRoot: 'http:80//localhost/',
-	url: '/api/usuarios/'
+	// urlRoot: '/api/login'
 });
-},{"backbone":1}],54:[function(require,module,exports){
+
+	// var instance;
+
+ //    Usuario.getInstance = function () {
+ //        // "instance" can be "this.instance" (static property)
+ //        // but it is better if it is private
+ //        if (!instance) {
+ //            instance = new Usuario();
+ //        }
+ //        return instance;
+ //    };
+},{"backbone":2}],56:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.calendario = '{{name}}';
 
 module.exports = plantillas;
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.deporte = '{{nameDeporte}}';
 
 module.exports = plantillas;
-},{}],56:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.login = '<div id="error" class="error"></div>'
@@ -22702,13 +23009,13 @@ plantillas.login = '<div id="error" class="error"></div>'
 		+ '<br><a id="goregistro" href="registro"> Crear cuenta</a>';
 
 module.exports = plantillas;
-},{}],57:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.pista = '{{name}}';
 
 module.exports = plantillas;
-},{}],58:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.registro = '<div id="error" class="error"></div>'
@@ -22727,7 +23034,7 @@ plantillas.registro = '<div id="error" class="error"></div>'
 		+ '<a id="doregister" href="#">Registrarse</a>';
 
 module.exports = plantillas;
-},{}],59:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var Backbone      = require('backbone'),
     Deportes      = require('../collections/deportes'),
     Pistas        = require('../collections/pistas'),
@@ -22740,6 +23047,7 @@ var Backbone      = require('backbone'),
     LoginView     = require('../views/login'),
     RegistroView     = require('../views/registro'),
     CalendarioView    = require('../views/calendario-list'),
+    Sesion        = require('../models/sesion'),
     $             = require('jquery');
 
 module.exports = Backbone.Router.extend({
@@ -22776,22 +23084,37 @@ module.exports = Backbone.Router.extend({
   },
 
   execute: function(callback, args) {
-    console.log('nueva url ' + callback);
-    // args.push(parseQueryString(args.pop()));
-    if (callback) callback.apply(this, args);
+    this.requireLogin(callback, args);
+  },
+
+  requireLogin: function(callback, args) {
+    console.log('Require login');
+    var sesion = Sesion.getInstance();
+    if (sesion.get('mail')) {
+      args.unshift(true);
+      callback.apply(this, args);
+    } else {
+      args.unshift(false);
+      if (callback === this.loadLogin || callback === this.loadRegistro) callback.apply(this, args);
+      else this.navigate('login', { trigger: true });
+    }
   },
 
 
-  index: function(){
-    this.login = new LoginView();
+  index: function(args){
+    console.log(["index", args]);
+    if(args === true) this.loadDeportes();
+    else this.login = new LoginView();
   },
 
-  loadLogin: function(){
-    this.login = new LoginView();
+  loadLogin: function(args){
+    if(args === true) this.loadDeportes();
+    else this.login = new LoginView();
   },
 
-  loadRegistro: function(){
-    this.registro = new RegistroView();
+  loadRegistro: function(args){
+    if(args === true) this.loadDeportes();
+    else this.registro = new RegistroView();
   },
 
 
@@ -22807,15 +23130,22 @@ module.exports = Backbone.Router.extend({
       self.deportes.reset();
       self.pistas.reset();
 
-      // for (var nameDeporte in data) {
-      //   if (data.hasOwnProperty(nameDeporte)) {
-      //     self.addDeporte(nameDeporte, data[nameDeporte]);
-      //   }
-      // }
-
     });
   },
 
+
+  // comprobarLogin: function(){
+  //   var sesion = Sesion.getInstance();
+  //   console.log('comprobar login');
+  //   console.log(sesion);
+  //   if (sesion.get('mail')) {
+  //     this.loadDeportes();
+  //   } else {
+  //     alert("Login required! Please sign in first.");
+  //     this.navigate('login', { trigger: true });
+  //   }
+  //     // this.requireLogin(this.loadDeportes);
+  // },
 
   loadDeportes: function () {
     this.deportes.reset();
@@ -22853,7 +23183,7 @@ module.exports = Backbone.Router.extend({
   },
 
 
-  loadPistas: function(nameDeporte){
+  loadPistas: function(logged, nameDeporte){
 
     this.deportes.reset();
     this.horas.reset();
@@ -22940,7 +23270,7 @@ module.exports = Backbone.Router.extend({
 
 });
 
-},{"../collections/deportes":45,"../collections/horas":46,"../collections/pistas":47,"../models/deporte":50,"../models/hora":51,"../models/pista":52,"../views/calendario-list":60,"../views/deportes-list":63,"../views/login":64,"../views/pistas-list":66,"../views/registro":67,"backbone":1,"jquery":39}],60:[function(require,module,exports){
+},{"../collections/deportes":46,"../collections/horas":47,"../collections/pistas":48,"../models/deporte":51,"../models/hora":52,"../models/pista":53,"../models/sesion":54,"../views/calendario-list":62,"../views/deportes-list":65,"../views/login":66,"../views/pistas-list":68,"../views/registro":69,"backbone":2,"jquery":40}],62:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     HoraView  = require('../views/calendario-single'),
@@ -22977,7 +23307,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../views/calendario-single":61,"backbone":1,"handlebars":27,"jquery":39}],61:[function(require,module,exports){
+},{"../views/calendario-single":63,"backbone":2,"handlebars":28,"jquery":40}],63:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -23012,7 +23342,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../partials/plantilla_calendario":54,"backbone":1,"handlebars":27,"jquery":39}],62:[function(require,module,exports){
+},{"../partials/plantilla_calendario":56,"backbone":2,"handlebars":28,"jquery":40}],64:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -23032,7 +23362,6 @@ module.exports = Backbone.View.extend({
 
 
   initialize: function () {
-    console.log( Plantilla.deporte );
     this.listenTo(this.model, "change", this.render, this);
   },
 
@@ -23048,7 +23377,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../partials/plantilla_deporte":55,"backbone":1,"handlebars":27,"jquery":39}],63:[function(require,module,exports){
+},{"../partials/plantilla_deporte":57,"backbone":2,"handlebars":28,"jquery":40}],65:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     DeporteView  = require('../views/deporte-single'),
@@ -23080,15 +23409,17 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../partials/plantilla_deporte":55,"../views/deporte-single":62,"backbone":1,"handlebars":27,"jquery":39}],64:[function(require,module,exports){
+},{"../partials/plantilla_deporte":57,"../views/deporte-single":64,"backbone":2,"handlebars":28,"jquery":40}],66:[function(require,module,exports){
 var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),
     Usuarios = require('../collections/usuarios'),
+    Usuario = require('../models/usuario'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_login'),
     Validator = require('validator'),
     Sha1       = require('sha1'),
+    Sesion        = require('../models/sesion'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -23145,8 +23476,6 @@ module.exports = Backbone.View.extend({
         var user = $('#login_user_input');
         var pwd = $('#login_pass_input');
 
-
-
         console.log('Loggin in... ');
 
         var formValues = {
@@ -23175,6 +23504,7 @@ module.exports = Backbone.View.extend({
                       // window.location.replace('#');
                       // alert(user.val() + ' esta dentro');
                       $('#error').html('Welcome !!!').slideDown();
+                      Sesion.setSesiondata(data.usuario);
                       Backbone.app.navigate("reservas", { trigger: true });
                   }
               }
@@ -23205,7 +23535,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../collections/usuarios":48,"../partials/plantilla_login":56,"backbone":1,"handlebars":27,"jquery":39,"sha1":42,"underscore":43,"validator":44}],65:[function(require,module,exports){
+},{"../collections/usuarios":49,"../models/sesion":54,"../models/usuario":55,"../partials/plantilla_login":58,"backbone":2,"handlebars":28,"jquery":40,"sha1":43,"underscore":44,"validator":45}],67:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -23240,7 +23570,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../partials/plantilla_pista":57,"backbone":1,"handlebars":27,"jquery":39}],66:[function(require,module,exports){
+},{"../partials/plantilla_pista":59,"backbone":2,"handlebars":28,"jquery":40}],68:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     PistaView  = require('../views/pista-single'),
@@ -23271,7 +23601,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../partials/plantilla_pista":57,"../views/pista-single":65,"backbone":1,"handlebars":27,"jquery":39}],67:[function(require,module,exports){
+},{"../partials/plantilla_pista":59,"../views/pista-single":67,"backbone":2,"handlebars":28,"jquery":40}],69:[function(require,module,exports){
 var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),
@@ -23428,4 +23758,4 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../collections/usuarios":48,"../partials/plantilla_registro":58,"backbone":1,"handlebars":27,"jquery":39,"underscore":43,"validator":44}]},{},[49]);
+},{"../collections/usuarios":49,"../partials/plantilla_registro":60,"backbone":2,"handlebars":28,"jquery":40,"underscore":44,"validator":45}]},{},[50]);

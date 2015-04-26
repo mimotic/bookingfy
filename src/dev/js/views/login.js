@@ -2,10 +2,12 @@ var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),
     Usuarios = require('../collections/usuarios'),
+    Usuario = require('../models/usuario'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_login'),
     Validator = require('validator'),
     Sha1       = require('sha1'),
+    Sesion        = require('../models/sesion'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -62,8 +64,6 @@ module.exports = Backbone.View.extend({
         var user = $('#login_user_input');
         var pwd = $('#login_pass_input');
 
-
-
         console.log('Loggin in... ');
 
         var formValues = {
@@ -92,6 +92,7 @@ module.exports = Backbone.View.extend({
                       // window.location.replace('#');
                       // alert(user.val() + ' esta dentro');
                       $('#error').html('Welcome !!!').slideDown();
+                      Sesion.setSesiondata(data.usuario);
                       Backbone.app.navigate("reservas", { trigger: true });
                   }
               }

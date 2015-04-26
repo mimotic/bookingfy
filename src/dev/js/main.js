@@ -5,5 +5,5 @@ var Backbone    = require('backbone'),
 Backbone.$  = $;
 
 $(function () {
-  Backbone.app = new Router();
+  	Backbone.app = new Router();
 });
