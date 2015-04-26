@@ -2,6 +2,7 @@ var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),
     Usuarios = require('../collections/usuarios'),
+    Session = require('../models/session'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_login'),
     Validator = require('validator'),
@@ -77,6 +78,15 @@ module.exports = Backbone.View.extend({
 
           formValues.password = Sha1(formValues.password);
 
+
+
+         // Backbone.emulateHTTP = true;
+
+          //console.log(session.attributes);
+
+          //console.log(session);
+
+
           $.ajax({
               url:url,
               type:'POST',
@@ -91,11 +101,15 @@ module.exports = Backbone.View.extend({
                   else { // If not, send them back to the home page
                       // window.location.replace('#');
                       // alert(user.val() + ' esta dentro');
+                      var session = new Session(data);
+                      console.log('sesion',session);
                       $('#error').html('Welcome !!!').slideDown();
                       Backbone.app.navigate("reservas", { trigger: true });
                   }
               }
           });
+
+
         }else{
 
           mensajesError = _.omit(validar.datos, function(value, key, object) {

@@ -5,6 +5,9 @@ main-blue = #013660
 dark-gray = #333333
 light-gray =  #818181
 
+activo = #6cfc86
+desactivado = #999999
+
 //reset
 figure
 	margin 0
@@ -26,8 +29,13 @@ body
 .footer
 	background-color light-gray
 	color dark-gray
-	padding 2em 0
-	font-size 0.8rem
+	 margin-top 3em
+	 width 100%
+	 padding 2em 0
+	 font-size: .8rem
+	 height auto
+	 overflow hidden
+	 float left
 
 .logo
 	position relative
@@ -58,13 +66,36 @@ body
 	width 45%
 	background-color #c3c3c3
 
+// listado tipo-pistas
+
+#calendario
+	position relative
+	width 100%
+	padding 0
+	margin 2em 0
+
+.tipo-calendario
+	width 50%
+	&.doble
+		margin 0
+		float left
+	&.simple
+		margin 0 auto
+		float none
+	ul
+		margin 0
+		padding 0
+
 .hora
 	position relative
 	display block
 	padding 2em 0
 	margin .2em
-	width 45%
-	background-color #6cfc86
+	&[data-estado="libre"]
+		background-color activo
+	&[data-estado="ocupado"]
+		background-color desactivado
+
 
 // FORMS
 
