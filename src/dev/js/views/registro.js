@@ -11,7 +11,8 @@ module.exports = Backbone.View.extend({
   el: $('#registro'),
 
   events: {
-    'click #doregister': 'register'
+    'click #doregister': 'register',
+    'click #gologin': 'goLogin'
   },
 
 
@@ -26,6 +27,10 @@ module.exports = Backbone.View.extend({
     var html = this.template();
     this.$el.html(html);
     return this;
+  },
+
+  resetear: function () {
+    this.$el.empty();
   },
 
   inputEval: function(formData) {
@@ -149,8 +154,9 @@ module.exports = Backbone.View.extend({
     },
 
 
-  navigate: function () {
-    // Backbone.app.navigate(this.model.get("name"), { trigger: true });
+  goLogin: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("login", { trigger: true });
   }
 
 });

@@ -14,27 +14,24 @@ module.exports = Backbone.View.extend({
   el: $('#login'),
 
   events: {
-    'click #dologin': 'login'
+    'click #dologin': 'login',
+    'click #goregistro': 'goRegistro'
   },
 
   template: Handlebars.compile(Plantilla.login),
 
   initialize: function () {
-    // this.listenTo(this.model, "change", this.render, this);
     this.render();
-
-   // Backbone.emulateHTTP = true;
-    // var Prueba;
-
-    // Prueba = new Usuarios().fetch();
-
-    // console.log(Prueba);
   },
 
   render: function () {
     var html = this.template();
     this.$el.html(html);
     return this;
+  },
+
+  resetear: function () {
+    this.$el.empty();
   },
 
   inputEval: function(formData) {
@@ -100,26 +97,27 @@ module.exports = Backbone.View.extend({
         }else{
 
           mensajesError = _.omit(validar.datos, function(value, key, object) {
-              return value === true;
-            });
+            return value === true;
+          });
 
-            printErrores = '<ul>';
+          printErrores = '<ul>';
 
-            _.each(mensajesError, function(val){
-                printErrores += '<li>' + val + "</li>";
-            });
+          _.each(mensajesError, function(val){
+              printErrores += '<li>' + val + "</li>";
+          });
 
-            printErrores += '<ul>';
+          printErrores += '<ul>';
 
-            $('#error').html(printErrores).slideDown();
+          $('#error').html(printErrores).slideDown();
 
-            console.log(mensajesError);
+          console.log(mensajesError);
 
         }
   },
 
-  navigate: function () {
-    // Backbone.app.navigate(this.model.get("name"), { trigger: true });
+  goRegistro: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("registro", { trigger: true });
   }
 
 });

@@ -13,6 +13,7 @@ plantillas.registro = '<div id="error" class="error"></div>'
 		+ '<input data-validado="" id="reg_email" type="text" name="" value="">'
 		+ '<label for="reg_pass">Contraseña: </label>'
 		+ '<input data-validado="" id="reg_pass" type="password" name="" value="">'
-		+ '<a id="doregister" href="#">Registrarse</a>';
+		+ '<a id="doregister" href="#">Registrarse</a>'
+		+ '<br><a id="gologin" href="#">ir a login</a>';
 
 module.exports = plantillas;

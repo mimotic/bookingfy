@@ -11,6 +11,7 @@ var Backbone      = require('backbone'),
     LoginView     = require('../views/login'),
     RegistroView     = require('../views/registro'),
     CalendarioView     = require('../views/calendarios'),
+    HeaderView     = require('../views/header'),
 
     $             = require('jquery');
 
@@ -45,12 +46,26 @@ module.exports = Backbone.Router.extend({
     this.calendarios = new Calendarios();
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
+    //header
+    //this.headerView = new HeaderView({});
+
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
   },
 
   execute: function(callback, args) {
     this.requireLogin(callback, args);
+    console.log( 'tipo login: ' + this.islogged());
+    this.bodyClass();
+  },
+
+  bodyClass: function () {
+    var isLogged = this.islogged();
+    var bodyTag = $("body");
+
+    // switch class from body
+    if(isLogged == 'unlogged') bodyTag.removeClass( "inapp" ).addClass( "outapp" );
+    else bodyTag.removeClass( "outapp" ).addClass( "inapp" );
   },
 
   requireLogin: function(callback, args) {
@@ -66,6 +81,16 @@ module.exports = Backbone.Router.extend({
     }
   },
 
+  islogged: function() {
+    var response = 'unlogged';
+    var sesion = Sesion.getInstance();
+    var sesionRol = sesion.get('rol');
+
+    if(sesionRol === 1) response = 'admin';
+    else if(sesionRol === 0) reponse = 'user';
+
+    return response;
+  },
 
   index: function(args){
     console.log(["index", args]);
@@ -74,11 +99,13 @@ module.exports = Backbone.Router.extend({
   },
 
   loadLogin: function(args){
+    if(this.registro) this.registro.resetear();
     if(args === true) this.loadDeportes();
     else this.login = new LoginView();
   },
 
   loadRegistro: function(args){
+    if(this.login) this.login.resetear();
     if(args === true) this.loadDeportes();
     else this.registro = new RegistroView();
   },
@@ -92,16 +119,23 @@ module.exports = Backbone.Router.extend({
 
       console.log(data);
 
-      self.deportes.reset();
-      self.calendarios.reset();
+      self.deportes.resetear();
+      self.calendarios.resetear();
     });
   },
 
-
-
   loadDeportes: function () {
-    this.deportes.reset();
-    this.calendarios.reset();
+    console.log( 'tipo login: ' + this.islogged());
+
+    console.log(typeof this.deportes.resetear)
+
+    if(typeof this.deportes.resetear == 'function') this.deportes.resetear();
+    if(typeof this.calendarios.resetear == 'function') this.calendarios.resetear();
+    if(typeof this.login.resetear == 'function') this.login.resetear();
+    if(typeof this.registro.resetear == 'function') this.registro.resetear();
+
+    this.headerView = new HeaderView({});
+
 
     if (Object.keys(this.jsonData).length === 0) {
       var self = this;
@@ -114,7 +148,6 @@ module.exports = Backbone.Router.extend({
       this.addDeportes();
     }
   },
-
 
   addDeportes: function () {
     for (var nameDeporte in this.jsonData) {
@@ -140,9 +173,8 @@ module.exports = Backbone.Router.extend({
 
     var self = this;
 
-    this.deportes.reset();
-    this.calendarios.reset();
-
+    this.deportes.resetear();
+    this.calendarios.resetear();
 
     return $.getJSON('calendar.json').then(function (data) {
 
@@ -160,11 +192,8 @@ module.exports = Backbone.Router.extend({
           nameDeporte: nameDeporte,
           numeroPistas: data.pistas.length
         }));
-
       }
-
     });
-
   }
 
 });
