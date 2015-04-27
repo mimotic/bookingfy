@@ -35,7 +35,7 @@ module.exports = Backbone.View.extend({
     var calendario = this.model.toJSON();
 
     for (var i = 0; i < calendario.horas.length; i++) {
-       console.log(calendario.horas[i].estado);
+       // console.log(calendario.horas[i].estado);
        if(calendario.horas[i].estado > 0){
         calendario.horas[i].estado = 'ocupado';
        }else calendario.horas[i].estado = 'libre';
