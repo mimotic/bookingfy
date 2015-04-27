@@ -1,10 +1,15 @@
 var plantillas = plantillas || {};
 
-plantillas.login = '<div class="login_users"><div id="error" class="error"></div><label for="user">Email: </label>'
-		+ '<input id="login_user_input" type="email" name="login_user_input" value="" required>'
-		+ '<label for="pass">Contraseña: </label>'
-		+ '<input id="login_pass_input" type="password" name="login_pass_input" value="" required><div style="float:left;clear:both"></div>'
-		+ '<a id="dologin" href="#">Entrar</a>'
-		+ '<br><a id="goregistro" href="#"> Crear cuenta</a></div>';
+plantillas.login = '<div class="login_users">'
+		+ '<span class="title-span">Alquiler de Pistas Deportivas<span>'
+		+ '<input id="login_user_input" type="email" name="login_user_input" value="" placeholder="Email" required>'
+		+ '<div class="clear"></div>'
+		+ '<input id="login_pass_input" type="password" name="login_pass_input" value="" placeholder="Password" required>'
+		+ '<div style="float:left;clear:both"></div>'
+		+ '<div class="clear"></div>'
+		+ '<a id="dologin" href="#">Login</a><div class="clear"></div>'
+		+ '<span>¿No tiene una cuenta? <a id="goregistro" href="#">regístrese</a><span>'
+		+ '<div id="error" class="error"></div>'
+		+ '</div>';
 
 module.exports = plantillas;
