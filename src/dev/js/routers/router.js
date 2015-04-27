@@ -108,19 +108,22 @@ module.exports = Backbone.Router.extend({
     else this.registro = new RegistroView();
   },
 
-  fetchData: function () {
-    var self = this;
+  // fetchData: function () {
+  //   var self = this;
 
-    // Load Data
-    return $.getJSON('data.json').then(function (data) {
-      self.jsonData = data;
+  //   // Load Data
+  //   return $.getJSON('data.json').then(function (data) {
+  //     self.jsonData = data;
 
-      self.deportes.reset();
-      self.calendarios.reset();
-    });
-  },
+  //     self.deportes.reset();
+  //     self.calendarios.reset();
+  //   });
+  // },
 
   loadDeportes: function () {
+
+    var self = this;
+
     this.deportes.reset();
     this.calendarios.reset();
 
@@ -129,33 +132,42 @@ module.exports = Backbone.Router.extend({
 
     this.headerView = new HeaderView({});
 
-    if (Object.keys(this.jsonData).length === 0) {
-      var self = this;
-
-      this.fetchData().done(function () {
-        self.addDeportes();
+    // this.deportes.fetch();
+    this.deportes.fetch({
+          success: function(response){
+                console.log("Success");
+                console.log(self.deportes);
+                // self.deporteslist.render();
+          }
       });
 
-    } else {
-      this.addDeportes();
-    }
+    // if (Object.keys(this.jsonData).length === 0) {
+    //   var self = this;
+
+    //   this.fetchData().done(function () {
+    //     self.addDeportes();
+    //   });
+
+    // } else {
+    //   this.addDeportes();
+    // }
   },
 
-  addDeportes: function () {
-    for (var nameDeporte in this.jsonData) {
-      if (this.jsonData.hasOwnProperty(nameDeporte)) {
-            this.addDeporte(nameDeporte, this.jsonData[nameDeporte]);
-      }
-    }
-  },
+  // addDeportes: function () {
+  //   for (var nameDeporte in this.jsonData) {
+  //     if (this.jsonData.hasOwnProperty(nameDeporte)) {
+  //           this.addDeporte(nameDeporte, this.jsonData[nameDeporte]);
+  //     }
+  //   }
+  // },
 
-  addDeporte: function (nameDeporte, deporte) {
-    this.deportes.add(new Deporte({
-      nameDeporte: nameDeporte,
-      precio: deporte.precio,
-      pistas: deporte.pistas
-    }));
-  },
+  // addDeporte: function (nameDeporte, deporte) {
+  //   this.deportes.add(new Deporte({
+  //     nameDeporte: nameDeporte,
+  //     precio: deporte.precio,
+  //     pistas: deporte.pistas
+  //   }));
+  // },
 
   fetchCalendar: function () {
     // to-do refactor, paluego
