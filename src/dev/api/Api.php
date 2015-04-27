@@ -249,8 +249,9 @@
      $filas = $query->fetchAll(PDO::FETCH_ASSOC);
      $num = count($filas);
      if ($num > 0) {
-       $respuesta['estado'] = 'correcto';
-       $respuesta['deportes'] = $filas;
+       // $respuesta['estado'] = 'correcto';
+       // $respuesta['deportes'] = $filas;
+       $respuesta = $filas;
        $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
      }
      $this->mostrarRespuesta($this->devolverError(2), 204);
