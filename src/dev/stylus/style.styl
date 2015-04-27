@@ -48,16 +48,6 @@ body
 	display none
 	min-height 117px
 
-.footer
-	background-color light-gray
-	color dark-gray
-	 margin-top 3em
-	 width 100%
-	 padding 2em 0
-	 font-size: .8rem
-	 height auto
-	 overflow hidden
-	 float left
 
 .logo
 	position relative
@@ -119,9 +109,20 @@ body
 		background-color desactivado
 
 
-// FORMS
+// footer
 
-// login
+// hack
+
+footer
+	background-color transparent
+	color #6C6C6C
+	font-weight 100
+
+body.inapp
+	footer
+		display block
+
+// LOGIN / REGISTRO
 #logo
 	figure
 		margin 2em auto
@@ -150,7 +151,8 @@ body
 		padding .5em
 	label
 		text-align center
-	#dologin
+	#dologin,
+	#doregister
 		text-transform uppercase
 		-webkit-transition: background-color .8s ease-out;
 		-moz-transition: background-color .8s ease-out;
@@ -181,7 +183,8 @@ body
 			color dark-gray
 			background-color grisClaro
 			box-shadow 0 0 3px dark-gray
-	#goregistro
+	#goregistro,
+	#gologin
 		color #736E6E
 	span
 		font-weight 300
@@ -210,15 +213,16 @@ body
 				margin: 0
 				padding: 0
 
+@media screen and (max-width:650px)
+	.login_users
+		max-width: 600px;
+		margin: 0 1em;
+		label,
+		input
+			margin .5em auto
+			width 94%
 
-// hack
 
-footer
-	display none
-
-body.inapp
-	footer
-		display block
 
 // validación
 .error
