@@ -69,7 +69,6 @@ module.exports = Backbone.Router.extend({
   },
 
   requireLogin: function(callback, args) {
-    console.log('Require login');
     var sesion = Sesion.getInstance();
     if (sesion.get('mail')) {
       args.unshift(true);
@@ -86,14 +85,13 @@ module.exports = Backbone.Router.extend({
     var sesion = Sesion.getInstance();
     var sesionRol = sesion.get('rol');
 
-    if(sesionRol === 1) response = 'admin';
-    else if(sesionRol === 0) reponse = 'user';
+    if(sesionRol === '1') response = 'admin';
+    else if(sesionRol === '0') response = 'user';
 
     return response;
   },
 
   index: function(args){
-    console.log(["index", args]);
     if(args === true) this.loadDeportes();
     else this.login = new LoginView();
   },
@@ -117,25 +115,19 @@ module.exports = Backbone.Router.extend({
     return $.getJSON('data.json').then(function (data) {
       self.jsonData = data;
 
-      console.log(data);
-
-      self.deportes.resetear();
-      self.calendarios.resetear();
+      self.deportes.reset();
+      self.calendarios.reset();
     });
   },
 
   loadDeportes: function () {
-    console.log( 'tipo login: ' + this.islogged());
+    this.deportes.reset();
+    this.calendarios.reset();
 
-    console.log(typeof this.deportes.resetear)
-
-    if(typeof this.deportes.resetear == 'function') this.deportes.resetear();
-    if(typeof this.calendarios.resetear == 'function') this.calendarios.resetear();
-    if(typeof this.login.resetear == 'function') this.login.resetear();
-    if(typeof this.registro.resetear == 'function') this.registro.resetear();
+    if(typeof this.login == 'object') this.login.resetear();
+    if(typeof this.registro == 'object') this.registro.resetear();
 
     this.headerView = new HeaderView({});
-
 
     if (Object.keys(this.jsonData).length === 0) {
       var self = this;
@@ -173,17 +165,14 @@ module.exports = Backbone.Router.extend({
 
     var self = this;
 
-    this.deportes.resetear();
-    this.calendarios.resetear();
+    this.deportes.reset();
+    this.calendarios.reset();
 
     return $.getJSON('calendar.json').then(function (data) {
 
       self.jsonDataCalendario = data;
 
-      // console.log(data.pistas.length);
-
       for (var i = 0; i < data.pistas.length ; i++) {
-        console.log(data.pistas);
         var miPista = data.pistas[i];
 
         self.calendarios.add(new Calendario({

@@ -20,8 +20,8 @@ module.exports = {
             // this.instance = new Mysesion({ id: 1 });
             this.instance.fetch();
         // }
-        console.log("get instance");
-        console.log(this.instance);
+        // console.log("get instance");
+        // console.log(this.instance);
         return this.instance;
     },
 
@@ -29,7 +29,7 @@ module.exports = {
       this.instance = new Mysesion({ id: 1 });
       this.instance.save(data);
 
-      console.log("set sesion data");
-      console.log(this.instance);
+      // console.log("set sesion data");
+      // console.log(this.instance);
     }
 };
