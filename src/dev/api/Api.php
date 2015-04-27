@@ -239,23 +239,18 @@
    }
 
 
-   // LISTAR USUARIOS [GET]
-   // curl http://bookingfy.dev/api/diaStatus
-   private function diaStatus() {
+   // LISTAR DEPORTES [GET]
+   // curl http://bookingfy.dev/api/deportes
+   private function deportes() {
      if ($_SERVER['REQUEST_METHOD'] != "GET") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
-     if (isset( $this->datosPeticion['dia'] )) {
-        $dia = $this->datosPeticion['dia'];
-     }
-
-
-     $query = $this->_conn->query("SELECT id, nombre, apellidos, expediente,dni, mail, rol, fecha_alta FROM usuarios");
+     $query = $this->_conn->query("SELECT id, nombre FROM deporte");
      $filas = $query->fetchAll(PDO::FETCH_ASSOC);
      $num = count($filas);
      if ($num > 0) {
        $respuesta['estado'] = 'correcto';
-       $respuesta['usuarios'] = $filas;
+       $respuesta['deportes'] = $filas;
        $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
      }
      $this->mostrarRespuesta($this->devolverError(2), 204);
