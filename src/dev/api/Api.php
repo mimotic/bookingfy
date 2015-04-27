@@ -258,6 +258,31 @@
    }
 
 
+   // [GET] LISTAR PISTAS DE UN DEPORTE Y CON RESEVAS DE UN DÍA [GET]
+   // curl http://bookingfy.dev/api/pistas
+   private function pistas() {
+     if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset( $this->datosPeticion['id'] )) {
+
+        $id = $this->datosPeticion['id'];
+
+         $query = $this->_conn->prepare("SELECT * FROM pistas WHERE id_deporte = :id");
+         $query->bindValue(":id", $id);
+         $query->execute();
+         $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+         $num = count($filas);
+          if ($num > 0) {
+            $respuesta = $filas;
+            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+          } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+     } else {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+     }
+   }
+
+
    // LISTAR USUARIOS [GET]
    // curl http://bookingfy.dev/api/usuarios
    private function usuarios() {
