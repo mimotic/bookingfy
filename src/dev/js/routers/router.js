@@ -194,6 +194,7 @@ module.exports = Backbone.Router.extend({
         }
     });
 
+    this.calendarios.setFecha(newFecha);
   }
 
 });

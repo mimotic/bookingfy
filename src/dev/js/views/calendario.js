@@ -60,6 +60,8 @@ module.exports = Backbone.View.extend({
     // confirmWrap.append(msg);
     // confirm.fadeIn();
 
+    console.log("FECHA CALENDARIO", this.model.collection.getFecha());
+
     var horaClicked = $(event.currentTarget).attr('data-hora');
     var idHoraClicked = 0;
 
@@ -84,10 +86,13 @@ module.exports = Backbone.View.extend({
     this.reserva.set({
       id_pista: calendario.id,
       id_hora: idHoraClicked,
-      id_usuario: sesion.get('id_usuario')
+      id_usuario: sesion.get('id_usuario'),
+      fecha: this.model.collection.getFecha(),
+      luz: 0
     });
 
-    this.reservaview = new ReservaView({ model: this.reserva });
+    // this.reservaview = new ReservaView({ model: this.reserva });
+
     // JQRY UI ¿?¿? TO-DO
     // confirmWrap.append(msg).show( "puff" , {} , 300 );
 

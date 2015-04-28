@@ -3,5 +3,16 @@ var Backbone = require('backbone'),
 
 module.exports = Backbone.Collection.extend({
 	url: '/api/pistas/',
-  	model: Calendario
+  	model: Calendario,
+
+  	fecha: "",
+
+	getFecha: function(){
+		return this.fecha;
+	},
+
+	setFecha: function(newFecha){
+		this.fecha = newFecha;
+	}
+
 });

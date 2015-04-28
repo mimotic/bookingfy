@@ -40977,7 +40977,18 @@ var Backbone = require('backbone'),
 
 module.exports = Backbone.Collection.extend({
 	url: '/api/pistas/',
-  	model: Calendario
+  	model: Calendario,
+
+  	fecha: "",
+
+	getFecha: function(){
+		return this.fecha;
+	},
+
+	setFecha: function(newFecha){
+		this.fecha = newFecha;
+	}
+
 });
 },{"../models/calendario":52,"backbone":2}],49:[function(require,module,exports){
 var Backbone = require('backbone'),
@@ -41349,6 +41360,7 @@ module.exports = Backbone.Router.extend({
         }
     });
 
+    this.calendarios.setFecha(newFecha);
   }
 
 });
@@ -41416,6 +41428,8 @@ module.exports = Backbone.View.extend({
     // confirmWrap.append(msg);
     // confirm.fadeIn();
 
+    console.log("FECHA CALENDARIO", this.model.collection.getFecha());
+
     var horaClicked = $(event.currentTarget).attr('data-hora');
     var idHoraClicked = 0;
 
@@ -41440,10 +41454,13 @@ module.exports = Backbone.View.extend({
     this.reserva.set({
       id_pista: calendario.id,
       id_hora: idHoraClicked,
-      id_usuario: sesion.get('id_usuario')
+      id_usuario: sesion.get('id_usuario'),
+      fecha: this.model.collection.getFecha(),
+      luz: 0
     });
 
-    this.reservaview = new ReservaView({ model: this.reserva });
+    // this.reservaview = new ReservaView({ model: this.reserva });
+
     // JQRY UI ¿?¿? TO-DO
     // confirmWrap.append(msg).show( "puff" , {} , 300 );
 
@@ -41658,7 +41675,8 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    var html = this.template();
+    var dia = this.model.toJSON();
+    var html = this.template(dia);
     this.$el.html(html);
     return this;
   },
