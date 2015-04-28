@@ -51,7 +51,7 @@ module.exports = Backbone.Router.extend({
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
     this.dia = new Dia();
-
+    // this.diaView = new DiaView({ model: this.dia });
 
     //header
     //this.headerView = new HeaderView({});
@@ -77,7 +77,7 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     var sesion = Sesion.getInstance();
-    console.log('la sesion: ' ,sesion)
+    console.log('la sesion: ' ,sesion);
     if (sesion.get('mail')) {
       args.unshift(true);
       callback.apply(this, args);
@@ -133,6 +133,8 @@ module.exports = Backbone.Router.extend({
 
     this.deportes.reset();
     this.calendarios.reset();
+
+    if(this.diaView !== undefined)this.diaView.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
@@ -201,13 +203,9 @@ module.exports = Backbone.Router.extend({
       deporte: idDeporte,
       fecha: newFecha
     });
-    // this.dia = new Dia({
-    //   deporte: idDeporte,
-    //   fecha: newFecha
-    // });
+
     this.diaView = new DiaView({ model: this.dia });
-
-
+    this.diaView.mostrar();
 
     this.calendarios.fetch({
         data: {

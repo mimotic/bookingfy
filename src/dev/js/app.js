@@ -41196,7 +41196,7 @@ module.exports = Backbone.Router.extend({
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
     this.dia = new Dia();
-
+    // this.diaView = new DiaView({ model: this.dia });
 
     //header
     //this.headerView = new HeaderView({});
@@ -41222,7 +41222,7 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     var sesion = Sesion.getInstance();
-    console.log('la sesion: ' ,sesion)
+    console.log('la sesion: ' ,sesion);
     if (sesion.get('mail')) {
       args.unshift(true);
       callback.apply(this, args);
@@ -41278,6 +41278,8 @@ module.exports = Backbone.Router.extend({
 
     this.deportes.reset();
     this.calendarios.reset();
+
+    if(this.diaView !== undefined)this.diaView.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
@@ -41346,13 +41348,9 @@ module.exports = Backbone.Router.extend({
       deporte: idDeporte,
       fecha: newFecha
     });
-    // this.dia = new Dia({
-    //   deporte: idDeporte,
-    //   fecha: newFecha
-    // });
+
     this.diaView = new DiaView({ model: this.dia });
-
-
+    this.diaView.mostrar();
 
     this.calendarios.fetch({
         data: {
@@ -41579,8 +41577,7 @@ module.exports = Backbone.View.extend({
   initialize: function () {
     this.render();
     this.setCalendar();
-    console.log( this.getDate() );
-    this.listenTo(this.model, "reset", this.resetear, this);
+    // console.log( this.getDate() );
   },
 
   changeDateNow: function (date) {
@@ -41599,10 +41596,10 @@ module.exports = Backbone.View.extend({
 
   setCalendar: function () {
     var formato = 'YYYY-MM-DD';
-    var hoy = Moment().format( formato );
 
     var idDeporte = this.model.get("deporte");
-    console.log("id de deporte " + idDeporte);
+    var fecha = this.model.get("fecha");
+    fecha = Moment(fecha).format( formato );
 
     this.displayDatepicker({
       closeText: 'Cerrar',
@@ -41621,9 +41618,10 @@ module.exports = Backbone.View.extend({
       firstDay: 1,
       isRTL: false,
       showMonthAfterYear: false,
-      showButtonPanel: true,
+      showButtonPanel: false,
       yearSuffix: '',
       minDate: 0,
+      defaultDate: fecha,
       onSelect: function(date){
         //this.changeDateNow(date);
         // alert(date);
@@ -41645,6 +41643,15 @@ module.exports = Backbone.View.extend({
     var html = this.template();
     this.$el.html(html);
     return this;
+  },
+
+
+  mostrar: function(){
+    this.$el.show();
+  },
+
+  ocultar: function(){
+    this.$el.hide();
   }
 
 });
