@@ -26,6 +26,7 @@ module.exports = Backbone.Router.extend({
     "registro": "loadRegistro",
     "reservas": "loadDeportes",
     "pistas/:idDeporte": "loadCalendar",
+    "pistas/:idDeporte/:date": "loadCalendar",
     "*path"  : "notFound"
   },
 
@@ -49,7 +50,7 @@ module.exports = Backbone.Router.extend({
     this.calendarios = new Calendarios();
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
-
+    this.dia = new Dia();
 
 
     //header
@@ -180,24 +181,38 @@ module.exports = Backbone.Router.extend({
   //   // to-do refactor, paluego
   // },
 
-  loadCalendar: function (login, idDeporte) {
+  loadCalendar: function (login, idDeporte, newFecha) {
 
     var self = this;
-    var fechaCalendario = Moment().format('YYYY-MM-DD');
 
-    console.log('moment', fechaCalendario );
-
-    // dia & datapicker
-    this.dia = new Dia({});
-    this.diaView = new DiaView({ model: this.dia });
+    console.log("newFecha "+ newFecha);
 
     this.deportes.reset();
     this.calendarios.reset();
 
+    var fechaCalendario = Moment().format('YYYY-MM-DD');
+
+    if(newFecha === null)newFecha = fechaCalendario;
+
+    console.log('moment', fechaCalendario );
+
+    // dia & datapicker
+    this.dia.set({
+      deporte: idDeporte,
+      fecha: newFecha
+    });
+    // this.dia = new Dia({
+    //   deporte: idDeporte,
+    //   fecha: newFecha
+    // });
+    this.diaView = new DiaView({ model: this.dia });
+
+
+
     this.calendarios.fetch({
         data: {
           id: idDeporte,
-          fecha_pista: fechaCalendario
+          fecha_pista: newFecha
         },
         type: 'POST',
         success: function(response){

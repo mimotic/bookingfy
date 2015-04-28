@@ -19,6 +19,7 @@ module.exports = Backbone.View.extend({
     this.render();
     this.setCalendar();
     console.log( this.getDate() );
+    this.listenTo(this.model, "reset", this.resetear, this);
   },
 
   changeDateNow: function (date) {
@@ -38,6 +39,9 @@ module.exports = Backbone.View.extend({
   setCalendar: function () {
     var formato = 'YYYY-MM-DD';
     var hoy = Moment().format( formato );
+
+    var idDeporte = this.model.get("deporte");
+    console.log("id de deporte " + idDeporte);
 
     this.displayDatepicker({
       closeText: 'Cerrar',
@@ -61,7 +65,8 @@ module.exports = Backbone.View.extend({
       minDate: 0,
       onSelect: function(date){
         //this.changeDateNow(date);
-        alert(date);
+        // alert(date);
+        Backbone.app.navigate("pistas/" + idDeporte + "/" + date, { trigger: true });
       }
 
     });
