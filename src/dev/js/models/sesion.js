@@ -21,5 +21,6 @@ module.exports = {
 
     destroySesion: function () {
       this.instance.destroy();
+      this.instance.clear();
     }
 };

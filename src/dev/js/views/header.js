@@ -40,7 +40,7 @@ module.exports = Backbone.View.extend({
     event.preventDefault();
 
     Sesion.destroySesion();
-     var sesion = Sesion.getInstance();
+    var sesion = Sesion.getInstance();
 
     Backbone.app.navigate("/login", { trigger: true });
   }
