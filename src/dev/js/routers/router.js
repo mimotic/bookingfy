@@ -192,6 +192,8 @@ module.exports = Backbone.Router.extend({
     this.deportes.reset();
     this.calendarios.reset();
 
+    this.headerView = new HeaderView({});
+
     var fechaCalendario = Moment().format('YYYY-MM-DD');
 
     if(newFecha === null)newFecha = fechaCalendario;
