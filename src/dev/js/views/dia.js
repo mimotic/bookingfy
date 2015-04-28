@@ -45,8 +45,8 @@ module.exports = Backbone.View.extend({
 
     this.displayDatepicker({
       closeText: 'Cerrar',
-      prevText: '< Anterior',
-      nextText: 'Siguiente >',
+      prevText: '< ',
+      nextText: ' >',
       currentText: 'Hoy',
       monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],

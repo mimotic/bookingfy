@@ -41078,7 +41078,7 @@ module.exports = plantillas;
 },{}],58:[function(require,module,exports){
 var plantillas = plantillas || {};
 
-plantillas._datepicker = '<div class="calendario">asdasd'
+plantillas._datepicker = '<div class="calendario">'
 					+ '<div id="placeDatepicker"></div>'
 					+ '<input type="hidden" id="datePickerVal" />'
 					+ '</div>';
@@ -41606,8 +41606,8 @@ module.exports = Backbone.View.extend({
 
     this.displayDatepicker({
       closeText: 'Cerrar',
-      prevText: '< Anterior',
-      nextText: 'Siguiente >',
+      prevText: '< ',
+      nextText: ' >',
       currentText: 'Hoy',
       monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
