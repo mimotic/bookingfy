@@ -4,6 +4,8 @@ var Backbone   = require('backbone'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
     Sesion     = require('../models/sesion'),
+    Reserva     = require('../models/reserva'),
+    ReservaView = require('../views/reservar'),
     _          =  require('underscore');
 
 module.exports = Backbone.View.extend({
@@ -50,19 +52,47 @@ module.exports = Backbone.View.extend({
   },
 
   reservar: function (event) {
-    var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
-    var confirm = $('#modalCalendario');
-    var confirmWrap = $('#modalCalendario div');
+    // var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
+    // var confirm = $('#modalCalendario');
+    // var confirmWrap = $('#modalCalendario div');
 
-    // mostrar modal
-    confirmWrap.append(msg);
-    confirm.fadeIn();
+    // // mostrar modal
+    // confirmWrap.append(msg);
+    // confirm.fadeIn();
 
+    var horaClicked = $(event.currentTarget).attr('data-hora');
+    var idHoraClicked = 0;
 
+    console.log("MODELO CALENDARIO", this.model);
+    var calendario = this.model.toJSON();
+    console.log("ID PISTA", calendario.id);
+
+    for (var i = 0; i < calendario.horas.length; i++) {
+        if(horaClicked == calendario.horas[i].inicio){
+          idHoraClicked = calendario.horas[i].id;
+        }
+    }
+
+    console.log("ID HORA", idHoraClicked);
+
+    var sesion = Sesion.getInstance();
+    if (sesion.get('id_usuario')) {
+        console.log("ID USER", sesion.get('id_usuario'));
+    }
+
+    this.reserva = new Reserva();
+    this.reserva.set({
+      id_pista: calendario.id,
+      id_hora: idHoraClicked,
+      id_usuario: sesion.get('id_usuario')
+    });
+
+    this.reservaview = new ReservaView({ model: this.reserva });
     // JQRY UI ¿?¿? TO-DO
     // confirmWrap.append(msg).show( "puff" , {} , 300 );
 
   },
+
   anular: function (event) {
     alert('Anular: ' + $(event.currentTarget).attr('data-hora'));
   }
