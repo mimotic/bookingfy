@@ -46,7 +46,7 @@ module.exports = Backbone.View.extend({
       closeText: 'Cerrar',
       prevText: '< ',
       nextText: ' >',
-      currentText: 'Hoy',
+      currentText: 'ir a Hoy',
       monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
       monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
