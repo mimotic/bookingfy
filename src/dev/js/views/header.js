@@ -2,7 +2,8 @@ var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
-    Plantilla  = require('../partials/plantilla_header');
+    Plantilla  = require('../partials/plantilla_header'),
+    Sesion = require('../models/sesion');
     // app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -12,8 +13,8 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.header),
 
   events: {
-    'click .logotipoLink': 'goHome',
-    //'click .logout': 'logout'
+    'click #logotipoLink': 'goHome',
+    'click #logout': 'logout'
   },
 
   initialize: function () {
@@ -30,12 +31,18 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
-  goHome: function () {
-    Backbone.app.navigate("/", { trigger: true });
+  goHome: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("", { trigger: true });
   },
 
-  logout: function () {
-    // Backbone.app.navigate("/", { trigger: true });
+  logout: function (event) {
+    event.preventDefault();
+
+    Sesion.destroySesion();
+     var sesion = Sesion.getInstance();
+
+    Backbone.app.navigate("/login", { trigger: true });
   }
 
 });

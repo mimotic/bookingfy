@@ -74,6 +74,7 @@ module.exports = Backbone.Router.extend({
       args.unshift(true);
       callback.apply(this, args);
     } else {
+
       args.unshift(false);
       if (callback === this.loadLogin || callback === this.loadRegistro) callback.apply(this, args);
       else this.navigate('login', { trigger: true });
