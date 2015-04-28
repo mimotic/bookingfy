@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
 
   render: function () {
     var html = this.template();
-    this.$el.html(html).effect( "slide" , {} , 500 );
+    this.$el.html(html);
     return this;
   },
 
