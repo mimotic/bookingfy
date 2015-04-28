@@ -25,6 +25,15 @@ module.exports = Backbone.View.extend({
   addOne: function (deporte) {
     var deporteView = new DeporteView({ model: deporte });
     this.$el.append(deporteView.render().el);
+  },
+
+   mostrar: function(){
+    this.$el.show();
+  },
+
+  ocultar: function(){
+    this.$el.hide();
   }
+
 
 });

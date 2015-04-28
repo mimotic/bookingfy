@@ -43,7 +43,7 @@ module.exports = Backbone.Router.extend({
     // deportes
     this.jsonData = {};
     this.deportes = new Deportes();
-    this.deporteslist = new DeportesView({ collection: this.deportes });
+    this.deportesView = new DeportesView({ collection: this.deportes });
 
     // calendario
     this.jsonDataCalendario = {};
@@ -51,7 +51,6 @@ module.exports = Backbone.Router.extend({
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
     this.dia = new Dia();
-    // this.diaView = new DiaView({ model: this.dia });
 
     //header
     //this.headerView = new HeaderView({});
@@ -77,14 +76,16 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     var sesion = Sesion.getInstance();
-    console.log('la sesion: ' ,sesion);
     if (sesion.get('mail')) {
       args.unshift(true);
       callback.apply(this, args);
     } else {
       args.unshift(false);
-      if (callback === this.loadLogin || callback === this.loadRegistro) callback.apply(this, args);
-      else this.navigate('login', { trigger: true });
+      if (callback === this.loadLogin || callback === this.loadRegistro){
+       callback.apply(this, args);
+      }else{
+        this.navigate('login', { trigger: true });
+      }
     }
   },
 
@@ -106,27 +107,28 @@ module.exports = Backbone.Router.extend({
 
   loadLogin: function(args){
     if(this.registro) this.registro.resetear();
-    if(args === true) this.loadDeportes();
-    else this.login = new LoginView();
+    if(args === true){
+      this.loadDeportes();
+    } else {
+      this.deportes.reset();
+      this.calendarios.reset();
+      if(this.diaView !== undefined)this.diaView.ocultar();
+      this.login = new LoginView();
+    }
   },
 
   loadRegistro: function(args){
     if(this.login) this.login.resetear();
-    if(args === true) this.loadDeportes();
-    else this.registro = new RegistroView();
+    if(args === true){
+      this.loadDeportes();
+    } else{
+      this.deportes.reset();
+      this.calendarios.reset();
+      if(this.diaView !== undefined)this.diaView.ocultar();
+      this.registro = new RegistroView();
+    }
   },
 
-  // fetchData: function () {
-  //   var self = this;
-
-  //   // Load Data
-  //   return $.getJSON('data.json').then(function (data) {
-  //     self.jsonData = data;
-
-  //     self.deportes.reset();
-  //     self.calendarios.reset();
-  //   });
-  // },
 
   loadDeportes: function () {
     var self = this;
@@ -144,44 +146,15 @@ module.exports = Backbone.Router.extend({
     // this.deportes.fetch();
     this.deportes.fetch({
           success: function(response){
-                console.log("Success deportes");
+                // console.log("Success deportes");
           },
           error: function (collection, err) {
-            console.log('error', collection, err);
+            // console.log('error', collection, err);
           }
       });
 
-    // if (Object.keys(this.jsonData).length === 0) {
-    //   var self = this;
-
-    //   this.fetchData().done(function () {
-    //     self.addDeportes();
-    //   });
-
-    // } else {
-    //   this.addDeportes();
-    // }
   },
 
-  // addDeportes: function () {
-  //   for (var nameDeporte in this.jsonData) {
-  //     if (this.jsonData.hasOwnProperty(nameDeporte)) {
-  //           this.addDeporte(nameDeporte, this.jsonData[nameDeporte]);
-  //     }
-  //   }
-  // },
-
-  // addDeporte: function (nameDeporte, deporte) {
-  //   this.deportes.add(new Deporte({
-  //     nameDeporte: nameDeporte,
-  //     precio: deporte.precio,
-  //     pistas: deporte.pistas
-  //   }));
-  // },
-
-  // fetchCalendar: function () {
-  //   // to-do refactor, paluego
-  // },
 
   loadCalendar: function (login, idDeporte, newFecha) {
 
@@ -221,21 +194,6 @@ module.exports = Backbone.Router.extend({
         }
     });
 
-    // return $.getJSON('calendar.json').then(function (data) {
-
-    //   self.jsonDataCalendario = data;
-
-    //   for (var i = 0; i < data.pistas.length ; i++) {
-    //     var miPista = data.ºpistas[i];
-
-    //     self.calendarios.add(new Calendario({
-    //       namePista: miPista.name,
-    //       horas: miPista.horas,
-    //       nameDeporte: nameDeporte,
-    //       numeroPistas: data.pistas.length
-    //     }));
-    //   }
-    // });
   }
 
 });

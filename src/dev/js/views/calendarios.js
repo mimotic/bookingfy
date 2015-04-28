@@ -26,7 +26,16 @@ module.exports = Backbone.View.extend({
   addOne: function (calendario) {
     var calendarView = new CalendarioView({ model: calendario });
     this.$el.append(calendarView.render().el);
+  },
+
+  mostrar: function(){
+    this.$el.show();
+  },
+
+  ocultar: function(){
+    this.$el.hide();
   }
+
 
 
 });
