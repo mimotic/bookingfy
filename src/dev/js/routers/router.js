@@ -4,16 +4,20 @@ var Backbone      = require('backbone'),
     Calendarios   = require('../collections/calendarios'),
 
     Deporte       = require('../models/deporte'),
-    Sesion = require('../models/sesion'),
-    Calendario = require('../models/calendario'),
+    Sesion        = require('../models/sesion'),
+    Calendario    = require('../models/calendario'),
+    Dia           = require('../models/dia'),
 
     DeportesView  = require('../views/deportes-list'),
     LoginView     = require('../views/login'),
-    RegistroView     = require('../views/registro'),
-    CalendarioView     = require('../views/calendarios'),
-    HeaderView     = require('../views/header'),
+    RegistroView  = require('../views/registro'),
+    CalendarioView = require('../views/calendarios'),
+    HeaderView    = require('../views/header'),
+    DiaView       = require('../views/dia'),
 
-    $             = require('jquery');
+    $             = require('jquery'),
+
+    Moment        = require('moment');
 
 module.exports = Backbone.Router.extend({
   routes: {
@@ -31,7 +35,6 @@ module.exports = Backbone.Router.extend({
   },
 
   initialize: function () {
-
     // ambito clausura
     var self = this;
     this.current = {};
@@ -45,6 +48,9 @@ module.exports = Backbone.Router.extend({
     this.jsonDataCalendario = {};
     this.calendarios = new Calendarios();
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
+
+
+
 
     //header
     //this.headerView = new HeaderView({});
@@ -70,11 +76,11 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     var sesion = Sesion.getInstance();
+    console.log('la sesion: ' ,sesion)
     if (sesion.get('mail')) {
       args.unshift(true);
       callback.apply(this, args);
     } else {
-
       args.unshift(false);
       if (callback === this.loadLogin || callback === this.loadRegistro) callback.apply(this, args);
       else this.navigate('login', { trigger: true });
@@ -122,7 +128,6 @@ module.exports = Backbone.Router.extend({
   // },
 
   loadDeportes: function () {
-
     var self = this;
 
     this.deportes.reset();
@@ -137,6 +142,9 @@ module.exports = Backbone.Router.extend({
     this.deportes.fetch({
           success: function(response){
                 console.log("Success deportes");
+          },
+          error: function (collection, err) {
+            console.log('error', collection, err);
           }
       });
 
@@ -172,15 +180,25 @@ module.exports = Backbone.Router.extend({
   //   // to-do refactor, paluego
   // },
 
-  loadCalendar: function (login, idDeporte){
+  loadCalendar: function (login, idDeporte) {
 
     var self = this;
+    var fechaCalendario = Moment().format('YYYY-MM-DD');
+
+    console.log('moment', fechaCalendario );
+
+    // dia & datapicker
+    this.dia = new Dia({});
+    this.diaView = new DiaView({ model: this.dia });
 
     this.deportes.reset();
     this.calendarios.reset();
 
     this.calendarios.fetch({
-        data: {id: idDeporte},
+        data: {
+          id: idDeporte,
+          fecha_pista: fechaCalendario
+        },
         type: 'POST',
         success: function(response){
                 console.log("Success calendario");
@@ -193,7 +211,7 @@ module.exports = Backbone.Router.extend({
     //   self.jsonDataCalendario = data;
 
     //   for (var i = 0; i < data.pistas.length ; i++) {
-    //     var miPista = data.pistas[i];
+    //     var miPista = data.ºpistas[i];
 
     //     self.calendarios.add(new Calendario({
     //       namePista: miPista.name,

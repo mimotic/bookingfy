@@ -1,5 +1,5 @@
 var plantillas = plantillas || {};
 
-plantillas.deporte = '{{nombre}}';
+plantillas.deporte = '<span class="{{nombre}}">{{nombre}}</span>';
 
 module.exports = plantillas;

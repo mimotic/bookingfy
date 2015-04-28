@@ -145,7 +145,7 @@
        $mail = $this->datosPeticion['mail'];
        $rol = 1;
 
-       if (!$this->existeUsuario($mail)) {
+       if (!$this->existeUsuario($mail) && !$this->existeUsuario($dni) && !$this->existeUsuario($expediente)) {
          $query = $this->_conn->prepare("INSERT into usuarios (nombre,apellidos,expediente,dni,mail,password,rol) VALUES (:nombre,:apellidos,:expediente,:dni,:mail,:password,:rol)");
          $query->bindValue(":nombre", $nombre);
          $query->bindValue(":apellidos", $apellidos);
@@ -254,7 +254,7 @@
        $respuesta = $filas;
        $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
      }
-     $this->mostrarRespuesta($this->devolverError(2), 204);
+     $this->mostrarRespuesta($this->devolverError(2), 400);
    }
 
 
@@ -264,9 +264,12 @@
      if ($_SERVER['REQUEST_METHOD'] != "POST") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
-     if (isset( $this->datosPeticion['id'] )) {
+     if (isset( $this->datosPeticion['id'], $this->datosPeticion['fecha_pista']  )) {
 
         $id = $this->datosPeticion['id'];
+        $fecha_pista = $this->datosPeticion['fecha_pista'];
+
+
 
          $query = $this->_conn->prepare("SELECT * FROM pistas WHERE id_deporte = :id");
          $query->bindValue(":id", $id);
@@ -274,6 +277,19 @@
          $filas = $query->fetchAll(PDO::FETCH_ASSOC);
          $num = count($filas);
           if ($num > 0) {
+
+            for ($i=0; $i < $num; $i++) {
+               $id_pista = $filas[$i]['id'];
+               //echo $fecha_pista;
+               $query2 = $this->_conn->prepare("SELECT * FROM (SELECT h.id,h.inicio,r.id_usuario, r.id_pista, r.id_hora, r.fecha_pista, r.luz, r.fecha_log, r.anulado FROM horarios AS h LEFT JOIN reservas AS r ON h.id = r.id_hora WHERE r.id_pista = :id_pista AND r.anulado = 0 AND r.fecha_pista = :date_pista UNION SELECT id,inicio,null,null,null,null,null,null,null FROM horarios) as kk GROUP BY id");
+               $query2->bindValue(":id_pista", $id_pista);
+               $query2->bindValue(":date_pista", $fecha_pista);
+               $query2->execute();
+               $filos = $query2->fetchAll(PDO::FETCH_ASSOC);
+
+               $filas[$i]['horas'] = $filos;
+            }
+
             $respuesta = $filas;
             $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
           } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
@@ -322,7 +338,7 @@
            if ($fila = $query->fetch(PDO::FETCH_ASSOC)) {
              $respuesta['estado'] = 'correcto';
              $respuesta['msg'] = 'datos pertenecen a usuario registrado';
-             $respuesta['usuario']['idd'] = $fila['id'];
+             $respuesta['usuario']['id_usuario'] = $fila['id'];
              $respuesta['usuario']['nombre'] = $fila['nombre'];
              $respuesta['usuario']['apellidos'] = $fila['apellidos'];
              $respuesta['usuario']['mail'] = $fila['mail'];

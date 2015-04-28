@@ -1,3 +1,15 @@
+<br />
+<b>Warning</b>:  PDOStatement::execute(): SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in <b>/Users/imike/www/bookingfy/src/dev/api/Api.php</b> on line <b>284</b><br />
+<br />
+<b>Warning</b>:  Cannot modify header information - headers already sent by (output started at /Users/imike/www/bookingfy/src/dev/api/Api.php:284) in <b>/Users/imike/www/bookingfy/src/dev/api/Rest.php</b> on line <b>16</b><br />
+<br />
+<b>Warning</b>:  Cannot modify header information - headers already sent by (output started at /Users/imike/www/bookingfy/src/dev/api/Api.php:284) in <b>/Users/imike/www/bookingfy/src/dev/api/Rest.php</b> on line <b>17</b><br />
+[{"id":"1","nombre":"nombreEjemploPista","id_deporte":"1","precio_pista":"10","precio_luz":"6","horas":[]}]
+
+
+
+
+
 INSERT INTO `reservas`( `id_usuario`, `id_pista`, `id_hora`, `fecha_pista`, `luz`, `fecha_log`, `anulado`) VALUES (1,2,3,'2015-05-12',1,NOW(),1)
 
 obtener pistas

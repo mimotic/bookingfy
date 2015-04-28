@@ -5,7 +5,7 @@ plantillas.__calendario = '<div class="calendario"></div>'
 			+ '<h2 class="text-center">{{nombre}}</h2>'
 			+ '<ul class="comments">'
 			+ '{{#each horas}}'
-				+ '<li data-hora="{{hora}}" data-estado="{{estado}}" class="hora text-center">{{hora}}</li>'
+				+ '<li data-hora="{{inicio}}" data-estado="{{id_usuario}}" class="hora text-center">{{inicio}}</li>'
 			+ '{{/each}}'
 			+ '</ul>'
 			+ '</div>';

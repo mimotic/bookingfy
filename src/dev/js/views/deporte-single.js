@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend({
   render: function () {
     var deporte = this.model.toJSON();
     var html = this.template(deporte);
-    this.$el.html(html);
+    this.$el.addClass('deporte' + this.model.get("id")).html(html);
     return this;
   },
 

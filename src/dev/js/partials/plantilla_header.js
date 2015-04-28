@@ -2,7 +2,7 @@ var plantillas = plantillas || {};
 
 plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '<figure class="logo">'
-		+ '<img src="img/logo.png" alt="logo" />'
+		+ '<img src="img/logo_white.png" alt="logo" />'
 		+ '</figure>'
 		+ '</a>'
 		+ '<a id="logout" href="#">logout</a>'

@@ -1,5 +1,6 @@
 @import "nib"
 @import "../../../bower_components/normalize.styl/normalize.styl"
+@import "../../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.min.css"
 
 main-blue = #013660
 dark-gray = #333333
@@ -42,7 +43,7 @@ body
 
 // estructura principal
 .header
-	background-color main-blue
+	background-color #26282D
 	margin 0
 	overflow hidden
 	display none
@@ -54,9 +55,6 @@ body
 	margin-left 2em
 	img
 		margin 1em auto
-#logout
-	float right
-	color white
 // listado de deportes
 .tipo-pistas
 	margin 0
@@ -69,7 +67,11 @@ body
 	padding 3em 0
 	margin .2em
 	width 45%
+	border 6px solid #c3c3c3
 	background-color #c3c3c3
+
+.deporte:has(> span.Hockey)
+		background red
 
 .pista
 	position relative
@@ -85,8 +87,10 @@ body
 		display inline-block
 		padding 3em 0
 		margin .2em
-		width 24%
+		width 22%
 		background-color #c3c3c3
+
+
 // listado tipo-pistas
 
 #calendario
@@ -114,9 +118,30 @@ body
 	margin .2em
 	&[data-estado="libre"]
 		background-color activo
+		cursor pointer
 	&[data-estado="ocupado"]
 		background-color desactivado
+	&[data-estado="owner"]
+		background-color rosaPalido
+		cursor pointer
 
+#modalCalendario
+	position absolute
+	z-index 999
+	background rgba(159, 191, 223, 0.94)
+	height 100%
+	width 100%
+	top 0
+	left 0
+	display none
+	>div
+		padding 1.5em
+		border 8px solid grisClaro
+		height 350px
+		max-width 550px
+		margin 7em auto
+		background white
+		box-shadow 0 0 6px light-gray
 
 // footer
 
@@ -161,7 +186,8 @@ body.inapp
 	label
 		text-align center
 	#dologin,
-	#doregister
+	#doregister,
+	#logout
 		text-transform uppercase
 		-webkit-transition: background-color .8s ease-out;
 		-moz-transition: background-color .8s ease-out;
@@ -238,7 +264,36 @@ body.inapp
 	display none
 
 
-// NOT LOGGED
+// logout
+#logout
+	text-transform uppercase
+	-webkit-transition: color .3s ease-out;
+	-moz-transition: color .3s ease-out;
+	-o-transition: color .3s ease-out;
+	transition: color .3s ease-out;
+
+	-webkit-transition: background-color .6s ease-out;
+	-moz-transition: background-color .6s ease-out;
+	-o-transition: background-color .6s ease-out;
+	transition: background-color .6s ease-out;
+
+	box-shadow none
+	display inline-block
+	position absolute
+	right 0
+	top 0
+	border-radius 3px
+	border 1px solid #3F424B
+	text-decoration none
+	text-align center
+	color #3F424B
+	padding .8em 3em
+	margin 2em
+	font-weight 100
+	background-color transparent
+	&:hover
+		color white
+		background-color #3F424B
 
 
 

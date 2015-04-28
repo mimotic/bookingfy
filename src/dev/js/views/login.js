@@ -61,8 +61,6 @@ module.exports = Backbone.View.extend({
         var user = $('#login_user_input');
         var pwd = $('#login_pass_input');
 
-        console.log('Loggin in... ');
-
         var formValues = {
             mail: user.val(),
             password: pwd.val()
@@ -81,8 +79,6 @@ module.exports = Backbone.View.extend({
               dataType:"json",
               data: formValues,
               success:function (data) {
-                  console.log(["Login request details: ", data]);
-
                   if(data.estado=="error") {  // If there is an error, show the error messages
                        $('#error').html(data.msg).slideDown();
                   } else {
@@ -109,8 +105,6 @@ module.exports = Backbone.View.extend({
           printErrores += '<ul>';
 
           $('#error').html(printErrores).slideDown();
-
-          console.log(mensajesError);
 
         }
   },

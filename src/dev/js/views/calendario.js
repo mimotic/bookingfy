@@ -1,13 +1,17 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Plantilla  = require('../partials/plantilla__calendario'),
-    $          = require('jquery');
+    $          = require('jquery'),
+    ui         = require('jquery-ui'),
+    Sesion     = require('../models/sesion'),
+    _          =  require('underscore');
 
 module.exports = Backbone.View.extend({
 
   tagName: 'div',
   // className: 'tipo-calendario',
   className: function (){
+    // ya no funciona al cambiar logica, camabiar
     var calendario = this.model.toJSON();
     var numeroPistas = calendario.numeroPistas;
     numeroPistas = (numeroPistas == 1)? 'simple' : 'doble';
@@ -15,15 +19,9 @@ module.exports = Backbone.View.extend({
   },
 
    events: {
-    'click [data-estado="libre"]': 'probando'
+    'click [data-estado="libre"]': 'reservar',
+    'click [data-estado="owner"]': 'anular'
   },
-
-  probando: function (event) {
-    alert('libree: ' + $(event.currentTarget).attr('data-hora'));
-    console.log(this.model.toJSON().namePista);
-    console.log(this.model.toJSON().nameDeporte);
-  },
-
 
   template: Handlebars.compile(Plantilla.__calendario),
 
@@ -34,18 +32,41 @@ module.exports = Backbone.View.extend({
 
   render: function () {
     var calendario = this.model.toJSON();
+    var sesion = Sesion.getInstance();
+    var id_rest_usuario = 0;
 
-    // for (var i = 0; i < calendario.horas.length; i++) {
-    //    // console.log(calendario.horas[i].estado);
-    //    if(calendario.horas[i].estado > 0){
-    //     calendario.horas[i].estado = 'ocupado';
-    //    }else calendario.horas[i].estado = 'libre';
-    // };
+    if (Number(sesion.get('rol')) == 0) id_rest_usuario = Number(sesion.get('id_usuario'));
+
+    for (var i = 0; i < calendario.horas.length; i++) {
+       calendario.horas[i].id_usuario = Number(calendario.horas[i].id_usuario);
+      if(id_rest_usuario == calendario.horas[i].id_usuario) calendario.horas[i].id_usuario = 'owner';
+      else if(calendario.horas[i].id_usuario > 0) calendario.horas[i].id_usuario = 'ocupado';
+      else calendario.horas[i].id_usuario = 'libre';
+    }
 
     var html = this.template(calendario);
     this.$el.html(html);
     return this;
   },
+
+  reservar: function (event) {
+    var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
+    var confirm = $('#modalCalendario');
+    var confirmWrap = $('#modalCalendario div');
+
+    // mostrar modal
+    confirmWrap.append(msg);
+    confirm.fadeIn();
+
+
+    // JQRY UI ¿?¿? TO-DO
+    // confirmWrap.append(msg).show( "puff" , {} , 300 );
+
+  },
+  anular: function (event) {
+    alert('Anular: ' + $(event.currentTarget).attr('data-hora'));
+  }
+
 
 
 });
