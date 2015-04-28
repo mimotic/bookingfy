@@ -28,7 +28,7 @@ module.exports = Backbone.View.extend({
   },
 
   navigate: function () {
-    Backbone.app.navigate("pistas/" + this.model.get("nombre"), { trigger: true });
+    Backbone.app.navigate("pistas/" + this.model.get("id"), { trigger: true });
   }
 
 });

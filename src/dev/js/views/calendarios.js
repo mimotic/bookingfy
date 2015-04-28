@@ -1,8 +1,8 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
-    $          = require('jquery');
     CalendarioView  = require('../views/calendario'),
-    Plantilla  = require('../partials/plantilla__calendario');
+    Plantilla  = require('../partials/plantilla__calendario'),
+    $          = require('jquery');
 
 module.exports = Backbone.View.extend({
 

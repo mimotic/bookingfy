@@ -1,11 +1,12 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
+    Plantilla  = require('../partials/plantilla__calendario'),
     $          = require('jquery');
-    Plantilla  = require('../partials/plantilla__calendario');
 
 module.exports = Backbone.View.extend({
 
   tagName: 'div',
+  // className: 'tipo-calendario',
   className: function (){
     var calendario = this.model.toJSON();
     var numeroPistas = calendario.numeroPistas;
@@ -34,12 +35,12 @@ module.exports = Backbone.View.extend({
   render: function () {
     var calendario = this.model.toJSON();
 
-    for (var i = 0; i < calendario.horas.length; i++) {
-       // console.log(calendario.horas[i].estado);
-       if(calendario.horas[i].estado > 0){
-        calendario.horas[i].estado = 'ocupado';
-       }else calendario.horas[i].estado = 'libre';
-    };
+    // for (var i = 0; i < calendario.horas.length; i++) {
+    //    // console.log(calendario.horas[i].estado);
+    //    if(calendario.horas[i].estado > 0){
+    //     calendario.horas[i].estado = 'ocupado';
+    //    }else calendario.horas[i].estado = 'libre';
+    // };
 
     var html = this.template(calendario);
     this.$el.html(html);

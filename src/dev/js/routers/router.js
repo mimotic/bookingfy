@@ -21,7 +21,7 @@ module.exports = Backbone.Router.extend({
     "login": "loadLogin",
     "registro": "loadRegistro",
     "reservas": "loadDeportes",
-    "pistas/:nameDeporte": "loadCalendar",
+    "pistas/:idDeporte": "loadCalendar",
     "*path"  : "notFound"
   },
 
@@ -135,9 +135,7 @@ module.exports = Backbone.Router.extend({
     // this.deportes.fetch();
     this.deportes.fetch({
           success: function(response){
-                console.log("Success");
-                console.log(self.deportes);
-                // self.deporteslist.render();
+                console.log("Success deportes");
           }
       });
 
@@ -169,32 +167,41 @@ module.exports = Backbone.Router.extend({
   //   }));
   // },
 
-  fetchCalendar: function () {
-    // to-do refactor, paluego
-  },
+  // fetchCalendar: function () {
+  //   // to-do refactor, paluego
+  // },
 
-  loadCalendar: function (nameDeporte){
+  loadCalendar: function (login, idDeporte){
 
     var self = this;
 
     this.deportes.reset();
     this.calendarios.reset();
 
-    return $.getJSON('calendar.json').then(function (data) {
-
-      self.jsonDataCalendario = data;
-
-      for (var i = 0; i < data.pistas.length ; i++) {
-        var miPista = data.pistas[i];
-
-        self.calendarios.add(new Calendario({
-          namePista: miPista.name,
-          horas: miPista.horas,
-          nameDeporte: nameDeporte,
-          numeroPistas: data.pistas.length
-        }));
-      }
+    this.calendarios.fetch({
+        data: {id: idDeporte},
+        type: 'POST',
+        success: function(response){
+                console.log("Success calendario");
+                console.log(response);
+        }
     });
+
+    // return $.getJSON('calendar.json').then(function (data) {
+
+    //   self.jsonDataCalendario = data;
+
+    //   for (var i = 0; i < data.pistas.length ; i++) {
+    //     var miPista = data.pistas[i];
+
+    //     self.calendarios.add(new Calendario({
+    //       namePista: miPista.name,
+    //       horas: miPista.horas,
+    //       nameDeporte: nameDeporte,
+    //       numeroPistas: data.pistas.length
+    //     }));
+    //   }
+    // });
   }
 
 });

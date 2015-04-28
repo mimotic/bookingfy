@@ -19,7 +19,6 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    console.log("deportes list render");
     this.collection.forEach(this.addOne, this);
   },
 
