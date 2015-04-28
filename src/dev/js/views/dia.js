@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend({
       closeText: 'Cerrar',
       prevText: '< ',
       nextText: ' >',
-      currentText: 'Hoy',
+      currentText: 'ir a Hoy',
       monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
       monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
@@ -60,7 +60,7 @@ module.exports = Backbone.View.extend({
       firstDay: 1,
       isRTL: false,
       showMonthAfterYear: false,
-      showButtonPanel: true,
+      showButtonPanel: false,
       yearSuffix: '',
       minDate: 0,
       onSelect: function(date){
