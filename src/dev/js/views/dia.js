@@ -81,7 +81,8 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    var html = this.template();
+    var dia = this.model.toJSON();
+    var html = this.template(dia);
     this.$el.html(html);
     return this;
   },
