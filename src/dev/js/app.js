@@ -37935,11 +37935,8 @@ module.exports = Backbone.Model.extend({});
 var Backbone = require('backbone');
 var LocalStorage = require('backbone.localStorage');
 
-
     var Mysesion = Backbone.Model.extend({
-
          localStorage: new LocalStorage("sesion")
-
     });
 
 module.exports = {
@@ -37947,24 +37944,17 @@ module.exports = {
 
     // Static method
     getInstance: function () {
-        // "instance" can be "this.instance" (static property)
-        // but it is better if it is private
-
-        // if (!this.instance) {
-            // this.instance = new Mysesion({ id: 1 });
-            this.instance.fetch();
-        // }
-        // console.log("get instance");
-        // console.log(this.instance);
-        return this.instance;
+      this.instance.fetch();
+      return this.instance;
     },
 
     setSesiondata: function(data){
       this.instance = new Mysesion({ id: 1 });
       this.instance.save(data);
+    },
 
-      // console.log("set sesion data");
-      // console.log(this.instance);
+    destroySesion: function () {
+      this.instance.destroy();
     }
 };
 },{"backbone":2,"backbone.localStorage":1}],54:[function(require,module,exports){
@@ -38012,7 +38002,9 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '<figure class="logo">'
 		+ '<img src="img/logo.png" alt="logo" />'
 		+ '</figure>'
-		+ '</a>';
+		+ '</a>'
+		+ '<a id="logout" href="#">logout</a>'
+		+ '<a id="cabecera_usuario" href="#">{{usuaio.nombre}} {{usuaio.apellidos}}</a>';
 
 module.exports = plantillas;
 },{}],58:[function(require,module,exports){
@@ -38132,6 +38124,7 @@ module.exports = Backbone.Router.extend({
       args.unshift(true);
       callback.apply(this, args);
     } else {
+
       args.unshift(false);
       if (callback === this.loadLogin || callback === this.loadRegistro) callback.apply(this, args);
       else this.navigate('login', { trigger: true });
@@ -38421,7 +38414,8 @@ var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
-    Plantilla  = require('../partials/plantilla_header');
+    Plantilla  = require('../partials/plantilla_header'),
+    Sesion = require('../models/sesion');
     // app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -38431,8 +38425,8 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.header),
 
   events: {
-    'click .logotipoLink': 'goHome',
-    //'click .logout': 'logout'
+    'click #logotipoLink': 'goHome',
+    'click #logout': 'logout'
   },
 
   initialize: function () {
@@ -38449,16 +38443,22 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
-  goHome: function () {
-    Backbone.app.navigate("/", { trigger: true });
+  goHome: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("", { trigger: true });
   },
 
-  logout: function () {
-    // Backbone.app.navigate("/", { trigger: true });
+  logout: function (event) {
+    event.preventDefault();
+
+    Sesion.destroySesion();
+     var sesion = Sesion.getInstance();
+
+    Backbone.app.navigate("/login", { trigger: true });
   }
 
 });
-},{"../partials/plantilla_header":57,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40}],66:[function(require,module,exports){
+},{"../models/sesion":53,"../partials/plantilla_header":57,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40}],66:[function(require,module,exports){
 var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),

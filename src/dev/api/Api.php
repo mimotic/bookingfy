@@ -322,7 +322,7 @@
            if ($fila = $query->fetch(PDO::FETCH_ASSOC)) {
              $respuesta['estado'] = 'correcto';
              $respuesta['msg'] = 'datos pertenecen a usuario registrado';
-             $respuesta['usuario']['id'] = $fila['id'];
+             $respuesta['usuario']['idd'] = $fila['id'];
              $respuesta['usuario']['nombre'] = $fila['nombre'];
              $respuesta['usuario']['apellidos'] = $fila['apellidos'];
              $respuesta['usuario']['mail'] = $fila['mail'];
