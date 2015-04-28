@@ -6,7 +6,9 @@ var Backbone   = require('backbone'),
     Sesion     = require('../models/sesion'),
     Reserva     = require('../models/reserva'),
     ReservaView = require('../views/reservar'),
-    _          =  require('underscore');
+    _          =  require('underscore'),
+    Moment        = require('moment');
+
 
 module.exports = Backbone.View.extend({
 
@@ -51,6 +53,19 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
+  getDateUrl: function(){
+
+    var f = window.location.href;
+
+    f = f.split("/");
+    f = _.last(f).trim();
+    isF = Moment(f, 'YYYY-MM-DD', true).isValid();
+
+    if (isF === false) f = Moment().format('YYYY-MM-DD');
+
+    return f;
+  },
+
   reservar: function (event) {
     // var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
     // var confirm = $('#modalCalendario');
@@ -65,6 +80,7 @@ module.exports = Backbone.View.extend({
     var horaClicked = $(event.currentTarget).attr('data-hora');
     var idHoraClicked = 0;
 
+
     console.log("MODELO CALENDARIO", this.model);
     var calendario = this.model.toJSON();
     console.log("ID PISTA", calendario.id);
@@ -74,6 +90,8 @@ module.exports = Backbone.View.extend({
           idHoraClicked = calendario.horas[i].id;
         }
     }
+
+    var f = this.getDateUrl();
 
     console.log("ID HORA", idHoraClicked);
 

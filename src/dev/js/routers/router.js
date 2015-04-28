@@ -108,8 +108,10 @@ module.exports = Backbone.Router.extend({
   loadLogin: function(args){
     if(this.registro) this.registro.resetear();
     if(args === true){
+      $('header').slideDown(300);
       this.loadDeportes();
     } else {
+      $('header').slideUp(700);
       this.deportes.reset();
       this.calendarios.reset();
       if(this.diaView !== undefined)this.diaView.ocultar();
