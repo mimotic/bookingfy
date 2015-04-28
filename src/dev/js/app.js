@@ -40996,7 +40996,7 @@ module.exports = Backbone.Collection.extend({
 	url: '/api/usuarios/',
   	model: Usuario
 });
-},{"../models/usuario":56,"backbone":2}],51:[function(require,module,exports){
+},{"../models/usuario":57,"backbone":2}],51:[function(require,module,exports){
 var Backbone    = require('backbone'),
     Router      = require('./routers/router'),
     $           = require('jquery');
@@ -41006,7 +41006,7 @@ Backbone.$  = $;
 $(function () {
   	Backbone.app = new Router();
 });
-},{"./routers/router":63,"backbone":2,"jquery":41}],52:[function(require,module,exports){
+},{"./routers/router":65,"backbone":2,"jquery":41}],52:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({});
@@ -41018,6 +41018,8 @@ module.exports = Backbone.Model.extend({});
 },{"backbone":2}],54:[function(require,module,exports){
 arguments[4][52][0].apply(exports,arguments)
 },{"backbone":2,"dup":52}],55:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"backbone":2,"dup":52}],56:[function(require,module,exports){
 var Backbone = require('backbone');
 var LocalStorage = require('backbone.localStorage');
 
@@ -41044,7 +41046,7 @@ module.exports = {
       this.instance.clear();
     }
 };
-},{"backbone":2,"backbone.localStorage":1}],56:[function(require,module,exports){
+},{"backbone":2,"backbone.localStorage":1}],57:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
@@ -41062,7 +41064,7 @@ module.exports = Backbone.Model.extend({
  //        }
  //        return instance;
  //    };
-},{"backbone":2}],57:[function(require,module,exports){
+},{"backbone":2}],58:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.__calendario = '<div class="calendario"></div>'
@@ -41076,7 +41078,7 @@ plantillas.__calendario = '<div class="calendario"></div>'
 			+ '</div>';
 
 module.exports = plantillas;
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas._datepicker = '<div class="calendario">'
@@ -41085,13 +41087,13 @@ plantillas._datepicker = '<div class="calendario">'
 					+ '</div>';
 
 module.exports = plantillas;
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.deporte = '<span class="{{nombre}}">{{nombre}}</span>';
 
 module.exports = plantillas;
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.header = '<a id="logotipoLink" href="#">'
@@ -41103,7 +41105,7 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '<a id="cabecera_usuario" href="#">{{usuaio.nombre}} {{usuaio.apellidos}}</a>';
 
 module.exports = plantillas;
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.login = '<div class="login_users">'
@@ -41119,7 +41121,7 @@ plantillas.login = '<div class="login_users">'
 		+ '</div>';
 
 module.exports = plantillas;
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 var plantillas = plantillas || {};
 
 plantillas.registro = '<div class="login_users">'
@@ -41143,7 +41145,14 @@ plantillas.registro = '<div class="login_users">'
 		+ '</div>';
 
 module.exports = plantillas;
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
+var plantillas = plantillas || {};
+
+plantillas.reserva = '<p> RESERVANDOOOOO'
+		+ '</p>';
+
+module.exports = plantillas;
+},{}],65:[function(require,module,exports){
 var Backbone      = require('backbone'),
 
     Deportes      = require('../collections/deportes'),
@@ -41344,13 +41353,15 @@ module.exports = Backbone.Router.extend({
 
 });
 
-},{"../collections/calendarios":48,"../collections/deportes":49,"../models/calendario":52,"../models/deporte":53,"../models/dia":54,"../models/sesion":55,"../views/calendarios":65,"../views/deportes-list":67,"../views/dia":68,"../views/header":69,"../views/login":70,"../views/registro":71,"backbone":2,"jquery":41,"moment":42}],64:[function(require,module,exports){
+},{"../collections/calendarios":48,"../collections/deportes":49,"../models/calendario":52,"../models/deporte":53,"../models/dia":54,"../models/sesion":56,"../views/calendarios":67,"../views/deportes-list":69,"../views/dia":70,"../views/header":71,"../views/login":72,"../views/registro":73,"backbone":2,"jquery":41,"moment":42}],66:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Plantilla  = require('../partials/plantilla__calendario'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
     Sesion     = require('../models/sesion'),
+    Reserva     = require('../models/reserva'),
+    ReservaView = require('../views/reservar'),
     _          =  require('underscore');
 
 module.exports = Backbone.View.extend({
@@ -41397,19 +41408,47 @@ module.exports = Backbone.View.extend({
   },
 
   reservar: function (event) {
-    var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
-    var confirm = $('#modalCalendario');
-    var confirmWrap = $('#modalCalendario div');
+    // var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
+    // var confirm = $('#modalCalendario');
+    // var confirmWrap = $('#modalCalendario div');
 
-    // mostrar modal
-    confirmWrap.append(msg);
-    confirm.fadeIn();
+    // // mostrar modal
+    // confirmWrap.append(msg);
+    // confirm.fadeIn();
 
+    var horaClicked = $(event.currentTarget).attr('data-hora');
+    var idHoraClicked = 0;
 
+    console.log("MODELO CALENDARIO", this.model);
+    var calendario = this.model.toJSON();
+    console.log("ID PISTA", calendario.id);
+
+    for (var i = 0; i < calendario.horas.length; i++) {
+        if(horaClicked == calendario.horas[i].inicio){
+          idHoraClicked = calendario.horas[i].id;
+        }
+    }
+
+    console.log("ID HORA", idHoraClicked);
+
+    var sesion = Sesion.getInstance();
+    if (sesion.get('id_usuario')) {
+        console.log("ID USER", sesion.get('id_usuario'));
+    }
+
+    this.reserva = new Reserva();
+    this.reserva.set({
+      id_pista: calendario.id,
+      id_hora: idHoraClicked,
+      id_usuario: sesion.get('id_usuario')
+    });
+
+    this.reservaview = new ReservaView({ model: this.reserva });
     // JQRY UI ¿?¿? TO-DO
     // confirmWrap.append(msg).show( "puff" , {} , 300 );
 
   },
+
   anular: function (event) {
     alert('Anular: ' + $(event.currentTarget).attr('data-hora'));
   }
@@ -41417,7 +41456,7 @@ module.exports = Backbone.View.extend({
 
 
 });
-},{"../models/sesion":55,"../partials/plantilla__calendario":57,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40,"underscore":46}],65:[function(require,module,exports){
+},{"../models/reserva":55,"../models/sesion":56,"../partials/plantilla__calendario":58,"../views/reservar":74,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40,"underscore":46}],67:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     CalendarioView  = require('../views/calendario'),
@@ -41459,7 +41498,7 @@ module.exports = Backbone.View.extend({
 
 
 });
-},{"../partials/plantilla__calendario":57,"../views/calendario":64,"backbone":2,"handlebars":28,"jquery":41}],66:[function(require,module,exports){
+},{"../partials/plantilla__calendario":58,"../views/calendario":66,"backbone":2,"handlebars":28,"jquery":41}],68:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -41494,7 +41533,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../partials/plantilla_deporte":59,"backbone":2,"handlebars":28,"jquery":41}],67:[function(require,module,exports){
+},{"../partials/plantilla_deporte":60,"backbone":2,"handlebars":28,"jquery":41}],69:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     DeporteView  = require('../views/deporte-single'),
@@ -41535,7 +41574,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../partials/plantilla_deporte":59,"../views/deporte-single":66,"backbone":2,"handlebars":28,"jquery":41}],68:[function(require,module,exports){
+},{"../partials/plantilla_deporte":60,"../views/deporte-single":68,"backbone":2,"handlebars":28,"jquery":41}],70:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -41634,7 +41673,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../models/dia":54,"../partials/plantilla_datepicker":58,"backbone":2,"handlebars":28,"jquery":41,"moment":42}],69:[function(require,module,exports){
+},{"../models/dia":54,"../partials/plantilla_datepicker":59,"backbone":2,"handlebars":28,"jquery":41,"moment":42}],71:[function(require,module,exports){
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
@@ -41683,7 +41722,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../models/sesion":55,"../partials/plantilla_header":60,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40}],70:[function(require,module,exports){
+},{"../models/sesion":56,"../partials/plantilla_header":61,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40}],72:[function(require,module,exports){
 var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),
@@ -41801,7 +41840,7 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../collections/usuarios":50,"../models/sesion":55,"../models/usuario":56,"../partials/plantilla_login":61,"backbone":2,"handlebars":28,"jquery":41,"sha1":45,"underscore":46,"validator":47}],71:[function(require,module,exports){
+},{"../collections/usuarios":50,"../models/sesion":56,"../models/usuario":57,"../partials/plantilla_login":62,"backbone":2,"handlebars":28,"jquery":41,"sha1":45,"underscore":46,"validator":47}],73:[function(require,module,exports){
 var Backbone   = require('backbone'),
     _          = require('underscore'),
     Handlebars = require('handlebars'),
@@ -41964,4 +42003,48 @@ module.exports = Backbone.View.extend({
   }
 
 });
-},{"../collections/usuarios":50,"../partials/plantilla_registro":62,"backbone":2,"handlebars":28,"jquery":41,"underscore":46,"validator":47}]},{},[51]);
+},{"../collections/usuarios":50,"../partials/plantilla_registro":63,"backbone":2,"handlebars":28,"jquery":41,"underscore":46,"validator":47}],74:[function(require,module,exports){
+var Backbone   = require('backbone'),
+    Handlebars = require('handlebars'),
+    $          = require('jquery'),
+    ui         = require('jquery-ui'),
+    Plantilla  = require('../partials/plantilla_reserva'),
+    Sesion = require('../models/sesion'),
+    app        = Backbone.app;
+
+module.exports = Backbone.View.extend({
+
+  el: $('#reservas'),
+
+  template: Handlebars.compile(Plantilla.reserva),
+
+  events: {
+    'click #reservar': 'reservar',
+    'click #cancelar': 'cancelar'
+  },
+
+  initialize: function () {
+    this.render();
+  },
+
+  resetear: function () {
+    this.$el.empty();
+  },
+
+  render: function () {
+    var html = this.template();
+    this.$el.html(html);
+    return this;
+  },
+
+  reservar: function(){
+  	// id_pista, id_usuario, id_hora, fecha, luz
+
+  },
+
+  cancelar: function(){
+
+  }
+
+});
+},{"../models/sesion":56,"../partials/plantilla_reserva":64,"backbone":2,"handlebars":28,"jquery":41,"jquery-ui":40}]},{},[51]);
