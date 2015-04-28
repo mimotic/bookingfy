@@ -299,6 +299,45 @@
    }
 
 
+
+
+
+
+   // RESERVA [POST]
+   // curl -d "inicio=09:00" http://bookingfy.dev/api/reserva
+  private function reserva() {
+    if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+    }
+    if (isset( $this->datosPeticion['id_usuario'],$this->datosPeticion['id_pista'],$this->datosPeticion['id_hora'], $this->datosPeticion['fecha_pista'], $this->datosPeticion['luz'] )) {
+
+      $id_usuario = $this->datosPeticion['id_usuario'];
+      $id_pista = $this->datosPeticion['id_pista'];
+      $id_hora = $this->datosPeticion['id_hora'];
+      $fecha_pista = $this->datosPeticion['fecha_pista'];
+      $luz = $this->datosPeticion['luz'];
+      $anulado = $this->datosPeticion['anulado'];
+
+      $query = $this->_conn->prepare("INSERT INTO reservas( id_usuario, id_pista, id_hora, fecha_pista, luz, fecha_log, anulado) VALUES (:id_usuario,:id_pista,:id_hora,:fecha_pista,:luz,NOW(),0)");
+
+      $query->bindValue(":id_usuario", $id_usuario);
+      $query->bindValue(":id_pista", $id_pista);
+      $query->bindValue(":id_hora", $id_hora);
+      $query->bindValue(":fecha_pista", $fecha_pista);
+      $query->bindValue(":luz", $luz);
+      $query->execute();
+
+      if ($query->rowCount() == 1) {
+         $respuesta['estado'] = 'correcto';
+         $respuesta['msg'] = 'Reserva creada correctamente';
+         $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+      } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+
+     } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+
+   }
+
+
    // LISTAR USUARIOS [GET]
    // curl http://bookingfy.dev/api/usuarios
    private function usuarios() {

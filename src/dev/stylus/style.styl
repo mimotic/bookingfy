@@ -69,9 +69,6 @@ body
 	border 6px solid #c3c3c3
 	background-color #c3c3c3
 
-.deporte:has(> span.Hockey)
-		background red
-
 .pista
 	position relative
 	display inline-block
@@ -93,34 +90,61 @@ body
 // listado tipo-pistas
 
 // #calendario
+#calendario
+	display block
+	margin 0 auto
+	width 100%
 
 .tipo-calendario
-	width 250px
+	width 50%
+	float left
+
 	&.doble
 		margin 0
-		float left
 	&.simple
 		margin 0 auto
-		float none
 	ul
 		margin 0
 		padding 0
 .calendario-list
 	padding 1em
-	background dark-gray
+	background transparent
+	margin .5em
+	h2
+		color #5F5F5F
+		font-weight 300
+	ul
+		padding 1em
+		li
+			padding 1em
+			margin .5em 0
+			border-radius 2px
 .hora
 	position relative
 	display block
-	padding 1.5em 0
-	margin .2em
+	background-color white
+	-webkit-transition: box-shadow .3s ease-out;
+	-moz-transition: box-shadow .3s ease-out;
+	-o-transition: box-shadow .3s ease-out;
+	transition: box-shadow .3s ease-out;
+	box-shadow 0 0 0 grisClaro
 	&[data-estado="libre"]
 		background-color activo
 		cursor pointer
+		&:hover
+			box-shadow 0 0 6px #666
+			background-color activo
 	&[data-estado="ocupado"]
-		background-color desactivado
+		  	color: rgb(129, 129, 129)
+		  	background-color desactivado
+		&:hover
+			background-color desactivado
 	&[data-estado="owner"]
 		background-color rosaPalido
 		cursor pointer
+		&:hover
+			box-shadow 0 0 6px #666
+			background-color rosaPalido
 
 #modalCalendario
 	position absolute
@@ -132,13 +156,18 @@ body
 	left 0
 	display none
 	>div
-		padding 1.5em
-		border 8px solid grisClaro
-		height 350px
-		max-width 550px
-		margin 7em auto
-		background white
-		box-shadow 0 0 6px light-gray
+		position: fixed;
+		padding: 1.5em;
+		border: 8px solid #ededed;
+		height: 350px;
+		width: 550px;
+		/* margin: 7em auto; */
+		background: #fff;
+		-webkit-box-shadow: 0 0 6px #818181;
+		box-shadow: 0 0 6px #818181;
+		top: 94px;
+		left: 50%;
+		margin-left: -275px;
 
 // footer
 
@@ -299,7 +328,7 @@ body.inapp
 // calendario
 #datepickerDay
 	max-width 340px
-	margin 0 auto
+	margin 1em 0 0 5em
 #placeDatepicker
 	font-size 100%
 	a
