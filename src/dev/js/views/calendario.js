@@ -102,14 +102,18 @@ module.exports = Backbone.View.extend({
 
     this.reserva = new Reserva();
     this.reserva.set({
+      id_usuario: sesion.get('id_usuario'),
       id_pista: calendario.id,
       id_hora: idHoraClicked,
-      id_usuario: sesion.get('id_usuario'),
-      fecha: this.model.collection.getFecha(),
-      luz: 0
+      fecha_pista: this.model.collection.getFecha(),
+      luz: '0',
+      nombre_pista: calendario.nombre,
+      precio: calendario.precio_pista,
+      precio_luz: calendario.precio_luz,
+      hora: horaClicked
     });
 
-    // this.reservaview = new ReservaView({ model: this.reserva });
+    this.reservaview = new ReservaView({ model: this.reserva });
 
     // JQRY UI ¿?¿? TO-DO
     // confirmWrap.append(msg).show( "puff" , {} , 300 );

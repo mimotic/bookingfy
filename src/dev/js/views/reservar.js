@@ -8,13 +8,13 @@ var Backbone   = require('backbone'),
 
 module.exports = Backbone.View.extend({
 
-  el: $('#reservas'),
+  el: $('#modalCalendario'),
 
   template: Handlebars.compile(Plantilla.reserva),
 
   events: {
-    'click #reservar': 'reservar',
-    'click #cancelar': 'cancelar'
+    'click #confirmarReserva': 'reservar',
+    'click #cerrarModal': 'cancelar'
   },
 
   initialize: function () {
@@ -26,18 +26,40 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    var html = this.template();
-    this.$el.html(html);
+  	var reserva = this.model.toJSON();
+    var html = this.template(reserva);
+    this.$el.html(html).fadeIn();
     return this;
   },
 
-  reservar: function(){
+  reservar: function(event){
+  	event.preventDefault();
+  	var reserva = this.model.toJSON();
+
+  	this.model.fetch({
+  		data: {
+          id_usuario: reserva.id_usuario,
+          id_pista: reserva.id_pista,
+          id_hora: reserva.id_hora,
+          fecha_pista: reserva.fecha_pista,
+		  luz: reserva.luz
+        },
+  		type: 'POST',
+  		success: function(model, response) {
+            console.log('RESERVADOOOOO');
+            $('#modalCalendario').fadeOut();
+        },
+        error: function(model, response) {
+            console.log('FALLOOOOOO');
+        }
+    });
   	// id_pista, id_usuario, id_hora, fecha, luz
 
   },
 
-  cancelar: function(){
-
+  cancelar: function(event){
+  	event.preventDefault();
+  	$('#modalCalendario').fadeOut();
   }
 
 });
