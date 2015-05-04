@@ -9,6 +9,9 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify'); // minificar js
 	grunt.loadNpmTasks('grunt-contrib-stylus'); // stylus
 	grunt.loadNpmTasks('grunt-open'); // open url
+	grunt.loadNpmTasks('grunt-contrib-copy'); // copia archivos y carpetas
+	grunt.loadNpmTasks('grunt-contrib-clean'); // borra carpetas y archivos
+
 
 	// load module reescritura de urls para el server
 	modRewrite = require('connect-modrewrite')
@@ -52,7 +55,7 @@ module.exports = function(grunt){
 		watch: { // observa cambios sobre archivos
 
 			scripts: {
-			   	files: ['src/dev/**/*', '!src/dev/css/*'],
+			   	files: ['src/dev/**/*', '!src/dev/css/*', '!src/dev/js/app.js', '!src/dev/js/app.min.js'],
 			   	tasks: ['stylus', 'browserify'],
 			   	options: {
 			        livereload: true,
@@ -63,7 +66,7 @@ module.exports = function(grunt){
 		},
 
 		browserify: { // gestión de dependencias js
-      		'src/dev/js/app.js': ['src/dev/js/main.js']
+      		'src/dev/js/app.min.js': ['src/dev/js/main.js']
     	},
 
 		cssmin: { // minificado de css
@@ -84,7 +87,7 @@ module.exports = function(grunt){
 	      },
 	      my_target: {
 	        files: {
-	          'js/main.min.js': ['js/main.js']
+	          'src/dev/js/app.min.js': ['src/dev/js/app.min.js']
 	        }
 	      }
 	    },
@@ -96,17 +99,38 @@ module.exports = function(grunt){
 		      paths: ['src/dev/stylus'],
 		    },
 		    files: {
-		      'src/dev/css/style.css': ['src/dev/stylus/style.styl']
+		      'src/dev/css/style.min.css': ['src/dev/stylus/style.styl']
 		    }
 		  }
-		}
+		},
+
+		copy: {
+		  main: {
+		    files: [
+		      // includes files within path
+		      {expand: true, flatten: true, src: ['src/dev/css/**'], dest: 'build/css', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/js/app.min.js'], dest: 'build/js', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/index.html'], dest: 'build', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/.htaccess'], dest: 'build', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/api/.htaccess'], dest: 'build/api', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/api/**'], dest: 'build/api', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/img/**'], dest: 'build/img', filter: 'isFile'},
+		    ],
+		  },
+		},
+
+		clean: ["build"]
 
 	});
 
 	// tareas
-	grunt.registerTask('default',['stylus','browserify','open:dev','watch:scripts']);
+	grunt.registerTask('default',[ 'stylus' , 'browserify' , 'open:dev' , 'watch:scripts' ]);
 
 	grunt.task.registerTask('genstylus', ['stylus']);
+
+	grunt.task.registerTask('build', [ 'clean', 'stylus' , 'browserify' , 'uglify' , 'copy' ]);
+
+	grunt.task.registerTask('borrar', [ 'clean' ]);
 
 
 };
