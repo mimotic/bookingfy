@@ -42090,6 +42090,8 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
+
+
   reservar: function(event){
   	event.preventDefault();
   	var reserva = this.model.toJSON();
@@ -42100,17 +42102,30 @@ module.exports = Backbone.View.extend({
           id_pista: reserva.id_pista,
           id_hora: reserva.id_hora,
           fecha_pista: reserva.fecha_pista,
-		  luz: reserva.luz
+		      luz: reserva.luz
         },
   		type: 'POST',
   		success: function(model, response) {
             console.log('RESERVADOOOOO');
-            $('#modalCalendario').fadeOut();
+
+            $('#modalCalendario div').html('<span>reservado con exito</span>');
+
+            setTimeout(function(){
+              $('#modalCalendario').fadeOut();
+            }, 2000);
+            //
         },
         error: function(model, response) {
             console.log('FALLOOOOOO');
+
+
+            $('#modalCalendario div').html('<span>esta pista no esta disponible</span>');
+
+            setTimeout(function(){
+              $('#modalCalendario').fadeOut();
+            }, 1500);
         }
-    });
+    }).done();
   	// id_pista, id_usuario, id_hora, fecha, luz
 
   },
