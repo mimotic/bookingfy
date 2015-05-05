@@ -257,7 +257,6 @@
      $this->mostrarRespuesta($this->devolverError(2), 400);
    }
 
-
    // [GET] LISTAR PISTAS DE UN DEPORTE Y CON RESEVAS DE UN DÍA [GET]
    // curl http://bookingfy.dev/api/pistas
    private function pistas() {
@@ -269,19 +268,16 @@
         $id = $this->datosPeticion['id'];
         $fecha_pista = $this->datosPeticion['fecha_pista'];
 
-
-
          $query = $this->_conn->prepare("SELECT * FROM pistas WHERE id_deporte = :id");
          $query->bindValue(":id", $id);
          $query->execute();
          $filas = $query->fetchAll(PDO::FETCH_ASSOC);
          $num = count($filas);
           if ($num > 0) {
-
             for ($i=0; $i < $num; $i++) {
                $id_pista = $filas[$i]['id'];
                //echo $fecha_pista;
-               $query2 = $this->_conn->prepare("SELECT * FROM (SELECT h.id,h.inicio,r.id_usuario, r.id_pista, r.id_hora, r.fecha_pista, r.luz, r.fecha_log, r.anulado FROM horarios AS h LEFT JOIN reservas AS r ON h.id = r.id_hora WHERE r.id_pista = :id_pista AND r.anulado = 0 AND r.fecha_pista = :date_pista UNION SELECT id,inicio,null,null,null,null,null,null,null FROM horarios) as kk GROUP BY id");
+               $query2 = $this->_conn->prepare("SELECT * FROM (SELECT h.id,h.inicio,r.id AS id_reserva, r.id_usuario, r.id_pista, r.id_hora, r.fecha_pista, r.luz, r.fecha_log FROM horarios AS h LEFT JOIN reservas AS r ON h.id = r.id_hora WHERE r.id_pista = :id_pista AND r.anulado = 0 AND r.fecha_pista = :date_pista UNION SELECT id,inicio,null,null,null,null,null,null,null FROM horarios) as kk GROUP BY id");
                $query2->bindValue(":id_pista", $id_pista);
                $query2->bindValue(":date_pista", $fecha_pista);
                $query2->execute();
