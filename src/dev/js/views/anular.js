@@ -2,7 +2,7 @@ var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
-    Plantilla  = require('../partials/plantilla_reserva'),
+    Plantilla  = require('../partials/plantilla_anular'),
     Sesion = require('../models/sesion'),
     app        = Backbone.app;
 
@@ -10,10 +10,10 @@ module.exports = Backbone.View.extend({
 
   el: $('#modalCalendario'),
 
-  template: Handlebars.compile(Plantilla.reserva),
+  template: Handlebars.compile(Plantilla.anular),
 
   events: {
-    'click #confirmarReserva': 'reservar',
+    'click #anularReserva': 'anular',
     'click #cerrarModal': 'cancelar'
   },
 
@@ -34,25 +34,21 @@ module.exports = Backbone.View.extend({
 
 
 
-  reservar: function(event){
+  anular: function(event){
   	event.preventDefault();
-  	var reserva = this.model.toJSON();
+  	var anular = this.model.toJSON();
 
     // coger check de luz
 
   	this.model.fetch({
   		data: {
-          id_usuario: reserva.id_usuario,
-          id_pista: reserva.id_pista,
-          id_hora: reserva.id_hora,
-          fecha_pista: reserva.fecha_pista,
-		      luz: reserva.luz
+          id_reserva: anular.id
       },
-  		type: 'POST',
+  		type: 'PUT',
   		success: function(model, response) {
             console.log('RESERVADOOOOO');
 
-            $('#modalCalendario div').html('<span>reservado con exito</span>');
+            $('#modalCalendario div').html('<span>'+response+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
@@ -65,7 +61,7 @@ module.exports = Backbone.View.extend({
             console.log('FALLOOOOOO');
 
 
-            $('#modalCalendario div').html('<span>esta pista no esta disponible</span>');
+            $('#modalCalendario div').html('<span>'+response+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();

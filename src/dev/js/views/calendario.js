@@ -6,6 +6,8 @@ var Backbone   = require('backbone'),
     Sesion     = require('../models/sesion'),
     Reserva     = require('../models/reserva'),
     ReservaView = require('../views/reservar'),
+    Anular     = require('../models/anular-reserva'),
+    AnularView = require('../views/anular'),
     _          =  require('underscore'),
     Moment        = require('moment');
 
@@ -121,7 +123,28 @@ module.exports = Backbone.View.extend({
   },
 
   anular: function (event) {
-    alert('Anular: ' + $(event.currentTarget).attr('data-hora'));
+    var horaClicked = $(event.currentTarget).attr('data-hora');
+    var idHoraClicked = 0;
+    var idReserva = 0;
+    var calendario = this.model.toJSON();
+
+    for (var i = 0; i < calendario.horas.length; i++) {
+        if(horaClicked == calendario.horas[i].inicio){
+          idHoraClicked = calendario.horas[i].id;
+          idReserva = calendario.horas[i].id_reserva;
+        }
+    }
+
+    this.anular = new Anular();
+      this.anular.set({
+        id_reserva: idReserva,
+        id_hora: idHoraClicked,
+        hora: horaClicked
+      });
+
+    this.anularview = new AnularView({ model: this.anular });
+
+    // alert('Anular: ' + idHoraClicked + ' - idreserva: ' + idReserva);
   }
 
 
