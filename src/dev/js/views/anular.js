@@ -42,13 +42,13 @@ module.exports = Backbone.View.extend({
 
   	this.model.fetch({
   		data: {
-          id_reserva: anular.id
+          id_reserva: anular.id_reserva
       },
   		type: 'PUT',
   		success: function(model, response) {
-            console.log('RESERVADOOOOO');
+            console.log('RESERVADOOOOO', response);
 
-            $('#modalCalendario div').html('<span>'+response+'</span>');
+            $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
@@ -58,10 +58,10 @@ module.exports = Backbone.View.extend({
             //
         },
         error: function(model, response) {
-            console.log('FALLOOOOOO');
+            console.log('FALLOOOOOO', response);
 
 
-            $('#modalCalendario div').html('<span>'+response+'</span>');
+            $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();

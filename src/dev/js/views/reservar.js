@@ -52,7 +52,7 @@ module.exports = Backbone.View.extend({
   		success: function(model, response) {
             console.log('RESERVADOOOOO');
 
-            $('#modalCalendario div').html('<span>reservado con exito</span>');
+            $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
@@ -65,7 +65,7 @@ module.exports = Backbone.View.extend({
             console.log('FALLOOOOOO');
 
 
-            $('#modalCalendario div').html('<span>esta pista no esta disponible</span>');
+            $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
