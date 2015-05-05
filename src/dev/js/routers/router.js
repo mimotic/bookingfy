@@ -53,7 +53,8 @@ module.exports = Backbone.Router.extend({
     this.dia = new Dia();
 
     //header
-    //this.headerView = new HeaderView({});
+    this.headerView = new HeaderView({});
+    this.headerView.ocultar();
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -108,13 +109,13 @@ module.exports = Backbone.Router.extend({
   loadLogin: function(args){
     if(this.registro) this.registro.resetear();
     if(args === true){
-      $('header').slideDown(300);
+      this.headerView.mostrar();
       this.loadDeportes();
     } else {
-      $('header').slideUp(700);
+      this.headerView.ocultar();
       this.deportes.reset();
       this.calendarios.reset();
-      if(this.diaView !== undefined)this.diaView.ocultar();
+      if(this.diaView !== undefined) this.diaView.ocultar();
       this.login = new LoginView();
     }
   },
@@ -131,9 +132,37 @@ module.exports = Backbone.Router.extend({
     }
   },
 
+  customEvents: function(){
+
+    var self = this;
+
+    Backbone.Events.on('resetCalendar' , function(idDeporte, newFecha){
+      console.log('eventooo');
+
+      self.calendarios.reset();
+
+      self.calendarios.fetch({
+        data: {
+          id: idDeporte,
+          fecha_pista: newFecha
+        },
+        type: 'POST',
+        success: function(response){
+                console.log("Success calendario");
+                console.log(response);
+        }
+    });
+
+      //this.calendarioView()
+    });
+
+  },
+
 
   loadDeportes: function () {
     var self = this;
+
+    this.headerView = new HeaderView();
 
     this.deportes.reset();
     this.calendarios.reset();
@@ -143,7 +172,7 @@ module.exports = Backbone.Router.extend({
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
 
-    this.headerView = new HeaderView({});
+
 
     // this.deportes.fetch();
     this.deportes.fetch({
@@ -163,6 +192,8 @@ module.exports = Backbone.Router.extend({
     var self = this;
 
     console.log("newFecha "+ newFecha);
+
+    self.customEvents();
 
     this.deportes.reset();
     this.calendarios.reset();

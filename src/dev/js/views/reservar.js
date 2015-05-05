@@ -54,6 +54,8 @@ module.exports = Backbone.View.extend({
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
+              Backbone.history.loadUrl();
+              //Backbone.Events.trigger('resetCalendar', reserva.fecha_pista );
             }, 2000);
             //
         },
@@ -66,6 +68,7 @@ module.exports = Backbone.View.extend({
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
             }, 1500);
+
         }
     }).done();
   	// id_pista, id_usuario, id_hora, fecha, luz

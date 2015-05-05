@@ -41,8 +41,16 @@ module.exports = Backbone.View.extend({
 
     Sesion.destroySesion();
     var sesion = Sesion.getInstance();
-
+    //Backbone.history.loadUrl();
     Backbone.app.navigate("/login", { trigger: true });
+  },
+
+  mostrar: function(){
+    this.$el.show();
+  },
+
+  ocultar: function(){
+    this.$el.html('');
   }
 
 });

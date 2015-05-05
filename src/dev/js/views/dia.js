@@ -93,7 +93,7 @@ module.exports = Backbone.View.extend({
   },
 
   ocultar: function(){
-    this.$el.hide();
+    this.$el.html('');
   }
 
 });
