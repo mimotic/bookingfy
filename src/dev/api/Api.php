@@ -36,15 +36,17 @@
 
    private function devolverError($id) {
      $errores = array(
-       array('estado' => "error", "msg" => "petición no encontrada"),
-       array('estado' => "error", "msg" => "petición no aceptada"),
-       array('estado' => "error", "msg" => "petición sin contenido"),
-       array('estado' => "error", "msg" => "email o password incorrectos"),
-       array('estado' => "error", "msg" => "error borrando usuario"),
-       array('estado' => "error", "msg" => "error actualizando nombre de usuario"),
-       array('estado' => "error", "msg" => "error buscando usuario por email"),
-       array('estado' => "error", "msg" => "error creando usuario"),
-       array('estado' => "error", "msg" => "usuario ya existe")
+       array('estado' => "error", "msg" => "petición no encontrada"), // 0
+       array('estado' => "error", "msg" => "petición no aceptada"), // 1
+       array('estado' => "error", "msg" => "petición sin contenido"), // 2
+       array('estado' => "error", "msg" => "email o password incorrectos"), // 3
+       array('estado' => "error", "msg" => "error borrando usuario"), // 4
+       array('estado' => "error", "msg" => "error actualizando nombre de usuario"), // 5
+       array('estado' => "error", "msg" => "error buscando usuario por email"), // 6
+       array('estado' => "error", "msg" => "error creando usuario"), // 7
+       array('estado' => "error", "msg" => "usuario ya existe"), // 8
+       array('estado' => "error", "msg" => "error anulando reserva"), // 9
+       array('estado' => "error", "msg" => "petición no aceptada, faltan valores o son incorrectos") // 10
      );
      return $errores[$id];
    }
@@ -294,11 +296,6 @@
      }
    }
 
-
-
-
-
-
    // RESERVA [POST]
    // curl -d "inicio=09:00" http://bookingfy.dev/api/reserva
   private function reserva() {
@@ -325,7 +322,7 @@
 
       if ($query->rowCount() == 1) {
          $respuesta['estado'] = 'correcto';
-         $respuesta['msg'] = 'Reserva creada correctamente';
+         $respuesta['msg'] = 'Su pista ha sido reservada, ¡que gane el mejor!';
          $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
       } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
 
@@ -333,6 +330,29 @@
 
    }
 
+   // ANULAR RESERVA [PUT]
+   private function anularReserva() {
+     if ($_SERVER['REQUEST_METHOD'] != "PUT") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset($this->datosPeticion['id_reserva'])) {
+       $id = $this->datosPeticion['id_reserva'];
+       $id = (int) $id;
+       if ($id > 0) {
+         $query = $this->_conn->prepare("update reservas set anulado=1 WHERE id =:id");
+         $query->bindValue(":id", $id);
+         $query->execute();
+         $filasActualizadas = $query->rowCount();
+         if ($filasActualizadas == 1) {
+           $resp = array('estado' => "correcto", "msg" => "Su reserva ha sido anulada correctamente.");
+           $this->mostrarRespuesta($this->convertirJson($resp), 200);
+         } else {
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(9)), 200);
+         }
+       }
+     }
+     $this->mostrarRespuesta($this->convertirJson($this->devolverError(10)), 400);
+   }
 
    // LISTAR USUARIOS [GET]
    // curl http://bookingfy.dev/api/usuarios
