@@ -86,7 +86,7 @@ module.exports = Backbone.View.extend({
 
   register: function(evt){
     if(evt) evt.preventDefault();
-
+        var self = this;
         var mensajesError = {};
         var printErrores = '';
 
@@ -127,6 +127,7 @@ module.exports = Backbone.View.extend({
                         // window.location.replace('#');
                         // alert(user.val() + ' esta dentro');
                         $('#error').html('registrado !!!').slideDown();
+                        self.undelegateEvents();
                         Backbone.app.navigate("login", { trigger: true });
                     }
                 }

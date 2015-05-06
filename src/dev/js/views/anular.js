@@ -36,9 +36,12 @@ module.exports = Backbone.View.extend({
 
   anular: function(event){
   	event.preventDefault();
+    var self = this;
   	var anular = this.model.toJSON();
 
     // coger check de luz
+
+    console.log("ANULAR", anular);
 
   	this.model.fetch({
   		data: {
@@ -53,6 +56,7 @@ module.exports = Backbone.View.extend({
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
               Backbone.history.loadUrl();
+              self.undelegateEvents();
               //Backbone.Events.trigger('resetCalendar', reserva.fecha_pista );
             }, 2000);
             //
@@ -65,6 +69,7 @@ module.exports = Backbone.View.extend({
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();
+              self.undelegateEvents();
             }, 1500);
 
         }
