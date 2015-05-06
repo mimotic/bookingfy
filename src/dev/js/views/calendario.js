@@ -103,6 +103,9 @@ module.exports = Backbone.View.extend({
     }
 
     this.reserva = new Reserva();
+
+    this.reserva.clear();
+
     this.reserva.set({
       id_usuario: sesion.get('id_usuario'),
       id_pista: calendario.id,
@@ -136,11 +139,14 @@ module.exports = Backbone.View.extend({
     }
 
     this.anular = new Anular();
-      this.anular.set({
+
+    this.anular.clear();
+
+    this.anular.set({
         id_reserva: idReserva,
         id_hora: idHoraClicked,
         hora: horaClicked
-      });
+    });
 
     this.anularview = new AnularView({ model: this.anular });
 
