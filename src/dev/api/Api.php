@@ -9,10 +9,10 @@
    //              CONEXIÓN                \\
    // ************************************ \\
 
-   const servidor = "www";
-   const usuario_db = "root";
-   const pwd_db = "root";
-   const nombre_db = "bookingfy";
+   const servidor = "@@servidor";
+   const usuario_db = "@@usuario_db";
+   const pwd_db = "@@pwd_db";
+   const nombre_db = "@@nombre_db";
    private $_conn = NULL;
    private $_metodo;
    private $_argumentos;

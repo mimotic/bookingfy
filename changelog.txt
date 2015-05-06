@@ -1,0 +1,69 @@
+- * 2c819ea - 2015-05-05: mensajes del ws de reserva y anulacion
+- * 28f6b6a - 2015-05-05: modelo y vista de anular reserva
+- * ed32a3e - 2015-05-05: servicio anular reserva
+- * 85d9297 - 2015-05-05: endpoint pistas añadido campo reserva
+- * 28e4a74 - 2015-05-05: bus de eventos
+- * be8bdba - 2015-05-04: mensaje de exito y error en la reserva
+- * 38f6ca4 - 2015-05-04: build comand config
+- * 5cdc223 - 2015-04-29: reservar pistas
+- * d5979d2 - 2015-04-29: fecha para reservas
+- * 7a11564 - 2015-04-29: get date from url
+- * 6f7dbd9 - 2015-04-29: intermedio
+- * dd6da6b - 2015-04-29: datos para reserva
+- * ddcccbc - 2015-04-29: stilos
+- * 5897441 - 2015-04-28: logout &amp; hide views
+- * 66ea02a - 2015-04-28: prev
+- * e8637d5 - 2015-04-28: mostrar cabecera en calendario
+- * d2911cd - 2015-04-28: mostrar y ocultar calendar
+- * 4a48d27 - 2015-04-28: more css
+- * 234ea80 - 2015-04-28: pasando fecha al api
+- * 8e6b19a - 2015-04-28: styles colander
+- * 148b6f6 - 2015-04-28: datepicker
+- * 2d42a11 - 2015-04-28: queries
+- * 6b8c084 - 2015-04-28: fetch calendario
+- * ba2ab57 - 2015-04-28: header
+- * 25d0ede - 2015-04-27: api pistas
+- * 5922956 - 2015-04-27: url nombre deporte
+- * 6255466 - 2015-04-27: responsive registro/login
+- * 1b4f4c0 - 2015-04-27: deportes from API
+- * 266d067 - 2015-04-27: servicio deportes
+- * 04006c2 - 2015-04-27: fix css
+- * b563315 - 2015-04-27: login styles
+- * 5461484 - 2015-04-27: solucionado bug en estado login
+- * 19f0557 - 2015-04-27: primeros toques css, cabecera y body class
+- * 9b25fb1 - 2015-04-27: user session in localstorage
+- * 243626d - 2015-04-26: calendarios views, model and collection
+- * 72f233d - 2015-04-25: separada funcion fetchData de cargar vistas
+- * 961ccb3 - 2015-04-25: add base tag to index, other improves
+- * 3d8e072 - 2015-04-25: validating data inputs before ajax connect to api
+- * 77872b3 - 2015-04-25: registro de usuarios
+- * 9ea3c3c - 2015-04-24: registro de usuario
+- * 693f356 - 2015-04-24: api improve
+- * 2735bc0 - 2015-04-23: plantillas en archivos separados y login
+- * 22b0dbd - 2015-04-23: add losgin, usuarios, nuevaHora, nuevoDeporte
+- * 5f1812f - 2015-04-23: prueba para separar calendarios
+- * c544e5a - 2015-04-23: endpoints nuevoUsuario y nuevoAdmin
+- * c1352f6 - 2015-04-20: modificados json del calendario, ahora van las horas asociadas a una pista
+- * d469411 - 2015-04-14: calendar view
+- * c696dc9 - 2015-04-13: gruntfile coments
+- * 5113c33 - 2015-04-12: .haccess for apache container backbone
+- * bb760ce - 2015-04-12: renaming folder site
+- * afc78e2 - 2015-04-12: separating handelbars template in diferent files &amp;&amp; rest api in app for having not cross domain in this test
+- * 9635023 - 2015-04-11: login view
+- * 0ae3f3e - 2015-04-09: sql updated
+- * 0a1f82e - 2015-04-09: reserve urls
+- * 18b1539 - 2015-04-08: added Pistas
+- * edd4110 - 2015-04-06: sql updated
+- * aa07ae8 - 2015-04-06: sql generator
+- * 86ea322 - 2015-04-06: added backbone to js
+- * 6d5582d - 2015-04-05: first test endopoint apirest
+- * 82faf25 - 2015-04-05: esqueleto html y primeros estilos
+- * ee91e0a - 2015-04-05: alpha php rest api
+- * c91b45e - 2015-04-05: bower added
+- * ffc1a35 - 2015-04-05: add gruntfile and package.json
+- * 03008ee - 2015-04-05: creados archivos js y stylus
+- * 804c83e - 2015-04-05: estructura public
+- * d02f7a3 - 2015-04-05: add gitignore local empty
+- * 33bcf4a - 2015-04-05: Create README.md
+- * cdd6612 - 2015-04-05: Initial commit
+
