@@ -29,7 +29,12 @@ module.exports = function(grunt){
 		      options: {
 		      	livereload: true
 		      }
-		    }
+		    },
+		    pro: {
+		      path: 'http://pfc.ilopezchamorro.com/',
+		      app: 'Google Chrome'
+		    },
+
 		},
 
 		connect: { // lanza servidor
@@ -241,7 +246,7 @@ module.exports = function(grunt){
 
 	grunt.task.registerTask('build', [ 'clean:pro', 'stylus' , 'browserify' , 'uglify' , 'copy:pro', 'replace:pro' ]);
 
-	grunt.task.registerTask('deploy', [ 'clean:pro', 'stylus' , 'browserify' , 'uglify' , 'copy:pro' , 'replace:pro' , 'sftp' ]);
+	grunt.task.registerTask('deploy', [ 'clean:pro', 'stylus' , 'browserify' , 'uglify' , 'copy:pro' , 'replace:pro' , 'sftp' , 'open:pro' ]);
 
 	// tareas standalone
 	grunt.task.registerTask('genstylus', ['stylus']);
