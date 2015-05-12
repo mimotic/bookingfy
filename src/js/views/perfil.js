@@ -27,17 +27,17 @@ module.exports = Backbone.View.extend({
 
   getUserData: function (){
     var sesion = Sesion.getInstance();
-    var usuario = {};
+    var usuario = sesion.attributes; //{};
 
-    if (sesion.get('mail') && sesion.get('apellidos')){
-      usuario.nombre = sesion.get('nombre');
-      usuario.apellidos = sesion.get('apellidos');
-      usuario.dni = sesion.get('dni');
-      usuario.expediente = sesion.get('expediente');
-      usuario.mail = sesion.get('mail');
-      usuario.apellidos = sesion.get('apellidos');
-      usuario.password = '**********';
-    }
+    // if (sesion.get('mail') && sesion.get('apellidos')){
+    //   usuario.nombre = sesion.get('nombre');
+    //   usuario.apellidos = sesion.get('apellidos');
+    //   usuario.dni = sesion.get('dni');
+    //   usuario.expediente = sesion.get('expediente');
+    //   usuario.mail = sesion.get('mail');
+    //   usuario.apellidos = sesion.get('apellidos');
+    //   usuario.password = '**********';
+    // }
 
     return usuario;
   },
