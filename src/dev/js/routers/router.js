@@ -7,6 +7,7 @@ var Backbone      = require('backbone'),
     Sesion        = require('../models/sesion'),
     Calendario    = require('../models/calendario'),
     Dia           = require('../models/dia'),
+    Perfil           = require('../models/perfil'),
 
     DeportesView  = require('../views/deportes-list'),
     LoginView     = require('../views/login'),
@@ -14,6 +15,7 @@ var Backbone      = require('backbone'),
     CalendarioView = require('../views/calendarios'),
     HeaderView    = require('../views/header'),
     DiaView       = require('../views/dia'),
+    PerfilView       = require('../views/perfil'),
 
     $             = require('jquery'),
 
@@ -27,6 +29,7 @@ module.exports = Backbone.Router.extend({
     "reservas": "loadDeportes",
     "pistas/:idDeporte": "loadCalendar",
     "pistas/:idDeporte/:date": "loadCalendar",
+    "perfil"  : "loadPerfil",
     "*path"  : "notFound"
   },
 
@@ -166,7 +169,7 @@ module.exports = Backbone.Router.extend({
     this.deportes.reset();
     this.calendarios.reset();
 
-    if(this.diaView !== undefined)this.diaView.ocultar();
+    if(this.diaView !== undefined) this.diaView.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
@@ -184,7 +187,6 @@ module.exports = Backbone.Router.extend({
       });
 
   },
-
 
   loadCalendar: function (login, idDeporte, newFecha) {
 
@@ -227,6 +229,10 @@ module.exports = Backbone.Router.extend({
     });
 
     this.calendarios.setFecha(newFecha);
+  },
+
+  loadPerfil: function () {
+    this.perfilView = new PerfilView({ });
   }
 
 });
