@@ -52,9 +52,7 @@ module.exports = Backbone.Router.extend({
 
     this.dia = new Dia();
 
-    //header
-    this.headerView = new HeaderView({});
-    this.headerView.ocultar();
+
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -109,10 +107,11 @@ module.exports = Backbone.Router.extend({
   loadLogin: function(args){
     if(this.registro) this.registro.resetear();
     if(args === true){
-      this.headerView.mostrar();
       this.loadDeportes();
     } else {
-      this.headerView.ocultar();
+      if(this.headerView !== undefined){
+          this.headerView.ocultar();
+      }
       this.deportes.reset();
       this.calendarios.reset();
       if(this.diaView !== undefined) this.diaView.ocultar();
@@ -161,7 +160,12 @@ module.exports = Backbone.Router.extend({
   loadDeportes: function () {
     var self = this;
 
-    this.headerView.mostrar();
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
 
     this.deportes.reset();
     this.calendarios.reset();
@@ -197,7 +201,12 @@ module.exports = Backbone.Router.extend({
     this.deportes.reset();
     this.calendarios.reset();
 
-    this.headerView.mostrar();
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+        this.headerView = new HeaderView({});
+    }
 
     var fechaCalendario = Moment().format('YYYY-MM-DD');
 
