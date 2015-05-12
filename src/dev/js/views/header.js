@@ -62,7 +62,7 @@ module.exports = Backbone.View.extend({
 
   goUserResume: function(event){
     event.preventDefault();
-    alert('hello user !!');
+    Backbone.app.navigate("/perfil", { trigger: true });
   },
 
   mostrar: function(){

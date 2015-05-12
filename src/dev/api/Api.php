@@ -385,7 +385,7 @@
        if (!empty($mail) and !empty($password)) {
          if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
            //consulta preparada ya hace mysqli_real_escape()
-           $query = $this->_conn->prepare("SELECT id, nombre, apellidos, mail, rol FROM usuarios WHERE
+           $query = $this->_conn->prepare("SELECT id, nombre, apellidos, mail, expediente, dni, rol FROM usuarios WHERE
            mail=:mail AND password=:password ");
            $query->bindValue(":mail", $mail);
            $query->bindValue(":password", $password);
@@ -398,6 +398,8 @@
              $respuesta['usuario']['apellidos'] = $fila['apellidos'];
              $respuesta['usuario']['mail'] = $fila['mail'];
              $respuesta['usuario']['rol'] = $fila['rol'];
+             $respuesta['usuario']['dni'] = $fila['dni'];
+             $respuesta['usuario']['expediente'] = $fila['expediente'];
 
              $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
            }
