@@ -120,6 +120,7 @@ module.exports = function(grunt){
 		      {expand: true, flatten: true, src: ['src/dev/api/.htaccess'], dest: 'build/api', filter: 'isFile'},
 		      {expand: true, flatten: true, src: ['src/dev/api/**'], dest: 'build/api', filter: 'isFile'},
 		      {expand: true, flatten: true, src: ['src/dev/img/**'], dest: 'build/img', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/font/**'], dest: 'build/font', filter: 'isFile'},
 		    ],
 		  },
 		  dev: {
@@ -132,6 +133,7 @@ module.exports = function(grunt){
 		      {expand: true, flatten: true, src: ['src/dev/api/.htaccess'], dest: 'dev/api', filter: 'isFile'},
 		      {expand: true, flatten: true, src: ['src/dev/api/**'], dest: 'dev/api', filter: 'isFile'},
 		      {expand: true, flatten: true, src: ['src/dev/img/**'], dest: 'dev/img', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/dev/font/**'], dest: 'dev/font', filter: 'isFile'},
 		    ],
 		  },
 		},
