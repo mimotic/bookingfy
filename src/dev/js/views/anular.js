@@ -49,7 +49,7 @@ module.exports = Backbone.View.extend({
       },
   		type: 'PUT',
   		success: function(model, response) {
-            console.log('RESERVADOOOOO', response);
+            // console.log('RESERVADOOOOO', response);
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
@@ -62,7 +62,7 @@ module.exports = Backbone.View.extend({
             //
         },
         error: function(model, response) {
-            console.log('FALLOOOOOO', response);
+            // console.log('FALLOOOOOO', response);
 
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
