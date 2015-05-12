@@ -251,7 +251,7 @@ module.exports = function(grunt){
 	grunt.task.registerTask('deploy', [ 'clean:pro', 'stylus' , 'browserify' , 'uglify' , 'copy:pro' , 'replace:pro' , 'sftp' , 'open:pro' ]);
 
 	// tareas standalone
-	grunt.task.registerTask('genstylus', ['stylus']);
+	grunt.task.registerTask('css', ['stylus']);
 	grunt.task.registerTask('borrar', [ 'clean' ]);
 	grunt.task.registerTask('log', [ 'changelog' ]);
 	grunt.task.registerTask('rep', [ 'replace' ]);
