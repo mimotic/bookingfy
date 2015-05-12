@@ -149,7 +149,7 @@ module.exports = Backbone.View.extend({
 
             $('#error').html(printErrores).slideDown();
 
-            console.log(mensajesError);
+            // console.log(mensajesError);
 
         }
     },

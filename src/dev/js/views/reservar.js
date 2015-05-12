@@ -39,6 +39,15 @@ module.exports = Backbone.View.extend({
     var self = this;
   	var reserva = this.model.toJSON();
 
+    var withLight = '0';
+    var isChecked = $('#checkedluz').is(':checked');
+    if (isChecked === true) {
+      withLight = '1';
+    }
+    console.log("luz = " + withLight);
+    console.log(isChecked);
+
+
     console.log("RESERVAR", reserva);
     // coger check de luz
 
@@ -48,11 +57,11 @@ module.exports = Backbone.View.extend({
           id_pista: reserva.id_pista,
           id_hora: reserva.id_hora,
           fecha_pista: reserva.fecha_pista,
-		      luz: reserva.luz
+		      luz: withLight
       },
   		type: 'POST',
   		success: function(model, response) {
-            console.log('RESERVADOOOOO');
+            // console.log('RESERVADOOOOO');
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
@@ -65,7 +74,7 @@ module.exports = Backbone.View.extend({
             //
         },
         error: function(model, response) {
-            console.log('FALLOOOOOO');
+            // console.log('FALLOOOOOO');
 
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');

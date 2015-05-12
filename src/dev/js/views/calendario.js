@@ -77,15 +77,17 @@ module.exports = Backbone.View.extend({
     // confirmWrap.append(msg);
     // confirm.fadeIn();
 
-    console.log("FECHA CALENDARIO", this.model.collection.getFecha());
+    // console.log("FECHA CALENDARIO", this.model.collection.getFecha());
+
+
 
     var horaClicked = $(event.currentTarget).attr('data-hora');
     var idHoraClicked = 0;
 
 
-    console.log("MODELO CALENDARIO", this.model);
+    // console.log("MODELO CALENDARIO", this.model);
     var calendario = this.model.toJSON();
-    console.log("ID PISTA", calendario.id);
+    // console.log("ID PISTA", calendario.id);
 
     for (var i = 0; i < calendario.horas.length; i++) {
         if(horaClicked == calendario.horas[i].inicio){
@@ -95,12 +97,12 @@ module.exports = Backbone.View.extend({
 
     var f = this.getDateUrl();
 
-    console.log("ID HORA", idHoraClicked);
+    // console.log("ID HORA", idHoraClicked);
 
     var sesion = Sesion.getInstance();
-    if (sesion.get('id_usuario')) {
-        console.log("ID USER", sesion.get('id_usuario'));
-    }
+    // if (sesion.get('id_usuario')) {
+        // console.log("ID USER", sesion.get('id_usuario'));
+    // }
 
     this.reserva = new Reserva();
 

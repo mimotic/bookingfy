@@ -62,7 +62,7 @@ module.exports = Backbone.Router.extend({
 
   execute: function(callback, args) {
     this.requireLogin(callback, args);
-    console.log( 'tipo login: ' + this.islogged());
+    // console.log( 'tipo login: ' + this.islogged());
     this.bodyClass();
   },
 
@@ -148,7 +148,7 @@ module.exports = Backbone.Router.extend({
         },
         type: 'POST',
         success: function(response){
-          console.log("Success calendario", response);
+          // console.log("Success calendario", response);
         }
     });
 
@@ -161,7 +161,7 @@ module.exports = Backbone.Router.extend({
   loadDeportes: function () {
     var self = this;
 
-    this.headerView = new HeaderView();
+    this.headerView.mostrar();
 
     this.deportes.reset();
     this.calendarios.reset();
@@ -190,20 +190,20 @@ module.exports = Backbone.Router.extend({
 
     var self = this;
 
-    console.log("newFecha "+ newFecha);
+    // console.log("newFecha "+ newFecha);
 
     self.customEvents();
 
     this.deportes.reset();
     this.calendarios.reset();
 
-    this.headerView = new HeaderView({});
+    this.headerView.mostrar();
 
     var fechaCalendario = Moment().format('YYYY-MM-DD');
 
     if(newFecha === null)newFecha = fechaCalendario;
 
-    console.log('moment', fechaCalendario );
+    // console.log('moment', fechaCalendario );
 
     // dia & datapicker
     this.dia.set({
@@ -221,8 +221,8 @@ module.exports = Backbone.Router.extend({
         },
         type: 'POST',
         success: function(response){
-                console.log("Success calendario");
-                console.log(response);
+                // console.log("Success calendario");
+                // console.log(response);
         }
     });
 
