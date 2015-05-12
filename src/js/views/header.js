@@ -29,7 +29,6 @@ module.exports = Backbone.View.extend({
 
   getUserName: function (){
     var sesion = Sesion.getInstance();
-    console.log('sesion' , sesion.attributes);
     var usuario = {};
 
     if (sesion.get('nombre') && sesion.get('apellidos')){

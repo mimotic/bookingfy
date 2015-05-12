@@ -46,7 +46,7 @@ module.exports = function(grunt){
 			        port:80,
 	                livereload: true,
 	                open: true,
-	                base: 'src/dev',
+	                base: 'src',
 	                middleware: function(connect, options) { // reescritura urls
 				        var middlewares;
 				        middlewares = [];
@@ -63,7 +63,7 @@ module.exports = function(grunt){
 		watch: { // observa cambios sobre archivos
 
 			scripts: {
-			   	files: ['src/dev/**/*', '!src/dev/css/*', '!src/dev/js/app.js', '!src/dev/js/app.min.js'],
+			   	files: ['src/**/*', '!src/css/*', '!src/js/app.js', '!src/js/app.min.js'],
 			   	tasks: ['clean:dev','stylus', 'browserify','copy:dev','replace:dev'],
 			   	options: {
 			        livereload: true,
@@ -74,7 +74,7 @@ module.exports = function(grunt){
 		},
 
 		browserify: { // gestión de dependencias js
-      		'src/dev/js/app.min.js': ['src/dev/js/main.js']
+      		'src/js/app.min.js': ['src/js/main.js']
     	},
 
 		cssmin: { // minificado de css
@@ -95,7 +95,7 @@ module.exports = function(grunt){
 	      },
 	      my_target: {
 	        files: {
-	          'src/dev/js/app.min.js': ['src/dev/js/app.min.js']
+	          'src/js/app.min.js': ['src/js/app.min.js']
 	        }
 	      }
 	    },
@@ -104,7 +104,7 @@ module.exports = function(grunt){
 	    stylus: { // compilación stylus
 		  compile: {
 		    files: {
-		      'src/dev/css/style.min.css': ['src/dev/stylus/style.styl']
+		      'src/css/style.min.css': ['src/stylus/style.styl']
 		    }
 		  }
 		},
@@ -113,27 +113,27 @@ module.exports = function(grunt){
 		  pro: {
 		    files: [
 		      // includes files within path
-		      {expand: true, flatten: true, src: ['src/dev/css/**'], dest: 'build/css', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/js/app.min.js'], dest: 'build/js', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/index.html'], dest: 'build', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/.htaccess'], dest: 'build', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/api/.htaccess'], dest: 'build/api', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/api/**'], dest: 'build/api', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/img/**'], dest: 'build/img', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/font/**'], dest: 'build/font', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/css/**'], dest: 'build/css', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/js/app.min.js'], dest: 'build/js', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/index.html'], dest: 'build', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/.htaccess'], dest: 'build', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/api/.htaccess'], dest: 'build/api', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/api/**'], dest: 'build/api', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/img/**'], dest: 'build/img', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/font/**'], dest: 'build/font', filter: 'isFile'},
 		    ],
 		  },
 		  dev: {
 		    files: [
 		      // includes files within path
-		      {expand: true, flatten: true, src: ['src/dev/css/**'], dest: 'dev/css', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/js/app.min.js'], dest: 'dev/js', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/index.html'], dest: 'dev', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/.htaccess'], dest: 'dev', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/api/.htaccess'], dest: 'dev/api', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/api/**'], dest: 'dev/api', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/img/**'], dest: 'dev/img', filter: 'isFile'},
-		      {expand: true, flatten: true, src: ['src/dev/font/**'], dest: 'dev/font', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/css/**'], dest: 'dev/css', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/js/app.min.js'], dest: 'dev/js', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/index.html'], dest: 'dev', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/.htaccess'], dest: 'dev', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/api/.htaccess'], dest: 'dev/api', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/api/**'], dest: 'dev/api', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/img/**'], dest: 'dev/img', filter: 'isFile'},
+		      {expand: true, flatten: true, src: ['src/font/**'], dest: 'dev/font', filter: 'isFile'},
 		    ],
 		  },
 		},
@@ -208,7 +208,7 @@ module.exports = function(grunt){
 		          ]
 		        },
 		        files: [
-		          {expand: true, flatten: true, src: ['src/dev/api/Api.php'], dest: 'dev/api/'}
+		          {expand: true, flatten: true, src: ['src/api/Api.php'], dest: 'dev/api/'}
 		        ]
 		      },
 		      pro: {
@@ -233,7 +233,7 @@ module.exports = function(grunt){
 		          ]
 		        },
 		        files: [
-		          {expand: true, flatten: true, src: ['src/dev/api/Api.php'], dest: 'build/api/'}
+		          {expand: true, flatten: true, src: ['src/api/Api.php'], dest: 'build/api/'}
 		        ]
 		      }
 	    }
