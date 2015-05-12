@@ -3,7 +3,7 @@ var Backbone   = require('backbone'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
     Plantilla  = require('../partials/plantilla_header'),
-    Sesion = require('../models/sesion');
+    Sesion     = require('../models/sesion');
     // app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -14,19 +14,34 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #logotipoLink': 'goHome',
-    'click #logout': 'logout'
+    'click #logout': 'logout',
+    'click #user-welcome': 'goUserResume'
   },
 
   initialize: function () {
     this.render();
+    console.log('userName??' , this.getUserName());
   },
 
   resetear: function () {
     this.$el.empty();
   },
 
+  getUserName: function (){
+    var sesion = Sesion.getInstance();
+    var usuario = {};
+
+    if (sesion.get('nombre') && sesion.get('apellidos')){
+      usuario.nombre = sesion.get('nombre');
+      usuario.apellidos = sesion.get('apellidos');
+    }
+
+    return usuario;
+  },
+
   render: function () {
-    var html = this.template();
+    var usuario = this.getUserName();
+    var html = this.template(usuario);
     this.$el.html(html);
     return this;
   },
@@ -41,8 +56,12 @@ module.exports = Backbone.View.extend({
 
     Sesion.destroySesion();
     var sesion = Sesion.getInstance();
-    //Backbone.history.loadUrl();
     Backbone.app.navigate("/login", { trigger: true });
+  },
+
+  goUserResume: function(event){
+    event.preventDefault();
+    alert('hello user !!');
   },
 
   mostrar: function(){

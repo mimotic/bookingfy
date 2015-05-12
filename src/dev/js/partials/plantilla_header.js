@@ -6,6 +6,6 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '</figure>'
 		+ '</a>'
 		+ '<a id="logout" href="#">logout</a>'
-		+ '<a id="cabecera_usuario" href="#">{{usuaio.nombre}} {{usuaio.apellidos}}</a>';
+		+ '<a id="user-welcome" class="user-welcome" href="#">{{nombre}} {{apellidos}}</a>';
 
 module.exports = plantillas;

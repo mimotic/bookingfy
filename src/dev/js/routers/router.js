@@ -148,8 +148,7 @@ module.exports = Backbone.Router.extend({
         },
         type: 'POST',
         success: function(response){
-                console.log("Success calendario");
-                console.log(response);
+          console.log("Success calendario", response);
         }
     });
 

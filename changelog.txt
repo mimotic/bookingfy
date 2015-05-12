@@ -1,3 +1,6 @@
+- * 922a08b - 2015-05-07: open url producción 
+- * 6ede5ed - 2015-05-07: resolving 1and1 problems configs 
+- * b061b80 - 2015-05-06: desvincular eventos al cerrar view 
 - * 9ad834f - 2015-05-06: configuración deploy automatico 
 - * 2c819ea - 2015-05-05: mensajes del ws de reserva y anulacion 
 - * 28f6b6a - 2015-05-05: modelo y vista de anular reserva 
