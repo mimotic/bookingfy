@@ -109,6 +109,7 @@ module.exports = Backbone.Router.extend({
 
   loadLogin: function(args){
     if(this.registro) this.registro.resetear();
+    if(this.perfilView) this.perfilView.clean();
     if(args === true){
       this.loadDeportes();
     } else {
@@ -124,6 +125,7 @@ module.exports = Backbone.Router.extend({
 
   loadRegistro: function(args){
     if(this.login) this.login.resetear();
+    if(this.perfilView) this.perfilView.clean();
     if(args === true){
       this.loadDeportes();
     } else{
@@ -170,6 +172,8 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
+    if(this.perfilView) this.perfilView.clean();
+
     this.deportes.reset();
     this.calendarios.reset();
 
@@ -200,6 +204,7 @@ module.exports = Backbone.Router.extend({
 
     self.customEvents();
 
+    if(this.perfilView) this.perfilView.clean();
     this.deportes.reset();
     this.calendarios.reset();
 
@@ -241,7 +246,22 @@ module.exports = Backbone.Router.extend({
   },
 
   loadPerfil: function () {
-    this.perfilView = new PerfilView({ });
+
+    this.deportes.reset();
+    this.calendarios.reset();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+        this.headerView = new HeaderView({});
+    }
+
+    this.perfilView = new PerfilView({});
+
+
   }
 
 });

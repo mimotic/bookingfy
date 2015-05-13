@@ -42,6 +42,11 @@ module.exports = Backbone.View.extend({
     return usuario;
   },
 
+  clean: function () {
+    this.$el.empty();
+    return this;
+  },
+
   render: function () {
     var usuario = this.getUserData();
     var html = this.template(usuario);
