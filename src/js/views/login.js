@@ -15,8 +15,11 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #dologin': 'login',
-    'click #goregistro': 'goRegistro'
+    'click #goregistro': 'goRegistro',
+    'keydown': 'keyAction'
   },
+
+
 
   template: Handlebars.compile(Plantilla.login),
 
@@ -53,6 +56,10 @@ module.exports = Backbone.View.extend({
         return response;
   },
 
+  keyAction: function(e) {
+        var code = e.keyCode || e.which;
+        if(code == 13) this.login();
+  },
 
   login: function(evt){
     if(evt) evt.preventDefault();

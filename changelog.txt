@@ -1,3 +1,13 @@
+- * e4ab656 - 2015-05-13: keypress enter event ^^ 
+- * 6259b94 - 2015-05-12: gruntfile config 
+- * 3f1fbcf - 2015-05-12: cambio de estructura del proyecto 
+- * d988067 - 2015-05-12: actualiza datos de cabecera 
+- * 8a2b899 - 2015-05-12: ficha de usuario 
+- * c676f20 - 2015-05-12: fonts 
+- * 483bfe4 - 2015-05-12: font-icon svg 
+- * 69762c3 - 2015-05-12: check de luz 
+- * e688a73 - 2015-05-12: user info 
+- * f1c2a63 - 2015-05-12: user name in header 
 - * 922a08b - 2015-05-07: open url producción 
 - * 6ede5ed - 2015-05-07: resolving 1and1 problems configs 
 - * b061b80 - 2015-05-06: desvincular eventos al cerrar view 

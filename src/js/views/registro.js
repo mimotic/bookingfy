@@ -12,7 +12,8 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #doregister': 'register',
-    'click #gologin': 'goLogin'
+    'click #gologin': 'goLogin',
+    'keydown': 'keyAction'
   },
 
 
@@ -81,6 +82,11 @@ module.exports = Backbone.View.extend({
 
     return response;
 
+  },
+
+  keyAction: function(e) {
+        var code = e.keyCode || e.which;
+        if(code == 13) this.register();
   },
 
 

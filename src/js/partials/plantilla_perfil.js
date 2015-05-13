@@ -14,9 +14,8 @@ plantillas.perfil = '<div class="login_users">'
 		+ '<div class="clear"></div>'
 		+ '<input data-validado="" id="reg_pass" type="password" name="" value="{{password}}" placeholder="Password">'
 		+ '<div class="clear"></div>'
-		+ '<a id="doregister" href="#">Registrarse</a>'
+		+ '<a id="doregister" href="#">Modificar Datos</a>'
 		+ '<div class="clear"></div>'
-		+ '<span>¿Ya está registrado? <a id="gologin" href="#">loguearse</a><span>'
 		+ '<div id="error" class="error"></div>'
 		+ '</div>';
 
