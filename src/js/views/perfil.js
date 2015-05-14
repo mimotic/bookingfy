@@ -12,9 +12,7 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.perfil),
 
   events: {
-    'click #logotipoLink': 'goHome',
-    'click #logout': 'logout',
-    'click #user-welcome': 'goUserResume'
+    'click #doactualizar': 'actualizarDatos'
   },
 
   initialize: function () {
@@ -27,19 +25,13 @@ module.exports = Backbone.View.extend({
 
   getUserData: function (){
     var sesion = Sesion.getInstance();
-    var usuario = sesion.attributes; //{};
-
-    // if (sesion.get('mail') && sesion.get('apellidos')){
-    //   usuario.nombre = sesion.get('nombre');
-    //   usuario.apellidos = sesion.get('apellidos');
-    //   usuario.dni = sesion.get('dni');
-    //   usuario.expediente = sesion.get('expediente');
-    //   usuario.mail = sesion.get('mail');
-    //   usuario.apellidos = sesion.get('apellidos');
-    //   usuario.password = '**********';
-    // }
-
+    var usuario = sesion.attributes;
     return usuario;
+  },
+
+  actualizarDatos: function (event) {
+    if(event) event.preventDefault();
+    alert('actualizar !!!');
   },
 
   clean: function () {

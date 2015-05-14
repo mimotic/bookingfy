@@ -1,7 +1,6 @@
 @import "nib"
 @import "../../../bower_components/normalize.styl/normalize.styl"
 
-
 main-blue = #013660
 dark-gray = #333333
 light-gray =  #818181
@@ -98,6 +97,8 @@ body
 	margin-left 2em
 	img
 		margin 1em auto
+
+
 // listado de deportes
 .tipo-pistas
 	margin 0
@@ -272,8 +273,10 @@ body.inapp
 		text-align center
 	#dologin,
 	#doregister,
-	#logout
+	#logout,
+	#doactualizar
 		text-transform uppercase
+
 		-webkit-transition: background-color .8s ease-out;
 		-moz-transition: background-color .8s ease-out;
 		-o-transition: background-color .8s ease-out;
@@ -348,7 +351,6 @@ body.inapp
 .error
 	display none
 
-
 // logout
 #logout
 	text-transform uppercase
@@ -380,134 +382,22 @@ body.inapp
 		color white
 		background-color #3F424B
 
+
+// PERFIL
+.inapp .login_users
+	border 0
+	box-shadow none
+	background none
+
+.rotate
+	&:hover i
+	    -webkit-animation:spin 1s linear infinite;
+	    -moz-animation:spin 1s linear infinite;
+	    animation:spin 1s linear infinite;
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
 // calendario
-#datepickerDay
-	max-width 340px
-	margin 1em 0 0 5em
-#placeDatepicker
-	font-size 100%
-	a
-		text-decoration none
-	.ui-datepicker-header
-		.ui-datepicker-prev,
-		.ui-state-hover.ui-datepicker-prev-hover
-			position: absolute !important
-			top: 0px !important
-			margin-left: 11px !important
-			left auto !important
-			right auto !important
-	.ui-datepicker-header
-		.ui-datepicker-next,
-		.ui-state-hover.ui-datepicker-next-hover
-			position: absolute !important
-			top: 0px !important
-			margin-left: 290px !important
-			left auto !important
-			right auto !important
-	.ui-widget
-		font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
-		border: none;
-		border-radius: 0;
-		-webkit-border-radius: 0;
-		-moz-border-radius: 0;
-	.ui-datepicker
-		padding 0
-	.ui-datepicker-header
-		border:none
-		background transparent
-		font-weight normal
-		font-size 18px
-	.ui-datepicker-header .ui-state-hover
-		background: transparent;
-		border-color: transparent;
-		cursor: pointer;
-		border-radius: 0;
-		-webkit-border-radius: 0;
-		-moz-border-radius: 0;
-	thead
-		background #2e3641
-	tr
-		height 2.7em
-	table
-		box-shadow 0 0 6px dark-gray
-	.ui-datepicker .ui-datepicker-title
-		margin-top: .4em
-		margin-bottom: .3em
-		color: #e9f0f4
-		font-size 1.2
-		text-align center
-
-
-#placeDatepicker .ui-datepicker .ui-datepicker-prev-hover,
-#placeDatepicker .ui-datepicker .ui-datepicker-next-hover,
-#placeDatepicker .ui-datepicker .ui-datepicker-next,
-#placeDatepicker .ui-datepicker .ui-datepicker-prev {
-	top: .9em;
-	border:none;
-}
-
-#placeDatepicker .ui-datepicker .ui-datepicker-prev-hover {
-	left: 2px;
-}
-
-#placeDatepicker .ui-datepicker .ui-datepicker-next-hover {
-	right: 2px;
-}
-
-#placeDatepicker .ui-datepicker .ui-datepicker-next span,
-#placeDatepicker .ui-datepicker .ui-datepicker-prev span {
-	background-image: url(images/ui-icons_ffffff_256x240.png);
-	background-position: -32px 0;
-	margin-top: 0;
-	top: 0;
-	font-weight: normal;
-}
-
-#placeDatepicker .ui-datepicker .ui-datepicker-prev span {
-	background-position: -96px 0;
-}
-
-#placeDatepicker .ui-datepicker table {
-	margin: 0;
-}
-
-#placeDatepicker .ui-datepicker th {
-	padding: 1em 0;
-	color: #ccc;
-	font-size: 13px;
-	font-weight: normal;
-	border: none;
-	border-top: 1px solid #3a414d;
-}
-
-#placeDatepicker .ui-datepicker td {
-	background: #f97e76;
-	border: none;
-	padding: 0;
-}
-
-#placeDatepicker td .ui-state-default {
-	background: transparent;
-	border: none;
-	text-align: center;
-	padding: .8em;
-	margin: 0;
-	font-weight: normal;
-	color: #efefef;
-	font-size: 16px;
-}
-
-#placeDatepicker .ui-state-disabled  {
-	opacity: 1;
-}
-
-#placeDatepicker .ui-state-disabled .ui-state-default {
-	color: #fba49e;
-}
-
-#placeDatepicker td .ui-state-active,
-#placeDatepicker td .ui-state-hover {
-	background: #2e3641;
-}
-
-
+@import "datepicker.styl"
