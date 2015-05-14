@@ -57,19 +57,22 @@ module.exports = Backbone.View.extend({
           id_pista: reserva.id_pista,
           id_hora: reserva.id_hora,
           fecha_pista: reserva.fecha_pista,
-		      luz: withLight
+		      luz: withLight,
+          id_deporte: reserva.id_deporte
       },
   		type: 'POST',
   		success: function(model, response) {
             // console.log('RESERVADOOOOO');
 
-            $('#modalCalendario div').html('<span>'+response.msg+'</span>');
+            $('#modalCalendario div').html('<span>' + response.msg + '</span>');
 
             setTimeout(function(){
+
               $('#modalCalendario').fadeOut();
-              Backbone.history.loadUrl();
+
               self.undelegateEvents();
-              //Backbone.Events.trigger('resetCalendar', reserva.fecha_pista );
+              Backbone.Events.trigger('resetCalendar', reserva.id_deporte , reserva.fecha_pista );
+
             }, 2000);
             //
         },

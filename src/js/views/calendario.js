@@ -68,26 +68,29 @@ module.exports = Backbone.View.extend({
     return f;
   },
 
+  getDataUrl: function(){
+    var url = Backbone.history.getFragment();
+    var response = {};
+
+    url = url.split("/");
+
+    // id_deporte
+    response.id_deporte = url[1].trim();
+
+    // fecha
+    response.fecha = _.last(url).trim();
+    isF = Moment(response.fecha, 'YYYY-MM-DD', true).isValid();
+    if (isF === false) response.fecha = Moment().format('YYYY-MM-DD');
+
+    return response;
+  },
+
   reservar: function (event) {
-    // var msg = 'Reservar: ' + $(event.currentTarget).attr('data-hora');
-    // var confirm = $('#modalCalendario');
-    // var confirmWrap = $('#modalCalendario div');
-
-    // // mostrar modal
-    // confirmWrap.append(msg);
-    // confirm.fadeIn();
-
-    // console.log("FECHA CALENDARIO", this.model.collection.getFecha());
-
-
 
     var horaClicked = $(event.currentTarget).attr('data-hora');
     var idHoraClicked = 0;
-
-
-    // console.log("MODELO CALENDARIO", this.model);
     var calendario = this.model.toJSON();
-    // console.log("ID PISTA", calendario.id);
+    var dataUrl = this.getDataUrl();
 
     for (var i = 0; i < calendario.horas.length; i++) {
         if(horaClicked == calendario.horas[i].inicio){
@@ -117,7 +120,8 @@ module.exports = Backbone.View.extend({
       nombre_pista: calendario.nombre,
       precio: calendario.precio_pista,
       precio_luz: calendario.precio_luz,
-      hora: horaClicked
+      hora: horaClicked,
+      id_deporte: dataUrl.id_deporte
     });
 
     this.reservaview = new ReservaView({ model: this.reserva });
@@ -132,6 +136,7 @@ module.exports = Backbone.View.extend({
     var idHoraClicked = 0;
     var idReserva = 0;
     var calendario = this.model.toJSON();
+    var dataUrl = this.getDataUrl();
 
     for (var i = 0; i < calendario.horas.length; i++) {
         if(horaClicked == calendario.horas[i].inicio){
@@ -147,12 +152,12 @@ module.exports = Backbone.View.extend({
     this.anular.set({
         id_reserva: idReserva,
         id_hora: idHoraClicked,
-        hora: horaClicked
+        hora: horaClicked,
+        fecha_pista: dataUrl.fecha,
+        id_deporte: dataUrl.id_deporte
     });
 
     this.anularview = new AnularView({ model: this.anular });
-
-    // alert('Anular: ' + idHoraClicked + ' - idreserva: ' + idReserva);
   }
 
 

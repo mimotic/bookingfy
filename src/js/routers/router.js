@@ -7,7 +7,7 @@ var Backbone      = require('backbone'),
     Sesion        = require('../models/sesion'),
     Calendario    = require('../models/calendario'),
     Dia           = require('../models/dia'),
-    Perfil           = require('../models/perfil'),
+    Perfil        = require('../models/perfil'),
 
     DeportesView  = require('../views/deportes-list'),
     LoginView     = require('../views/login'),
@@ -15,10 +15,9 @@ var Backbone      = require('backbone'),
     CalendarioView = require('../views/calendarios'),
     HeaderView    = require('../views/header'),
     DiaView       = require('../views/dia'),
-    PerfilView       = require('../views/perfil'),
+    PerfilView    = require('../views/perfil'),
 
     $             = require('jquery'),
-
     Moment        = require('moment');
 
 module.exports = Backbone.Router.extend({
@@ -54,8 +53,6 @@ module.exports = Backbone.Router.extend({
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
     this.dia = new Dia();
-
-
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -140,23 +137,19 @@ module.exports = Backbone.Router.extend({
 
     var self = this;
 
-    Backbone.Events.on('resetCalendar' , function(idDeporte, newFecha){
-      console.log('eventooo');
-
-      self.calendarios.reset();
+    Backbone.Events.on('resetCalendar' , function(idDeporte, fecha){
+      console.log('eventooo',idDeporte, fecha);
 
       self.calendarios.fetch({
-        data: {
-          id: idDeporte,
-          fecha_pista: newFecha
-        },
-        type: 'POST',
-        success: function(response){
-          // console.log("Success calendario", response);
-        }
-    });
-
-      //this.calendarioView()
+          data: {
+            id: idDeporte,
+            fecha_pista: fecha
+          },
+          type: 'POST',
+          success: function(response){
+            // do something
+          }
+      });
     });
 
   },
@@ -217,7 +210,7 @@ module.exports = Backbone.Router.extend({
 
     var fechaCalendario = Moment().format('YYYY-MM-DD');
 
-    if(newFecha === null)newFecha = fechaCalendario;
+    if(newFecha === null) newFecha = fechaCalendario;
 
     // console.log('moment', fechaCalendario );
 

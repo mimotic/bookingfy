@@ -22,7 +22,6 @@
   "homepage": "https://github.com/mimotic/bookingfy",
   "devDependencies": {
     "connect-modrewrite": "^0.7.11",
-    "connect-php": "0.0.1",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.6.0",
     "grunt-changelog": "^0.3.0",
@@ -50,6 +49,7 @@
     "moment": "^2.10.2",
     "sha1": "^1.1.0",
     "underscore": "^1.8.3",
-    "validator": "^3.39.0"
+    "validator": "^3.39.0",
+    "spin-js-lite": "0.0.3"
   }
 }

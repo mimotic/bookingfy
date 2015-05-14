@@ -45,7 +45,9 @@ module.exports = Backbone.View.extend({
 
   	this.model.fetch({
   		data: {
-          id_reserva: anular.id_reserva
+          id_reserva: anular.id_reserva,
+          fecha_pista: anular.fecha_pista,
+          id_deporte: anular.id_deporte,
       },
   		type: 'PUT',
   		success: function(model, response) {
@@ -53,17 +55,23 @@ module.exports = Backbone.View.extend({
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
+            console.log('MIMOTIC: success id reserva', anular.id_reserva);
+
             setTimeout(function(){
+
               $('#modalCalendario').fadeOut();
-              Backbone.history.loadUrl();
+
+              console.log('fecha pista',anular.fecha_pista );
+
               self.undelegateEvents();
-              //Backbone.Events.trigger('resetCalendar', reserva.fecha_pista );
+              Backbone.Events.trigger('resetCalendar', anular.id_deporte , anular.fecha_pista );
+
             }, 2000);
             //
         },
         error: function(model, response) {
             // console.log('FALLOOOOOO', response);
-
+            console.log('MIMOTIC: error id reserva', anular.id_reserva);
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
