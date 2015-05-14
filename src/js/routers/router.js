@@ -42,6 +42,10 @@ module.exports = Backbone.Router.extend({
     var self = this;
     this.current = {};
 
+
+    // init loader
+    this.loader();
+
     // deportes
     this.jsonData = {};
     this.deportes = new Deportes();
@@ -53,6 +57,8 @@ module.exports = Backbone.Router.extend({
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
 
     this.dia = new Dia();
+
+
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -71,6 +77,22 @@ module.exports = Backbone.Router.extend({
     // switch class from body
     if(isLogged == 'unlogged') bodyTag.removeClass( "inapp" ).addClass( "outapp" );
     else bodyTag.removeClass( "outapp" ).addClass( "inapp" );
+  },
+
+  loader: function () {
+
+    var loading = $('#loading');
+    var documento = $(document);
+    var modalCalendario = $('#modalCalendario');
+
+
+    documento.ajaxStart(function () {
+      loading.fadeIn(0);
+    });
+
+    documento.ajaxComplete(function () {
+      loading.fadeOut(500);
+    });
   },
 
   requireLogin: function(callback, args) {
