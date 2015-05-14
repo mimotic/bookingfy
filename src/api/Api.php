@@ -337,10 +337,12 @@
      }
      if (isset($this->datosPeticion['id_reserva'])) {
        $id = $this->datosPeticion['id_reserva'];
-       $id = (int) $id;
+       $id = (int)$id;
+       $anulado = 1;
        if ($id > 0) {
-         $query = $this->_conn->prepare("update reservas set anulado=1 WHERE id =:id");
+         $query = $this->_conn->prepare("update reservas set anulado=:anulado WHERE id=:id");
          $query->bindValue(":id", $id);
+         $query->bindValue(":anulado", $anulado);
          $query->execute();
          $filasActualizadas = $query->rowCount();
          if ($filasActualizadas == 1) {
@@ -349,6 +351,8 @@
          } else {
            $this->mostrarRespuesta($this->convertirJson($this->devolverError(9)), 200);
          }
+
+
        }
      }
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(10)), 400);
