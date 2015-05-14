@@ -19,6 +19,7 @@ dev
 dev/
 /dev
 
+src/css/style.min.css
 src/js/app.min.js
 
 # credenciales #
