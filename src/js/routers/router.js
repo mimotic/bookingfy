@@ -2,12 +2,14 @@ var Backbone      = require('backbone'),
 
     Deportes      = require('../collections/deportes'),
     Calendarios   = require('../collections/calendarios'),
+    ReservasUser  = require('../collections/reservas-usuario'),
 
     Deporte       = require('../models/deporte'),
     Sesion        = require('../models/sesion'),
     Calendario    = require('../models/calendario'),
     Dia           = require('../models/dia'),
     Perfil        = require('../models/perfil'),
+    ReservaUser    = require('../models/reserva-usuario'),
 
     DeportesView  = require('../views/deportes-list'),
     LoginView     = require('../views/login'),
@@ -16,6 +18,7 @@ var Backbone      = require('backbone'),
     HeaderView    = require('../views/header'),
     DiaView       = require('../views/dia'),
     PerfilView    = require('../views/perfil'),
+    ReservasUserView = require('../views/reservas-list'),
 
     $             = require('jquery'),
     Moment        = require('moment');
@@ -29,6 +32,7 @@ module.exports = Backbone.Router.extend({
     "pistas/:idDeporte": "loadCalendar",
     "pistas/:idDeporte/:date": "loadCalendar",
     "perfil"  : "loadPerfil",
+    "misreservas": "loadReservasUser",
     "*path"  : "notFound"
   },
 
@@ -55,6 +59,9 @@ module.exports = Backbone.Router.extend({
     this.jsonDataCalendario = {};
     this.calendarios = new Calendarios();
     this.calendarioView = new CalendarioView({ collection: this.calendarios });
+
+    this.reservasUser = new ReservasUser();
+    this.reservasUserView = new ReservasUserView({ collection: this.reservasUser });
 
     this.dia = new Dia();
 
@@ -287,6 +294,47 @@ module.exports = Backbone.Router.extend({
 
     this.perfilView = new PerfilView({});
 
+
+  },
+
+
+  loadReservasUser: function () {
+    var self = this;
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
+
+    if(this.perfilView) this.perfilView.clean();
+
+    this.deportes.reset();
+    this.calendarios.reset();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+
+    if(typeof this.login == 'object') this.login.resetear();
+    if(typeof this.registro == 'object') this.registro.resetear();
+
+
+    var sesion = Sesion.getInstance();
+    var sesionId = sesion.get('id_usuario');
+
+    // this.deportes.fetch();
+    this.reservasUser.fetch({
+        data: {
+            id_usuario: sesionId
+          },
+          type: 'POST',
+          success: function(response){
+                // console.log("Success deportes");
+          },
+          error: function (collection, err) {
+            // console.log('error', collection, err);
+          }
+      });
 
   }
 
