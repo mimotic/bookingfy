@@ -424,7 +424,7 @@
 
        $id_usuario = $this->datosPeticion['id_usuario'];
 
-         $query = $this->_conn->prepare("SELECT r.id,r.id_pista,r.id_hora,r.fecha_pista,r.luz,r.anulado,p.nombre,p.precio_pista,p.precio_luz,d.nombre,h.inicio FROM reservas AS r LEFT JOIN pistas AS p ON r.id_pista = p.id LEFT JOIN deporte AS d ON p.id_deporte = d.id LEFT JOIN horarios AS h ON r.id_hora = h.id WHERE id_usuario=:id_usuario ORDER BY r.fecha_pista DESC, h.inicio ASC");
+         $query = $this->_conn->prepare("SELECT r.id,r.fecha_pista,r.luz,r.anulado,p.nombre as nombre_pista,p.precio_pista,p.precio_luz,d.nombre as nombre_deporte,h.inicio FROM reservas AS r LEFT JOIN pistas AS p ON r.id_pista = p.id LEFT JOIN deporte AS d ON p.id_deporte = d.id LEFT JOIN horarios AS h ON r.id_hora = h.id WHERE id_usuario=:id_usuario ORDER BY r.fecha_pista DESC, h.inicio ASC");
          $query->bindValue(":id_usuario", $id_usuario);
          $query->execute();
          $filas = $query->fetchAll(PDO::FETCH_ASSOC);
