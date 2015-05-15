@@ -124,17 +124,21 @@ module.exports = Backbone.View.extend({
                 success:function (data) {
                     console.log(["Register request details: ", data]);
 
-                    if(data.estado=="error") {  // If there is an error, show the error messages
-                        // $('.alert-error').text(data.error.text).show();
+                    if(data.estado=="error") {
                         $('#error').html(data.msg).slideDown();
-                        //alert('ERROR: ' + data.msg);
                     }
-                    else { // If not, send them back to the home page
-                        // window.location.replace('#');
-                        // alert(user.val() + ' esta dentro');
+                    else {
+
                         $('#error').html('registrado !!!').slideDown();
+
                         self.undelegateEvents();
-                        Backbone.app.navigate("login", { trigger: true });
+
+                        var args = {};
+
+                        args.mail = formValues.mail;
+                        args.msg = data.msg;
+
+                        Backbone.Events.trigger('loginSuccessful', args);
                     }
                 }
             });

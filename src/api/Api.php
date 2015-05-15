@@ -122,7 +122,7 @@
            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
          }
          else
-           $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 200);
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 200);
        }
        else
          $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 200);
@@ -351,8 +351,6 @@
          } else {
            $this->mostrarRespuesta($this->convertirJson($this->devolverError(9)), 200);
          }
-
-
        }
      }
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(10)), 400);
@@ -413,6 +411,35 @@
      $this->mostrarRespuesta($this->convertirJson($this->devolverError(3)), 200);
      // $this->mostrarRespuesta($this->convertirJson($this->datosPeticion['mail']), 200);
    }
+
+
+
+    // NUEVO USUARIO [POST]
+   // curl -d "nombre=nuevoUsuario&apellidos=Apeliidos&expediente=123456789&dni=123456h&mail=user@user.com&password=asd123" http://bookingfy.dev/api/nuevoUsuario
+   private function reservasUsuario() {
+     if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset($this->datosPeticion['id_usuario'])) {
+
+       $id_usuario = $this->datosPeticion['id_usuario'];
+
+         $query = $this->_conn->prepare("SELECT r.id,r.id_pista,r.id_hora,r.fecha_pista,r.luz,r.anulado,p.nombre,p.precio_pista,p.precio_luz,d.nombre,h.inicio FROM reservas AS r LEFT JOIN pistas AS p ON r.id_pista = p.id LEFT JOIN deporte AS d ON p.id_deporte = d.id LEFT JOIN horarios AS h ON r.id_hora = h.id WHERE id_usuario=:id_usuario ORDER BY r.fecha_pista DESC, h.inicio ASC");
+         $query->bindValue(":id_usuario", $id_usuario);
+         $query->execute();
+         $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+         $num = count($filas);
+         if ($num > 0) {
+            $respuesta = $filas;
+            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+         }
+         else
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 200);
+     } else {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+     }
+   }
+
 
 
 

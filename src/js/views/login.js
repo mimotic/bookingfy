@@ -19,16 +19,21 @@ module.exports = Backbone.View.extend({
     'keydown': 'keyAction'
   },
 
-
-
   template: Handlebars.compile(Plantilla.login),
 
-  initialize: function () {
-    this.render();
+  initialize: function (args) {
+    this.render(args);
+    if(args.msg){
+      $('.error').hide();
+      $('#no-error').html(args.msg).slideDown().fadeOut(3000);
+    }
   },
 
-  render: function () {
-    var html = this.template();
+  render: function (args) {
+
+    var data = args || {};
+
+    var html = this.template(data);
     this.$el.html(html);
     return this;
   },
@@ -87,9 +92,11 @@ module.exports = Backbone.View.extend({
               data: formValues,
               success:function (data) {
                   if(data.estado=="error") {  // If there is an error, show the error messages
+                       $('.error').hide();
                        $('#error').html(data.msg).slideDown();
                   } else {
-                      $('#error').html('Welcome !!!').slideDown();
+                      $('.error').hide();
+                      $('#no-error').html('Welcome !!!').slideDown();
                       Sesion.setSesiondata(data.usuario);
                       Backbone.app.navigate("reservas", { trigger: true });
                   }

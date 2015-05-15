@@ -87,7 +87,7 @@ module.exports = Backbone.Router.extend({
 
 
     documento.ajaxStart(function () {
-      loading.fadeIn(0);
+      loading.show(0);
     });
 
     documento.ajaxComplete(function () {
@@ -126,7 +126,7 @@ module.exports = Backbone.Router.extend({
     else this.login = new LoginView();
   },
 
-  loadLogin: function(args){
+  loadLogin: function(args, datosLogin){
     if(this.registro) this.registro.resetear();
     if(this.perfilView) this.perfilView.clean();
     if(args === true){
@@ -138,7 +138,7 @@ module.exports = Backbone.Router.extend({
       this.deportes.reset();
       this.calendarios.reset();
       if(this.diaView !== undefined) this.diaView.ocultar();
-      this.login = new LoginView();
+      this.login = new LoginView( datosLogin );
     }
   },
 
@@ -153,6 +153,9 @@ module.exports = Backbone.Router.extend({
       if(this.diaView !== undefined)this.diaView.ocultar();
       this.registro = new RegistroView();
     }
+
+    this.customEvents();
+
   },
 
   customEvents: function(){
@@ -172,6 +175,14 @@ module.exports = Backbone.Router.extend({
             // do something
           }
       });
+    });
+
+
+    Backbone.Events.on('loginSuccessful' , function(args){
+      console.log('login args',args);
+      Backbone.app.navigate("login", { trigger: false });
+      self.loadLogin( false , args );
+
     });
 
   },
