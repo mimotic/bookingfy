@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
     this.$el.append(reservaView.render().el);
   },
 
-   mostrar: function(){
+  mostrar: function(){
     this.$el.show();
   },
 

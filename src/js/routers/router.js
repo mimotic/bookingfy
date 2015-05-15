@@ -39,6 +39,7 @@ module.exports = Backbone.Router.extend({
   notFound: function(path) {
     var msg = "Unable to find path: " + path;
     alert(msg);
+    Backbone.app.navigate("", { trigger: true });
   },
 
   initialize: function () {
