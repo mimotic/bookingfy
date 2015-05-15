@@ -145,6 +145,7 @@ module.exports = Backbone.Router.extend({
       }
       this.deportes.reset();
       this.calendarios.reset();
+      this.reservasUser.reset();
       if(this.diaView !== undefined) this.diaView.ocultar();
       this.login = new LoginView( datosLogin );
     }
@@ -158,6 +159,7 @@ module.exports = Backbone.Router.extend({
     } else{
       this.deportes.reset();
       this.calendarios.reset();
+      this.reservasUser.reset();
       if(this.diaView !== undefined)this.diaView.ocultar();
       this.registro = new RegistroView();
     }
@@ -210,6 +212,7 @@ module.exports = Backbone.Router.extend({
 
     this.deportes.reset();
     this.calendarios.reset();
+    this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
 
@@ -241,6 +244,7 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     this.deportes.reset();
     this.calendarios.reset();
+    this.reservasUser.reset();
 
     if(this.headerView !== undefined){
         this.headerView.render();
@@ -283,6 +287,7 @@ module.exports = Backbone.Router.extend({
 
     this.deportes.reset();
     this.calendarios.reset();
+    this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
 
@@ -313,6 +318,7 @@ module.exports = Backbone.Router.extend({
 
     this.deportes.reset();
     this.calendarios.reset();
+    this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
 

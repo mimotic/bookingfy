@@ -9,9 +9,9 @@ module.exports = Backbone.View.extend({
   tagName: 'li',
   className: 'reservuser',
 
-  events: {
-    'click': 'navigate'
-  },
+  // events: {
+  //   'click': 'anular'
+  // },
 
   template: Handlebars.compile( Plantilla.reserva_user ),
 
@@ -25,9 +25,6 @@ module.exports = Backbone.View.extend({
     var html = this.template(reserva);
     this.$el.html(html);
     return this;
-  },
-
-  navigate: function () {
   }
 
 });
