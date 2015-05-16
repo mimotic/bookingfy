@@ -15,8 +15,8 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.reserva_user),
 
   initialize: function () {
-    this.listenTo(this.collection, "add", this.render, this);
-    this.listenTo(this.collection, "reset", this.resetear, this);
+    // this.listenTo(this.collection, "add", this.render, this);
+    // this.listenTo(this.collection, "reset", this.resetear, this);
   },
 
   resetear: function () {
@@ -28,7 +28,7 @@ module.exports = Backbone.View.extend({
     // Initialize a new Grid instance
     var self = this;
 
-    console.log(self.collection.toJSON());
+    // console.log(self.collection.toJSON());
 
     var grid = new Backgrid.Grid({
       columns: self.columnasTabla,
@@ -57,57 +57,67 @@ module.exports = Backbone.View.extend({
       label: "ID", // The name to display in the header
       editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
       // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
-      cell: Backgrid.IntegerCell.extend({
-        orderSeparator: ''
-      })
+      cell: "string",
+      sortable: false
+      // cell: Backgrid.IntegerCell.extend({
+      //   orderSeparator: ''
+      // })
     },
     {
       name: "nombre_deporte",
       label: "Deporte",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "nombre_pista",
       label: "Pista",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "fecha_pista",
       label: "Fecha",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "inicio",
       label: "Hora",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "luz",
       label: "Luz",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "anulado",
       label: "Estado",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "precio_pista",
       label: "Precio Pista en €",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     },
     {
       name: "precio_luz",
       label: "Precio Luz en €",
       editable: false,
-      cell: "string"
+      cell: "string",
+      sortable: false
     }]
 
 

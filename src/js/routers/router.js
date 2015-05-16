@@ -104,6 +104,7 @@ module.exports = Backbone.Router.extend({
   },
 
   requireLogin: function(callback, args) {
+    this.reservasUserView.ocultar();
     var sesion = Sesion.getInstance();
     if (sesion.get('mail')) {
       args.unshift(true);
@@ -320,6 +321,8 @@ module.exports = Backbone.Router.extend({
     this.calendarios.reset();
     this.reservasUser.reset();
 
+    this.reservasUserView.mostrar();
+
     if(this.diaView !== undefined) this.diaView.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
@@ -336,12 +339,14 @@ module.exports = Backbone.Router.extend({
           },
           type: 'POST',
           success: function(response){
-                // console.log("Success deportes");
+              self.reservasUserView.render();
           },
           error: function (collection, err) {
             // console.log('error', collection, err);
           }
       });
+
+
 
   }
 
