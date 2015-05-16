@@ -3,5 +3,6 @@ var Backbone = require('backbone'),
 
 module.exports = Backbone.Collection.extend({
 	url: '/api/reservasUsuario/',
-  	model: ReservaUsuario
+  	model: ReservaUsuario,
+  	mode: "client"
 });

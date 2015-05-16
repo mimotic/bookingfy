@@ -36,10 +36,10 @@ module.exports = Backbone.Router.extend({
     "*path"  : "notFound"
   },
 
-  notFound: function(path) {
-    var msg = "Unable to find path: " + path;
+  notFound: function(login,path) {
+    var msg = "La url: " + path + " no existe, se le redireccionará al inicio";
     alert(msg);
-    Backbone.app.navigate("", { trigger: true });
+    this.navigate("", { trigger: true });
   },
 
   initialize: function () {
