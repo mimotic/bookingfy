@@ -41,12 +41,14 @@
        array('estado' => "error", "msg" => "petición sin contenido"), // 2
        array('estado' => "error", "msg" => "email o password incorrectos"), // 3
        array('estado' => "error", "msg" => "error borrando usuario"), // 4
-       array('estado' => "error", "msg" => "error actualizando nombre de usuario"), // 5
+       array('estado' => "error", "msg" => "error actualizando datos de usuario"), // 5
        array('estado' => "error", "msg" => "error buscando usuario por email"), // 6
        array('estado' => "error", "msg" => "error creando usuario"), // 7
        array('estado' => "error", "msg" => "usuario ya existe"), // 8
        array('estado' => "error", "msg" => "error anulando reserva"), // 9
-       array('estado' => "error", "msg" => "petición no aceptada, faltan valores o son incorrectos") // 10
+       array('estado' => "error", "msg" => "petición no aceptada, faltan valores o son incorrectos"), // 10
+       array('estado' => "error", "msg" => "Error: email, dni o expediente ya existentes"), // 11
+       array('estado' => "error", "msg" => "No se han modificado datos, son iguales a los encontrados en la base de datos") // 12
      );
      return $errores[$id];
    }
@@ -167,7 +169,7 @@
            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
          }
          else
-           $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(12)), 200);
        }
        else
          $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 400);
@@ -446,7 +448,56 @@
 
 
 
+   private function actualizarUsuario() {
 
+     if ($_SERVER['REQUEST_METHOD'] != "PUT") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+
+     if (isset($this->datosPeticion['id_usuario'])) {
+
+       $nombre = $this->datosPeticion['nombre'];
+       $apellidos = $this->datosPeticion['apellidos'];
+       $expediente = $this->datosPeticion['expediente'];
+       $dni = $this->datosPeticion['dni'];
+       $password = $this->datosPeticion['password'];
+       $mail = $this->datosPeticion['mail'];
+       $id_usuario = $this->datosPeticion['id_usuario'];
+       $id_usuario = (int)$id_usuario;
+
+       $query = $this->_conn->prepare("SELECT mail, expediente, dni FROM usuarios WHERE id != :id_usuario AND (mail=:mail OR expediente=:expediente OR dni=:dni )");
+           $query->bindValue(":mail", $mail);
+           $query->bindValue(":dni", $dni);
+           $query->bindValue(":expediente", $expediente);
+           $query->bindValue(":id_usuario", $id_usuario);
+           $query->execute();
+           $fila = $query->fetch(PDO::FETCH_ASSOC);
+           if($fila == 0){
+                  if (!empty($nombre) and $id_usuario > 0) {
+                   $query = $this->_conn->prepare("UPDATE usuarios SET nombre=:nombre,apellidos=:apellidos,expediente=:expediente,dni=:dni,mail=:mail,password=:password WHERE id =:id_usuario");
+                   $query->bindValue(":nombre", $nombre);
+                   $query->bindValue(":id_usuario", $id_usuario);
+                   $query->bindValue(":nombre", $nombre);
+                   $query->bindValue(":apellidos", $apellidos);
+                   $query->bindValue(":expediente", $expediente);
+                   $query->bindValue(":dni", $dni);
+                   $query->bindValue(":mail", $mail);
+                   $query->bindValue(":password", $password);
+                   $query->execute();
+                   $filasActualizadas = $query->rowCount();
+                   if ($filasActualizadas > 0) {
+                     $resp = array('estado' => "correcto", "msg" => "Datos de usuario actualizados.");
+                     $this->mostrarRespuesta($this->convertirJson($resp), 200);
+                   } else {
+                     $this->mostrarRespuesta($this->convertirJson($this->devolverError(12)), 200);
+                   }
+                 }
+           }else{
+            $this->mostrarRespuesta($this->convertirJson($this->devolverError(11)), 200);
+           }
+     }
+     $this->mostrarRespuesta($this->convertirJson($this->devolverError(5)), 200);
+   }
 
 
    private function actualizarNombre($idUsuario) {
