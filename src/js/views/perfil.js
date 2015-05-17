@@ -121,7 +121,8 @@ module.exports = Backbone.View.extend({
             expediente = $('#reg_expediente'),
             email = $('#reg_email'),
             pwd = $('#reg_pass_new'),
-            id_usuario = $('#reg_id_usuario');
+            id_usuario = $('#reg_id_usuario'),
+            rol = $('#reg_rol_usuario');
 
         var formValues = {
             nombre: name.val(),
@@ -130,7 +131,8 @@ module.exports = Backbone.View.extend({
             dni: dni.val(),
             password: pwd.val(),
             mail: email.val(),
-            id_usuario: id_usuario.val()
+            id_usuario: id_usuario.val(),
+            rol: rol.val()
         };
 
 
@@ -157,6 +159,17 @@ module.exports = Backbone.View.extend({
                         $('.error').hide();
                         $('#no-error').html(data.msg).slideDown();
 
+                        var usuario = {
+                          id_usuario: formValues.id_usuario,
+                          nombre: formValues.nombre,
+                          apellidos: formValues.apellidos,
+                          mail: formValues.mail,
+                          rol: formValues.rol,
+                          dni: formValues.dni,
+                          expediente: formValues.expediente
+                        };
+
+                        Sesion.setSesiondata(usuario);
                         // self.undelegateEvents();
 
                         // var args = {};
