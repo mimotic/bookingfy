@@ -66,8 +66,6 @@ module.exports = Backbone.Router.extend({
 
     this.dia = new Dia();
 
-
-
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
   },
@@ -196,6 +194,15 @@ module.exports = Backbone.Router.extend({
 
     });
 
+    Backbone.Events.on('updateUserData' , function(args){
+      if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+      }else{
+        this.headerView = new HeaderView({});
+      }
+    });
+
   },
 
 
@@ -285,6 +292,8 @@ module.exports = Backbone.Router.extend({
   },
 
   loadPerfil: function () {
+
+    this.customEvents();
 
     this.deportes.reset();
     this.calendarios.reset();

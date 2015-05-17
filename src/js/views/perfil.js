@@ -170,6 +170,8 @@ module.exports = Backbone.View.extend({
                         };
 
                         Sesion.setSesiondata(usuario);
+
+                        Backbone.Events.trigger('updateUserData');
                         // self.undelegateEvents();
 
                         // var args = {};
