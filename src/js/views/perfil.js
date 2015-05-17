@@ -62,7 +62,7 @@ module.exports = Backbone.View.extend({
         response.datos.nombre = (Validator.isLength(formData.nombre, 2))? true : 'El nombre debe tener mínimo 2 caracteres';
         response.datos.apellidos = (Validator.isLength(formData.apellidos, 2))? true : 'Los apellidos deben tener mínimo 2 caracteres';
         response.datos.dni = (this.dniEval(formData.dni))? true : 'DNI no válido';
-        response.datos.password = (Validator.isLength(formData.password, 6))? true : 'La contraseña debe tener mínimo 6 caracteres';
+        if (!Validator.isLength(formData.password, 0)) response.datos.password = (Validator.isLength(formData.password, 6))? true : 'La contraseña debe tener mínimo 6 caracteres';
         response.datos.expediente = (Validator.isLength(formData.expediente, 5))? true : 'El expediente debe tener mínimo 5 caracteres';
 
         test =   !(_.isString(response.datos.mail)) &&
@@ -121,8 +121,13 @@ module.exports = Backbone.View.extend({
             expediente = $('#reg_expediente'),
             email = $('#reg_email'),
             pwd = $('#reg_pass_new'),
+            pwdOld = $('#reg_pass_old'),
             id_usuario = $('#reg_id_usuario'),
-            rol = $('#reg_rol_usuario');
+            rol = $('#reg_rol_usuario'),
+            modal = $('#actualizarUsuarioModal');
+
+
+
 
         var formValues = {
             nombre: name.val(),
@@ -132,15 +137,26 @@ module.exports = Backbone.View.extend({
             password: pwd.val(),
             mail: email.val(),
             id_usuario: id_usuario.val(),
-            rol: rol.val()
+            rol: rol.val(),
+            current_password: pwdOld.val()
         };
+
+
+        modal.hide();
+        pwdOld.val('');
+        pwd.val('');
 
 
 
         var validar = this.inputEval(formValues);
 
         if(validar.validado === true){
-            formValues.password = Sha1(formValues.password);
+
+            if(formValues.password !== '') formValues.password = Sha1(formValues.password);
+            else formValues = _.omit(formValues, 'password');
+
+            formValues.current_password = Sha1(formValues.current_password);
+
             console.log('formValues', formValues);
 
             $.ajax({
@@ -149,15 +165,14 @@ module.exports = Backbone.View.extend({
                 dataType:"json",
                 data: formValues,
                 success:function (data) {
-                    console.log(["Register request details: ", data]);
 
                     if(data.estado=="error") {
                         $('.error').hide();
-                        $('#error').html(data.msg).slideDown();
+                        $('#error').html(data.msg).slideDown().fadeOut(5000);
                     }
                     else {
                         $('.error').hide();
-                        $('#no-error').html(data.msg).slideDown();
+                        $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
                         var usuario = {
                           id_usuario: formValues.id_usuario,
@@ -198,7 +213,8 @@ module.exports = Backbone.View.extend({
 
             printErrores += '<ul>';
 
-            $('#error').html(printErrores).slideDown();
+            $('.error').hide();
+            $('#error').html(printErrores).slideDown().fadeOut(5000);
 
             // console.log(mensajesError);
 
