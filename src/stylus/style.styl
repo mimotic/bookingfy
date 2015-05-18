@@ -115,10 +115,6 @@ body
 		border-top: 1px solid rgb(58, 61, 68)
 		li:last-child
 			float right
-	.inapp
-		padding-top 10em !important
-	header
-		margin-top -10em !important
 
 // logout
 //
@@ -132,16 +128,10 @@ body
 	&:hover
 		text-decoration underline
 
-
-.inapp
-	padding-top 6em
-
 .header
-	z-index: 3;
-	position: fixed;
 	width: 100%;
 	background-color: #26282d;
-	margin: -6em 0 0 ;
+	margin: 0 ;
 	box-shadow 0 1px 2px #666
 	overflow: hidden;
 	ul
@@ -216,10 +206,13 @@ body
 	display block
 	margin 0 auto
 	width 100%
+	clear none
+	max-width 1124px
 
-.tipo-calendario
-	max-width 800px
-	min-width 600px
+.tipo-calendario.doble
+	width 50%
+	max-width 550px
+	min-with 380px
 	float left
 
 	&.doble
@@ -229,6 +222,10 @@ body
 	ul
 		margin 0
 		padding 0
+@media screen and (max-width:600px)
+	.tipo-calendario.doble
+		width 100%
+		float left
 
 .calendario-list
   	margin .5em
@@ -283,7 +280,7 @@ body
 		text-transform uppercase
 .hora[data-estado="owner"]
 	&:hover:after
-		content: ' anular reserva'
+		content: ' anular'
 		color: rosaPalido
 		text-align center
 		text-transform uppercase
@@ -320,7 +317,33 @@ body
 		box-shadow: 0 0 6px #818181;
 		top: 94px;
 		left: 50%;
-		margin-left: -275px;
+		margin-left: -312px;
+
+@media screen and (max-width:650px)
+	#modalCalendario
+		position absolute
+		z-index 999
+		background rgba(0, 0, 0, 0.83);
+		filter: blur(80px);
+		height 100%
+		width 100%
+		top 0
+		left 0
+		display none
+		>div
+			position: fixed;
+			padding: .5em;
+			border: none
+			height: 350px;
+			width: 95%;
+			/* margin: 7em auto; */
+			background: #fff;
+			-webkit-box-shadow: 0 0 6px #818181;
+			box-shadow: 0 0 6px #818181;
+			top 10px
+			margin .3em
+			margin-left: .3em
+			left 0
 
 .hora span
 	font-size .8em
@@ -370,6 +393,7 @@ footer
 
 body.inapp
 	footer
+		padding-top 3em
 		display block
 body.outapp
 	footer
