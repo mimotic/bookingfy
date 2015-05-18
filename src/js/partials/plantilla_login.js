@@ -1,7 +1,7 @@
 var plantillas = plantillas || {};
 
 plantillas.login = '<div class="login_users">'
-		+ '<span class="title-span">Alquiler de Pistas Deportivas<span>'
+		+ '<span class="title-span">Alquiler de Pistas Deportivas</span>'
 		+ '<input id="login_user_input" type="email" name="login_user_input" value="{{mail}}" placeholder="Email" required>'
 		+ '<div class="clear"></div>'
 		+ '<input id="login_pass_input" type="password" name="login_pass_input" value="" placeholder="Password" required>'

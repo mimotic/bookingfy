@@ -1,7 +1,7 @@
 var plantillas = plantillas || {};
 
 plantillas.registro = '<div class="login_users">'
-		+ '<span class="title-span">Crear Nuevo Usuario<span>'
+		+ '<span class="title-span">Crear Nuevo Usuario</span>'
 		+ '<input data-validado="" id="reg_name" type="text" name="" value="" placeholder="Nombre">'
 		+ '<div class="clear"></div>'
 		+ '<input data-validado="" id="reg_surname" type="text" name="" value="" placeholder="Apellidos">'

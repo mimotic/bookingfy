@@ -68,7 +68,12 @@ body
 	margin 0
 
 body.outapp
-	background #26282D
+	background url('../img/Blur-4.jpg') center center fixed
+	background-repeat no-repeat
+	-webkit-background-size cover
+	-moz-background-size cover
+	-o-background-size cover
+	background-size cover
 
 body.inapp
 	background light-gray
@@ -243,9 +248,13 @@ footer
 	clear both
 	margin-top 3em
 
+
 body.inapp
 	footer
 		display block
+body.outapp
+	footer
+		color #EFD3B1
 
 // LOGIN / REGISTRO
 #logo
@@ -260,20 +269,24 @@ body.inapp
 .login_users
 	position relative
 	max-width: 600px;
-	background: grisClaro;
+	background: rgba(237, 237, 237, 0.64)
 	height: auto;
 	overflow hidden
 	margin: 0 auto;
-	box-shadow: 0 0px 5px dark-gray;
+	box-shadow: 0 0 4px rgba(51, 51, 51, 0.44)
 	padding 1em
 	border-radius 2px
+	font-weight: 300
+	text-align center
+	border-radius 0
 	label,
 	input
 		position relative
 		margin .5em auto
-		width 500px
+		width 580px
 		height 2em
 		padding .5em
+		border none
 	label
 		text-align center
 	#dologin,
@@ -306,11 +319,12 @@ body.inapp
 		padding .8em 3em
 		margin 2em auto 2em
 		background-color verdeAguoso
+		box-shadow 0 3px 0 rgb(77, 208, 203)
 		font-weight 300
 		&:hover
-			color dark-gray
-			background-color grisClaro
-			box-shadow 0 0 3px dark-gray
+			color #348B87
+			background-color #4DD0CB
+			box-shadow 0 3px 0 rgb(77, 208, 203)
 	#goregistro,
 	#gologin
 		color #736E6E
@@ -321,8 +335,9 @@ body.inapp
 		display block
 		margin 1em auto 1.5em
 	span.title-span
-		font-weight 400
-		color dark-gray
+		font-weight 300
+		color #A8A7A3
+
 	#error
 		position relative
 		border 1px solid rosaPalido
@@ -351,12 +366,31 @@ body.inapp
 
 @media screen and (max-width:650px)
 	.login_users
+		background transparent
+		box-shadow none
 		max-width: 600px;
 		margin: 0 1em;
 		label,
 		input
-			margin .5em auto
+			margin 0.1em auto
 			width 94%
+		#dologin,
+		#doregister
+			padding .8em 0
+			width 100%
+		.title-span
+			display none
+	#logo
+		figure
+			width 200px
+			margin 1em auto
+			img
+				width 100%
+				height auto
+	.footer
+		p
+			font-size .8em
+			margin 0 auto .5em
 
 
 
