@@ -17,8 +17,9 @@ module.exports = Backbone.View.extend({
   tagName: 'div',
   // className: 'tipo-calendario',
   className: function (){
-    // ya no funciona al cambiar logica, camabiar
+    // ya no funciona al cambiar logica, cambiar
     var calendario = this.model.toJSON();
+    console.log('calendario calses', calendario);
     var numeroPistas = calendario.numeroPistas;
     numeroPistas = (numeroPistas == 1)? 'simple' : 'doble';
     return 'tipo-calendario ' + numeroPistas;
