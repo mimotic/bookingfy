@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
     this.$el.append(deporteView.render().el);
   },
 
-   mostrar: function(){
+  mostrar: function(){
     this.$el.show();
   },
 

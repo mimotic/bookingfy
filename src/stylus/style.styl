@@ -74,9 +74,12 @@ body.outapp
 	-moz-background-size cover
 	-o-background-size cover
 	background-size cover
-
+.outapp
+	.tipo-pistas
+		display none
 body.inapp
-	background light-gray
+	background url('../img/background4.png') repeat
+
 
 section,
 body
@@ -91,19 +94,56 @@ body
 	clear both
 
 
-// estructura principal
-.header
-	background-color #26282D
-	margin 0
-	overflow hidden
+
+// CABECERA
+// ****************************
+
+
 
 
 .logo
 	position relative
 	margin-left 2em
+	max-width 200px
 	img
 		margin 1em auto
+		width 100%
+		height auto
+// logout
+//
 
+#logout,
+.user-welcome
+	display inline-block
+	color white
+	text-decoration none
+	font-weight 300
+	&:hover
+		text-decoration underline
+
+
+.inapp
+	padding-top 6em
+
+.header
+	z-index: 3;
+	position: fixed;
+	width: 100%;
+	background-color: #26282d;
+	margin: -6em 0 0 ;
+	box-shadow 0 1px 2px #666
+	overflow: hidden;
+	ul
+		list-style-type none
+		padding 0
+		float right
+		li
+			list-style-type none
+			display inline-block
+			padding 1em
+
+.inapp #logotipoLink
+	float left
 
 // listado de deportes
 .tipo-pistas
@@ -114,14 +154,39 @@ body
 .deporte
 	position relative
 	display inline-block
-	padding 3em 0
-	margin .2em
-	width 45%
-	border 6px solid #c3c3c3
-	background-color #c3c3c3
+	padding .7em 0 .7em 1em
+	font-weight 300
+	text-transform uppercase
+	font-size 17px
+	margin .3em 0
+	width 80%
+	color rgb(79, 79, 79)
+	background-color white
+	box-shadow 0 0 2px #BBBBBB
 	cursor pointer
+	text-align left
+	border-radius 2px
+
+	-webkit-transition: color .5s ease-out;
+	-moz-transition: color .5s ease-out;
+	-o-transition: color .5s ease-out;
+	transition: color .5s ease-out;
+
+	-webkit-transition: background-color .5s ease-out;
+	-moz-transition: background-color .5s ease-out;
+	-o-transition: background-color .5s ease-out;
+	transition: background-color .5s ease-out;
+
+
+
+	&:hover
+		background-color #34828C
+		color #6CA2A8
 	span
 		cursor pointer
+	i
+		float right
+		color #E7E7E7
 
 .pista
 	position relative
@@ -131,27 +196,8 @@ body
 	width 45%
 	background-color #c3c3c3
 
-@media screen and (min-width:650px)
-	.deporte
-		position relative
-		display inline-block
-		padding 3em 0
-		margin .2em
-		width 22%
-		background-color #c3c3c3
-
 
 // listado tipo-pistas
-
-
-
-// header
-
-.user-welcome
-	display inline-block
-	color white
-	text-decoration none
-	padding-left 2em
 
 
 // #calendario
@@ -171,19 +217,21 @@ body
 	ul
 		margin 0
 		padding 0
+
 .calendario-list
-	padding 1em
-	background transparent
-	margin .5em
-	h2
-		color #5F5F5F
-		font-weight 300
+  	margin .5em
+  	padding 0
+
 	ul
 		padding 1em
-		li
-			padding 1em
-			margin .5em 0
-			border-radius 2px
+
+.calendario-list
+	background main-blue
+	h2
+		color white
+		font-weight 300
+
+
 .hora
 	position relative
 	display block
@@ -193,23 +241,30 @@ body
 	-o-transition: box-shadow .3s ease-out;
 	transition: box-shadow .3s ease-out;
 	box-shadow 0 0 0 grisClaro
-	&[data-estado="libre"]
-		background-color activo
-		cursor pointer
-		&:hover
-			box-shadow 0 0 6px #666
-			background-color activo
-	&[data-estado="ocupado"]
-		  	color: rgb(129, 129, 129)
-		  	background-color desactivado
-		&:hover
-			background-color desactivado
-	&[data-estado="owner"]
-		background-color rosaPalido
-		cursor pointer
-		&:hover
-			box-shadow 0 0 6px #666
-			background-color rosaPalido
+	text-align left
+	border-top 1px solid #F0F0F0
+	padding 1em
+	margin 0
+	&:last-child
+		border-bottom 1px solid #F0F0F0
+
+	// &[data-estado="libre"]
+	// 	background-color activo
+	// 	cursor pointer
+	// 	&:hover
+	// 		box-shadow 0 0 6px #666
+	// 		background-color activo
+	// &[data-estado="ocupado"]
+	// 	  	color: rgb(129, 129, 129)
+	// 	  	background-color desactivado
+	// 	&:hover
+	// 		background-color desactivado
+	// &[data-estado="owner"]
+	// 	background-color rosaPalido
+	// 	cursor pointer
+	// 	&:hover
+	// 		box-shadow 0 0 6px #666
+	// 		background-color rosaPalido
 
 #modalCalendario
 	position absolute
@@ -235,6 +290,31 @@ body
 		left: 50%;
 		margin-left: -275px;
 
+.hora span
+	border-radius 2px
+	padding .3em .8em
+	float right
+	margin-top: -.3em
+	cursor pointer
+
+.hora span[data-btn="owner"]
+	background-color rosaPalido
+	color white
+	&:after
+		content "anular reserva"
+.hora span[data-btn="libre"]
+	background-color activo
+	color rgb(66, 126, 76)
+	&:before
+		content "libre"
+
+
+.icon-ok.owner
+	display none
+
+
+.icon-ko.libre
+	display none
 // footer
 
 // hack
@@ -291,7 +371,6 @@ body.outapp
 		text-align center
 	#dologin,
 	#doregister,
-	#logout,
 	#doactualizar
 		text-transform uppercase
 
@@ -398,36 +477,7 @@ body.outapp
 .error
 	display none
 
-// logout
-#logout
-	text-transform uppercase
-	-webkit-transition: color .3s ease-out;
-	-moz-transition: color .3s ease-out;
-	-o-transition: color .3s ease-out;
-	transition: color .3s ease-out;
 
-	-webkit-transition: background-color .6s ease-out;
-	-moz-transition: background-color .6s ease-out;
-	-o-transition: background-color .6s ease-out;
-	transition: background-color .6s ease-out;
-
-	box-shadow none
-	display inline-block
-	position absolute
-	right 0
-	top 0
-	border-radius 3px
-	border 1px solid #3F424B
-	text-decoration none
-	text-align center
-	color #3F424B
-	padding .8em 3em
-	margin 2em
-	font-weight 100
-	background-color transparent
-	&:hover
-		color white
-		background-color #3F424B
 
 
 // PERFIL
