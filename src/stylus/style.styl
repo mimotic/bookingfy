@@ -32,29 +32,15 @@ verdeAguoso = #53ded8
 	font-style: normal;
 	font-weight: normal;
 	speak: none;
-
 	display: inline-block;
 	text-decoration: inherit;
 	width: 1em;
 	margin-right: .2em;
 	text-align: center;
-	/* opacity: .8; */
-
-	/* For safety - reset parent styles, that can break glyph codes*/
 	font-variant: normal;
 	text-transform: none;
-
-	/* fix buttons height, for twitter bootstrap */
 	line-height: 1em;
-
-	/* Animation center compensation - margins should be symmetric */
-	/* remove if not needed */
 	margin-left: .2em;
-
-	/* You can be more comfortable with increased icons size */
-	/* font-size: 120%; */
-
-	/* Font smoothing. That was taken from TWBS */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
@@ -78,7 +64,7 @@ body.outapp
 	.tipo-pistas
 		display none
 body.inapp
-	background url('../img/background4.png') repeat
+	background url('../img/background5.png') repeat
 
 
 section,
@@ -109,6 +95,31 @@ body
 		margin 1em auto
 		width 100%
 		height auto
+
+@media screen and (max-width:650px)
+	.logo
+		position relative
+		max-width 200px
+		margin-left 1em
+		img
+			margin 1em auto
+			width 100%
+			height auto
+	.header ul
+		width 100%
+		list-style-type: none;
+		padding: 0;
+		margin 0
+		float: none;
+		clear: both;
+		border-top: 1px solid rgb(58, 61, 68)
+		li:last-child
+			float right
+	.inapp
+		padding-top 10em !important
+	header
+		margin-top -10em !important
+
 // logout
 //
 
@@ -207,7 +218,8 @@ body
 	width 100%
 
 .tipo-calendario
-	width 50%
+	max-width 800px
+	min-width 600px
 	float left
 
 	&.doble
@@ -221,19 +233,23 @@ body
 .calendario-list
   	margin .5em
   	padding 0
-
 	ul
 		padding 1em
 
 .calendario-list
-	background main-blue
+	background #31383D
 	box-shadow 0 0 4px #bbb
+	border-radius 3px
 	h2
+		margin 0
+		padding 1.5em 0 1.5em .8em
 		color white
 		font-weight 300
+		text-align left
 
 
 .hora
+	cursor pointer
 	position relative
 	display block
 	background-color white
@@ -244,30 +260,43 @@ body
 	box-shadow 0 0 0 grisClaro
 	text-align left
 	border-top 1px solid #F0F0F0
-	padding 1em
+	padding .6em .8em
 	margin 0
 	&:last-child
 		border-bottom 1px solid #F0F0F0
 	&:hover
 		background #EFEFEF
 
-	// &[data-estado="libre"]
-	// 	background-color activo
-	// 	cursor pointer
-	// 	&:hover
-	// 		box-shadow 0 0 6px #666
-	// 		background-color activo
-	// &[data-estado="ocupado"]
-	// 	  	color: rgb(129, 129, 129)
-	// 	  	background-color desactivado
-	// 	&:hover
-	// 		background-color desactivado
-	// &[data-estado="owner"]
-	// 	background-color rosaPalido
-	// 	cursor pointer
-	// 	&:hover
-	// 		box-shadow 0 0 6px #666
-	// 		background-color rosaPalido
+.hora[data-estado="ocupado"]
+	cursor default
+	color grisClaro
+	&:hover
+		background white
+	&:hover:after
+		content: ' no anulable'
+		text-transform uppercase
+.hora[data-estado="libre"]
+	&:hover:after
+		content: ' reservar'
+		color: verdeOk
+		text-align center
+		text-transform uppercase
+.hora[data-estado="owner"]
+	&:hover:after
+		content: ' anular reserva'
+		color: rosaPalido
+		text-align center
+		text-transform uppercase
+.precios_calendar
+	color: #5c6c77;
+	display: inline-block;
+	text-align: center;
+	font-size: 0.7em;
+	text-align: right;
+	padding-bottom: 1em;
+	font-weight: 300;
+	float: right;
+	padding-right: .8em;
 
 #modalCalendario
 	position absolute
@@ -294,29 +323,36 @@ body
 		margin-left: -275px;
 
 .hora span
+	font-size .8em
 	border-radius 2px
 	padding .3em .8em
 	float right
-	margin-top: -.3em
+	margin-top: -.1em
 	cursor pointer
 
 .hora span[data-btn="owner"]
 	background-color rosaPalido
 	color white
-	&:after
+	&:before
 		content "anular reserva"
 .hora span[data-btn="libre"]
 	background-color activo
 	color rgb(66, 126, 76)
 	&:before
 		content "libre"
-
+.hora span[data-btn="ocupado"]
+	cursor default
+	background-color light-gray
+	color dark-gray
+	&:before
+		content "ocupado"
 
 .icon-ok.owner
-	display none
-
-
+.icon-ok.ocupado
 .icon-ko.libre
+.icon-ko.ocupado
+.icon-other.libre
+.icon-other.owner
 	display none
 // footer
 
