@@ -18,7 +18,8 @@ module.exports = Backbone.View.extend({
     'click #logotipoLink': 'goHome',
     'click #logout': 'logout',
     'click #user-welcome': 'goUserResume',
-    'click #reservasAdmin': 'goreservas'
+    'click #reservasAdmin': 'goreservas',
+    'click #nuevoUsuarioAdmin': 'goNuevoUsuarioAdmin'
   },
 
   initialize: function () {
@@ -74,6 +75,11 @@ module.exports = Backbone.View.extend({
   goreservas: function (event) {
     event.preventDefault();
     Backbone.app.navigate("/reservasUsuarios", { trigger: true });
+  },
+
+  goNuevoUsuarioAdmin: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("/nuevo-usuario", { trigger: true });
   },
 
   mostrar: function(){
