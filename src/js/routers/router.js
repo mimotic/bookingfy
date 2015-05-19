@@ -14,6 +14,7 @@ var Backbone      = require('backbone'),
     DeportesView  = require('../views/deportes-list'),
     LoginView     = require('../views/login'),
     RegistroView  = require('../views/registro'),
+    RegistroAdminView  = require('../views/registro-admin'),
     CalendarioView = require('../views/calendarios'),
     HeaderView    = require('../views/header'),
     DiaView       = require('../views/dia'),
@@ -33,7 +34,8 @@ module.exports = Backbone.Router.extend({
     "pistas/:idDeporte/:date": "loadCalendar",
     "perfil"  : "loadPerfil",
     "misreservas": "loadReservasUser",
-    "reservasUsuarios": "loadReservasUser",
+    "reservas-usuarios": "loadReservasUser",
+    "nuevo-usuario": "loadNuevoUsuario",
     "*path"  : "notFound"
   },
 
@@ -127,49 +129,15 @@ module.exports = Backbone.Router.extend({
     var sesion = Sesion.getInstance();
     var sesionRol = sesion.get('rol');
 
-    if(sesionRol === '1') response = 'admin';
-    else if(sesionRol === '0') response = 'user';
+    if(Number(sesionRol) === 1) response = 'admin';
+    else if(Number(sesionRol) === 0) response = 'user';
 
     return response;
   },
 
-  index: function(args){
-    if(args === true) this.loadDeportes();
-    else this.login = new LoginView();
-  },
-
-  loadLogin: function(args, datosLogin){
-    if(this.registro) this.registro.resetear();
-    if(this.perfilView) this.perfilView.clean();
-    if(args === true){
-      this.loadDeportes();
-    } else {
-      if(this.headerView !== undefined){
-          this.headerView.ocultar();
-      }
-      this.deportes.reset();
-      this.calendarios.reset();
-      this.reservasUser.reset();
-      if(this.diaView !== undefined) this.diaView.ocultar();
-      this.login = new LoginView( datosLogin );
-    }
-  },
-
-  loadRegistro: function(args){
-    if(this.login) this.login.resetear();
-    if(this.perfilView) this.perfilView.clean();
-    if(args === true){
-      this.loadDeportes();
-    } else{
-      this.deportes.reset();
-      this.calendarios.reset();
-      this.reservasUser.reset();
-      if(this.diaView !== undefined)this.diaView.ocultar();
-      this.registro = new RegistroView();
-    }
-
-    this.customEvents();
-
+  adminZone: function() {
+    var isAdmin = this.islogged() == 'admin';
+    if (isAdmin === false) this.navigate('', { trigger: true });
   },
 
   customEvents: function(){
@@ -191,12 +159,10 @@ module.exports = Backbone.Router.extend({
       });
     });
 
-
     Backbone.Events.on('loginSuccessful' , function(args){
       console.log('login args',args);
       Backbone.app.navigate("login", { trigger: false });
       self.loadLogin( false , args );
-
     });
 
     Backbone.Events.on('updateUserData' , function(args){
@@ -208,8 +174,79 @@ module.exports = Backbone.Router.extend({
       }
     });
 
+    Backbone.Events.on('adminRegistroSuccessful' , function(args){
+      Backbone.app.navigate("login", { trigger: false });
+      // self.loadLogin( false , args );
+      alert(args.msg + ' --- ' + args.mail);
+      self.navigate("", { trigger: true });
+    });
   },
 
+  index: function(args){
+    if(args === true) this.loadDeportes();
+    else this.login = new LoginView();
+  },
+
+  loadLogin: function(args, datosLogin){
+    if(this.registro) this.registro.resetear();
+    if(this.perfilView) this.perfilView.clean();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+    if(args === true){
+      this.loadDeportes();
+    } else {
+      if(this.headerView !== undefined){
+          this.headerView.ocultar();
+      }
+      this.deportes.reset();
+      this.calendarios.reset();
+      this.reservasUser.reset();
+      if(this.diaView !== undefined) this.diaView.ocultar();
+      this.login = new LoginView( datosLogin );
+    }
+  },
+
+  loadRegistro: function(args){
+    if(this.login) this.login.resetear();
+    if(this.perfilView) this.perfilView.clean();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+    if(args === true){
+      this.loadDeportes();
+    } else{
+      this.deportes.reset();
+      this.calendarios.reset();
+      this.reservasUser.reset();
+      if(this.diaView !== undefined)this.diaView.ocultar();
+      this.registro = new RegistroView();
+    }
+
+    this.customEvents();
+
+  },
+
+  loadNuevoUsuario: function(args){
+    var self = this;
+    self.adminZone();
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
+
+    if(this.perfilView) this.perfilView.clean();
+
+    this.deportes.reset();
+    this.calendarios.reset();
+    this.reservasUser.reset();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+
+    self.customEvents();
+
+    self.registroAdminView = new RegistroAdminView();
+
+  },
 
   loadDeportes: function () {
     var self = this;
@@ -220,6 +257,8 @@ module.exports = Backbone.Router.extend({
     }else{
       this.headerView = new HeaderView({});
     }
+
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     if(this.perfilView) this.perfilView.clean();
 
@@ -258,6 +297,7 @@ module.exports = Backbone.Router.extend({
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     if(this.headerView !== undefined){
         this.headerView.render();
@@ -303,6 +343,7 @@ module.exports = Backbone.Router.extend({
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
 
@@ -330,6 +371,7 @@ module.exports = Backbone.Router.extend({
     }
 
     if(this.perfilView) this.perfilView.clean();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     this.deportes.reset();
     this.calendarios.reset();

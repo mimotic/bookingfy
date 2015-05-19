@@ -3,24 +3,21 @@ var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Usuarios = require('../collections/usuarios'),
     $          = require('jquery'),
-    Plantilla  = require('../partials/plantilla_registro'),
+    Plantilla  = require('../partials/plantilla_registro_admin'),
     Validator = require('validator'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
-  el: $('#registro'),
+  el: $('#registroAdmin'),
 
   events: {
     'click #doregister': 'register',
-    'click #gologin': 'goLogin',
     'keydown': 'keyAction'
   },
 
-
-  template: Handlebars.compile(Plantilla.registro),
+  template: Handlebars.compile(Plantilla.registro_admin),
 
   initialize: function () {
-    // this.listenTo(this.model, "change", this.render, this);
     this.render();
   },
 
@@ -30,7 +27,7 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
-  resetear: function () {
+  ocultar: function () {
     this.$el.empty();
   },
 
@@ -91,18 +88,23 @@ module.exports = Backbone.View.extend({
 
 
   register: function(evt){
-    if(evt) evt.preventDefault();
+
+        if(evt) evt.preventDefault();
+
         var self = this;
         var mensajesError = {};
         var printErrores = '';
 
-        var url = '/api/nuevoUsuario',
+        var rolAdmin = $('#rolAdmin').is(':checked'),
+            url = (rolAdmin)? '/api/nuevoAdmin' : '/api/nuevoUsuario',
             name = $('#reg_name'),
             surname = $('#reg_surname'),
             dni = $('#reg_dni'),
             expediente = $('#reg_expediente'),
             email = $('#reg_email'),
             pwd = $('#reg_pass');
+
+            console.log('iput rol', rolAdmin);
 
         var formValues = {
             nombre: name.val(),
@@ -125,18 +127,21 @@ module.exports = Backbone.View.extend({
                     console.log(["Register request details: ", data]);
 
                     if(data.estado=="error") {
+                        $('.error').slideDown();
                         $('#error').html(data.msg).slideDown();
                     }
                     else {
-
-                        self.undelegateEvents();
+                        $('.error').slideDown();
+                        $('#no-error').html(data.msg).slideDown();
 
                         var args = {};
 
                         args.mail = formValues.mail;
                         args.msg = data.msg;
 
-                        Backbone.Events.trigger('loginSuccessful', args);
+                        self.undelegateEvents();
+                        Backbone.Events.trigger('adminRegistroSuccessful', args);
+
                     }
                 }
             });
@@ -160,12 +165,6 @@ module.exports = Backbone.View.extend({
             // console.log(mensajesError);
 
         }
-    },
-
-
-  goLogin: function (event) {
-    event.preventDefault();
-    Backbone.app.navigate("login", { trigger: true });
-  }
+    }
 
 });
