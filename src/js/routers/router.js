@@ -33,6 +33,7 @@ module.exports = Backbone.Router.extend({
     "pistas/:idDeporte/:date": "loadCalendar",
     "perfil"  : "loadPerfil",
     "misreservas": "loadReservasUser",
+    "reservasUsuarios": "loadReservasUser",
     "*path"  : "notFound"
   },
 
@@ -78,11 +79,15 @@ module.exports = Backbone.Router.extend({
 
   bodyClass: function () {
     var isLogged = this.islogged();
+    console.log('rol',isLogged);
     var bodyTag = $("body");
 
     // switch class from body
-    if(isLogged == 'unlogged') bodyTag.removeClass( "inapp" ).addClass( "outapp" );
-    else bodyTag.removeClass( "outapp" ).addClass( "inapp" );
+    if(isLogged == 'unlogged') bodyTag.removeClass( "admin" ).removeClass( "inapp" ).addClass( "outapp" );
+    else{
+      if(isLogged == 'admin') bodyTag.removeClass( "outapp" ).addClass( "inapp admin" );
+      else bodyTag.removeClass( "outapp" ).removeClass( "admin" ).addClass( "inapp" );
+    }
   },
 
   loader: function () {

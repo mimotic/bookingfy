@@ -4,8 +4,11 @@ var Backbone   = require('backbone'),
     Plantilla  = require('../partials/plantilla_reserva_user'),
     _          = require('underscore'),
     $          = require('jquery'),
+    PageableCollection = require("backbone.paginator"),
     BackgridFilter = require('backgrid-filter'),
     Backgrid   = require('backgrid');
+
+    PageableCollection = Backbone.PageableCollection;
 
 
 
@@ -15,6 +18,7 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.reserva_user),
 
   initialize: function () {
+    // console.log('pagination??',PageableCollection);
     // this.listenTo(this.collection, "add", this.render, this);
     // this.listenTo(this.collection, "reset", this.resetear, this);
   },

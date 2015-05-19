@@ -42,14 +42,29 @@ module.exports = Backbone.View.extend({
     var sesion = Sesion.getInstance();
     var id_rest_usuario = 0;
 
-    if (Number(sesion.get('rol')) == 0) id_rest_usuario = Number(sesion.get('id_usuario'));
+    if (Number(sesion.get('rol')) == 1) {
 
-    for (var i = 0; i < calendario.horas.length; i++) {
-       calendario.horas[i].id_usuario = Number(calendario.horas[i].id_usuario);
-      if(id_rest_usuario == calendario.horas[i].id_usuario) calendario.horas[i].id_usuario = 'owner';
-      else if(calendario.horas[i].id_usuario > 0) calendario.horas[i].id_usuario = 'ocupado';
-      else calendario.horas[i].id_usuario = 'libre';
+      // id_rest_usuario = Number(sesion.get('id_usuario'));
+
+      for (var i = 0; i < calendario.horas.length; i++) {
+         calendario.horas[i].id_usuario = Number(calendario.horas[i].id_usuario);
+        if(id_rest_usuario == calendario.horas[i].id_usuario) calendario.horas[i].id_usuario = 'libre';
+        else calendario.horas[i].id_usuario = 'owner';
+      }
+
+    }else{
+      id_rest_usuario = Number(sesion.get('id_usuario'));
+
+      for (var i = 0; i < calendario.horas.length; i++) {
+         calendario.horas[i].id_usuario = Number(calendario.horas[i].id_usuario);
+        if(id_rest_usuario == calendario.horas[i].id_usuario) calendario.horas[i].id_usuario = 'owner';
+        else if(calendario.horas[i].id_usuario > 0) calendario.horas[i].id_usuario = 'ocupado';
+        else calendario.horas[i].id_usuario = 'libre';
+      }
+
     }
+
+
 
     var html = this.template(calendario);
     this.$el.html(html);
