@@ -57,7 +57,52 @@
 	<!-- modales -->
 	<div id="modalCalendario"></div>
 
+
 	<!-- lógica de negocio -->
   	<script type="text/javascript" src="/js/app.min.js"></script>
+
+	<!-- <script id="template-list" type="text/template">
+
+	    <table>
+	        <thead>
+	            <tr>
+	                <th>Deporte</th>
+	                <th>Pista</th>
+	                <th>Fecha</th>
+	                <th>Hora</th>
+	                <th>Precio pista</th>
+	                <th>Precio luz</th>
+	                <th>Luz</th>
+	                <th>Anulado</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        <% _(models).each(function(model) { %>
+	        <tr data-cid='<%= model.cid %>'>
+	            <td><%= model.nombre_deporte %></td>
+	            <td><%= model.nombre_pista %></td>
+	            <td><%= model.fecha_pista %></td>
+	            <td><%= model.inicio %></td>
+	            <td><%= model.precio_pista %></td>
+	            <td><%= model.precio_luz %></td>
+	            <td><%= model.luz %></td>
+	            <td><%= model.anulado %></td>
+	        </tr>
+	        <% }); %>
+	        </tbody>
+	    </table>
+
+
+	</script> -->
+
+		<div id='content'>
+		    <form>
+		        <input type='text' name='what' /><br />
+		        <input type='radio' name='where' value='all' checked /> All
+		        <input type='radio' name='where' value='first' /> First
+		        <input type='radio' name='where' value='all' /> LAst
+		    </form>
+		</div>
+
 </body>
 </html>

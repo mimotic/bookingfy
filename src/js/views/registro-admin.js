@@ -43,7 +43,8 @@ module.exports = Backbone.View.extend({
     this.graph.render();
 
 
-    http://stackoverflow.com/questions/18157333/backbone-js-best-practice-for-implementing-instant-search
+    // http://stackoverflow.com/questions/18157333/backbone-js-best-practice-for-implementing-instant-search
+
     // var html = this.template();
     // this.$el.html(html);
     return this;
