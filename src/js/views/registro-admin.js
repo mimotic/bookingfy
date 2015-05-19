@@ -5,6 +5,7 @@ var Backbone   = require('backbone'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_registro_admin'),
     Validator = require('validator'),
+    Rickshaw = require('rickshaw'),
     app        = Backbone.app;
 
 module.exports = Backbone.View.extend({
@@ -19,11 +20,32 @@ module.exports = Backbone.View.extend({
 
   initialize: function () {
     this.render();
+    console.log('Rickshaw',Rickshaw);
   },
 
   render: function () {
-    var html = this.template();
-    this.$el.html(html);
+
+
+
+    this.graph = new Rickshaw.Graph( {
+      element: document.querySelector('#registroAdmin'),
+      series: [
+        {
+          color: 'steelblue',
+          data: [ { x: 0, y: 23}, { x: 1, y: 15 }, { x: 2, y: 79 } ],
+        }, {
+          color: 'lightblue',
+          data: [ { x: 0, y: 30}, { x: 1, y: 20 }, { x: 2, y: 64 } ],
+        }
+      ]
+    } );
+
+    this.graph.render();
+
+
+    http://stackoverflow.com/questions/18157333/backbone-js-best-practice-for-implementing-instant-search
+    // var html = this.template();
+    // this.$el.html(html);
     return this;
   },
 
