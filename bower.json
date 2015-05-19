@@ -16,6 +16,7 @@
   ],
   "homepage": "bookingfy.com",
   "dependencies": {
-    "normalize.styl": "~3.0.2"
+    "normalize.styl": "~3.0.2",
+    "backbone.paginator": "~2.0.2"
   }
 }

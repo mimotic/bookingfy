@@ -3,6 +3,7 @@ var Backbone   = require('backbone'),
     $          = require('jquery'),
     ui         = require('jquery-ui'),
     Plantilla  = require('../partials/plantilla_header'),
+    PlantillaAdmin  = require('../partials/plantilla_header_admin'),
     Sesion     = require('../models/sesion');
     // app        = Backbone.app;
 
@@ -11,16 +12,17 @@ module.exports = Backbone.View.extend({
   el: $('#header'),
 
   template: Handlebars.compile(Plantilla.header),
+  templateAdmin: Handlebars.compile(PlantillaAdmin.header),
 
   events: {
     'click #logotipoLink': 'goHome',
     'click #logout': 'logout',
-    'click #user-welcome': 'goUserResume'
+    'click #user-welcome': 'goUserResume',
+    'click #reservasAdmin': 'goreservas'
   },
 
   initialize: function () {
     this.render();
-    console.log('userName??' , this.getUserName());
   },
 
   resetear: function () {
@@ -34,14 +36,19 @@ module.exports = Backbone.View.extend({
     if (sesion.get('nombre') && sesion.get('apellidos')){
       usuario.nombre = sesion.get('nombre');
       usuario.apellidos = sesion.get('apellidos');
+      usuario.rol = sesion.get('rol');
     }
 
     return usuario;
   },
 
   render: function () {
+    var html = {};
     var usuario = this.getUserName();
-    var html = this.template(usuario);
+
+    if (Number(usuario.rol) === 1) html = this.templateAdmin(usuario);
+    else  html = this.template(usuario);
+
     this.$el.html(html);
     return this;
   },
@@ -62,6 +69,11 @@ module.exports = Backbone.View.extend({
   goUserResume: function(event){
     event.preventDefault();
     Backbone.app.navigate("/perfil", { trigger: true });
+  },
+
+  goreservas: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("/reservasUsuarios", { trigger: true });
   },
 
   mostrar: function(){

@@ -16,7 +16,10 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #doactualizar': 'actualizarDatos',
-    'click #actualizarUserData': 'updateUser'
+    'click #actualizarUserData': 'updateUser',
+    'click #cancelarModal': 'cancelarModal'
+
+
   },
 
   initialize: function () {
@@ -31,6 +34,11 @@ module.exports = Backbone.View.extend({
     var sesion = Sesion.getInstance();
     var usuario = sesion.attributes;
     return usuario;
+  },
+
+  cancelarModal: function(event) {
+    if(event) event.preventDefault();
+    $('#actualizarUsuarioModal').fadeOut();
   },
 
   actualizarDatos: function (event) {
