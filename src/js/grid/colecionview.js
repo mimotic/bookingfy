@@ -1,0 +1,37 @@
+var Backbone   = require('backbone'),
+    _          = require('underscore'),
+    $          = require('jquery'),
+    ItemView   = require('../grid/itemview'),
+    BaseView   = require('../grid/baseview');
+
+module.exports = BaseView.extend({
+	initialize: function(opts) {
+        this.template = opts.template;
+        this.listenTo(this.collection, 'reset', this.render);
+	},
+	html: function() {
+        var models = this.collection.map(function (model) {
+            return _.extend(model.toJSON(), {
+                cid: model.cid
+            });
+        });
+        return this.template({models: models});
+        // console.log("en colecionview");
+        // console.log(this.template);
+
+        // return this.template(this.collection.toJSON());
+	},
+    render: function() {
+        BaseView.prototype.render.call(this);
+
+        var coll = this.collection;
+        this.$('[data-cid]').each(function(ix, el) {
+            new ItemView({
+                el: el,
+                model: coll.get($(el).data('cid'))
+            });
+        });
+
+        return this;
+    }
+});

@@ -1,46 +1,49 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     ReservaView  = require('../views/reserva-single'),
-    Plantilla  = require('../partials/plantilla_reserva_user'),
+    Plantilla  = require('../partials/plantilla_reservas_tabla'),
     _          = require('underscore'),
     $          = require('jquery'),
-    PageableCollection = require("backbone.paginator"),
-    BackgridFilter = require('backgrid-filter'),
-    Backgrid   = require('backgrid');
-
-    PageableCollection = Backbone.PageableCollection;
-
+    Filter  = require('../grid/modelfilter'),
+    FormView  = require('../grid/formview'),
+    CollectionView  = require('../grid/colecionview'),
+    PageableCollection = require("backbone.paginator");
 
 
 module.exports = Backbone.View.extend({
   el: $('#reservas_user'),
 
-  template: Handlebars.compile(Plantilla.reserva_user),
+  template: Handlebars.compile(Plantilla.reservas_tabla),
 
   initialize: function () {
-    // console.log('pagination??',PageableCollection);
     // this.listenTo(this.collection, "add", this.render, this);
-    // this.listenTo(this.collection, "reset", this.resetear, this);
+    this.listenTo(this.collection, "reset", this.resetear, this);
   },
-
   resetear: function () {
     this.$el.empty();
   },
 
   render: function () {
-    // this.collection.forEach(this.addOne, this);
-    // Initialize a new Grid instance
     var self = this;
 
-    // console.log(self.collection.toJSON());
+    // var html = this.template(self.collection);
+    // this.$el.html(html);
 
-    var grid = new Backgrid.Grid({
-      columns: self.columnasTabla,
-      collection: self.collection,
+    // console.log(self.collection);
+
+    var flt = new Filter({collection: self.collection});
+    var inputView = new FormView({
+        el: 'form',
+        model: flt
     });
 
-    // Render the grid and attach the Grid's root to your HTML document
-    this.$el.append(grid.render().el);
+    var listView = new CollectionView({
+        template: self.template, //_.template($('#template-list').html()),
+        collection: flt.filtered
+    });
+
+    $('#reservas_user').append(listView.render().el);
+
   },
 
   addOne: function (reserva) {
@@ -54,75 +57,7 @@ module.exports = Backbone.View.extend({
 
   ocultar: function () {
     this.$el.hide();
-  },
-
-  columnasTabla: [{
-      name: "id", // The key of the model attribute
-      label: "ID", // The name to display in the header
-      editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
-      // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
-      cell: "string",
-      sortable: false
-      // cell: Backgrid.IntegerCell.extend({
-      //   orderSeparator: ''
-      // })
-    },
-    {
-      name: "nombre_deporte",
-      label: "Deporte",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "nombre_pista",
-      label: "Pista",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "fecha_pista",
-      label: "Fecha",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "inicio",
-      label: "Hora",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "luz",
-      label: "Luz",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "anulado",
-      label: "Estado",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "precio_pista",
-      label: "Precio Pista en €",
-      editable: false,
-      cell: "string",
-      sortable: false
-    },
-    {
-      name: "precio_luz",
-      label: "Precio Luz en €",
-      editable: false,
-      cell: "string",
-      sortable: false
-    }]
+  }
 
 
 });

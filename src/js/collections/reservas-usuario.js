@@ -1,6 +1,7 @@
 var Backbone = require('backbone'),
     ReservaUsuario    = require('../models/reserva-usuario');
 
+
     var PageableCollection = require("backbone.paginator"),
     BackgridFilter = require('backgrid-filter'),
     Backgrid   = require('backgrid');
@@ -11,7 +12,7 @@ module.exports = Backbone.PageableCollection.extend({
 	url: '/api/reservasUsuario/',
   	model: ReservaUsuario,
   	state: {
-	    pageSize: 5,
+	    pageSize: 15,
 	    sortKey: "updated",
 	    order: 1
   	},
