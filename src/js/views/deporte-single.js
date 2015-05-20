@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend({
 
 
   initialize: function () {
+    $('.deportes-tipo-pistas2').show();
     this.listenTo(this.model, "change", this.render, this);
   },
 

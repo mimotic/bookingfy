@@ -98,7 +98,7 @@ module.exports = Backbone.View.extend({
                       $('.error').hide();
                       $('#no-error').html('Welcome !!!').slideDown();
                       Sesion.setSesiondata(data.usuario);
-                      Backbone.app.navigate("reservas", { trigger: true });
+                      Backbone.app.navigate("", { trigger: true });
                   }
               }
           });

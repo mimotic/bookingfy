@@ -10,7 +10,7 @@
 		.ui-datepicker-prev,
 		.ui-state-hover.ui-datepicker-prev-hover
 			position: absolute !important
-			top: 0px !important
+			top: 1.2em !important
 			margin-left: 11px !important
 			left auto !important
 			right auto !important
@@ -18,7 +18,7 @@
 		.ui-datepicker-next,
 		.ui-state-hover.ui-datepicker-next-hover
 			position: absolute !important
-			top: 0px !important
+			top: 1.2em !important
 			margin-left: 290px !important
 			left auto !important
 			right auto !important
@@ -34,7 +34,7 @@
 		border:none
 		background transparent
 		font-weight normal
-		font-size 18px
+		font-size 14px
 	.ui-datepicker-header .ui-state-hover
 		background: transparent;
 		border-color: transparent;
@@ -47,13 +47,15 @@
 	tr
 		height 2.7em
 	table
-		box-shadow 0 1px 3px dark-gray
+		box-shadow none
 	.ui-datepicker .ui-datepicker-title
 		margin-top: .4em
 		margin-bottom: .3em
 		color: #2E3641
 		font-size 1.2
+		padding-top 1em
 		text-align center
+		margin-bottom 1em
 
 
 #placeDatepicker .ui-datepicker .ui-datepicker-prev-hover,
@@ -79,6 +81,10 @@
 
 #placeDatepicker .ui-datepicker .ui-datepicker-next span,
 #placeDatepicker .ui-datepicker .ui-datepicker-prev span {
+	border-radius: 50%;
+	background: rgb(49, 56, 61);
+	color: white;
+	padding: 0.3em 0.5em !important;
 	background-image: url(images/ui-icons_ffffff_256x240.png);
 	background-position: -32px 0;
 	margin-top: 0;
@@ -104,7 +110,7 @@
 }
 
 #placeDatepicker .ui-datepicker td {
-	background: #f97e76;
+	background: #4093AB;
 	border: none;
 	padding: 0;
 }
@@ -116,7 +122,7 @@
 	padding: .8em;
 	margin: 0;
 	font-weight: normal;
-	color: #efefef;
+	color: white;
 	font-size: 16px;
 }
 
@@ -125,12 +131,16 @@
 }
 
 #placeDatepicker .ui-state-disabled .ui-state-default {
-	color: #fba49e;
+	color: #74A7B6;
 }
 
 #placeDatepicker td .ui-state-active,
 #placeDatepicker td .ui-state-hover {
-	background: #2e3641;
+	background: #388298;
 }
 
-
+section#claock
+	position: relative;
+	display: inline-block;
+	margin: 2em 0 0 2em;
+	float: left;

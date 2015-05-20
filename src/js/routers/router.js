@@ -322,6 +322,8 @@ module.exports = Backbone.Router.extend({
     self.customEvents();
 
     if(this.perfilView) this.perfilView.clean();
+
+
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();

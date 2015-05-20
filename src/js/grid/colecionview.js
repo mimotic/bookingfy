@@ -2,7 +2,8 @@ var Backbone   = require('backbone'),
     _          = require('underscore'),
     $          = require('jquery'),
     ItemView   = require('../grid/itemview'),
-    BaseView   = require('../grid/baseview');
+    BaseView   = require('../grid/baseview'),
+    Moment        = require('moment');
 
 module.exports = BaseView.extend({
 	initialize: function(opts) {
@@ -15,11 +16,13 @@ module.exports = BaseView.extend({
                 cid: model.cid
             });
         });
-        return this.template({models: models});
-        // console.log("en colecionview");
-        // console.log(this.template);
 
-        // return this.template(this.collection.toJSON());
+        models = models.map(function (model) {
+            model.fecha_pista = Moment(model.fecha_pista).format('DD/MM/YYYY');
+            return model;
+        });
+
+        return this.template({models: models});
 	},
     render: function() {
         BaseView.prototype.render.call(this);

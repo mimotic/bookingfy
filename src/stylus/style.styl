@@ -16,6 +16,9 @@ grisClaro = #ededed
 verdeAguoso = #53ded8
 
 
+hueso = #F5F1F1
+
+
 // font-icon
 @font-face {
       font-family: 'fontello';
@@ -65,7 +68,8 @@ body.outapp
 	.tipo-pistas
 		display none
 body.inapp
-	background url('../img/background5.png') repeat
+html
+	background hueso
 
 
 section,
@@ -80,13 +84,8 @@ body
 	width 50px
 	clear both
 
-
-
 // CABECERA
 // ****************************
-
-
-
 
 .logo
 	position relative
@@ -113,7 +112,6 @@ body
 		margin 0
 		float: none;
 		clear: both;
-		border-top: 1px solid rgb(58, 61, 68)
 		li:last-child
 			float right
 
@@ -134,44 +132,88 @@ body
 		text-decoration underline
 
 .header
-	width: 100%;
-	background-color: #26282d;
-	margin: 0 ;
-	box-shadow 0 1px 2px #666
-	overflow: hidden;
+	background-color white
+	width 100%
+	margin 0
+	box-shadow none
+	overflow hidden
+	position relative
+  	box-shadow 0 1px 3px rgba(0, 0, 0, 0.15)
 	ul
-		list-style-type none
+		list-style-type: none;
+		display: block;
+		width 385px
 		padding 0
-		float right
+		margin 0 auto
 		li
-			list-style-type none
-			display inline-block
-			padding 1em
+			list-style-type: none;
+			display: inline-block;
+			padding: 0;
+			float left
+			position relative
+			a#doNothing
+				font-size: 2em;
+				font-weight: 700;
+			span#tenis
+				display: none;
+		li#listItemWelcome
+			display block
+			position absolute
+			top 0
+			right 0
+			margin-top: 1.5em
+			margin-right: 1em
+			a
+				color #51585C
+				text-decoration none
+				font-weight 300
+				display inline-block
+				margin 0 1em 0 .5em
+				padding-top: 0.1em;
+				padding-right: 1em
+				&:hover
+					text-decoration underline
+			#logout
+				margin: 0.7em 0 0 -2.4em;
+				position: absolute;
+				background: rgb(231, 227, 227);
+				border-radius: 50%;
+				padding: 0.3em;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+
 
 .inapp #logotipoLink
-	float left
+	margin: 0 ;
+	width: 221px;
+	display: block;
 
 // listado de deportes
-.tipo-pistas
-	margin 0
-	padding 1em
-
+.tipo-pistas2
+	box-shadow: 0 1px 6px #9e9898;
+	background: rgba(38, 40, 45, 0.06);
+	margin: 1em auto;
+	padding: 7px;
+	width: 301px;
+	height: 100%;
 
 .deporte
-	position relative
-	display inline-block
-	padding .7em 0 .7em 1em
-	font-weight 300
-	text-transform uppercase
-	font-size 17px
-	margin .3em 0
-	width 80%
-	color rgb(79, 79, 79)
-	background-color white
-	box-shadow 0 0 2px #BBBBBB
-	cursor pointer
-	text-align left
-	border-radius 2px
+	position: relative;
+	display: inline-block;
+	padding: .7em 0
+	font-weight: 300;
+	text-transform: uppercase;
+	font-size: 17px;
+	margin: 0 0 2px;
+	width: 100%;
+	color: #4f4f4f;
+	background-color: #fff;
+	-webkit-box-shadow: 0 0 2px #bbb;
+	box-shadow: 0 0 2px rgba(187, 187, 187, 0.52);
+	cursor: pointer;
+	text-align: left;
+	-webkit-border-radius: 2px;
+	border-radius: 0px;
 
 	-webkit-transition: color .5s ease-out;
 	-moz-transition: color .5s ease-out;
@@ -182,17 +224,19 @@ body
 	-moz-transition: background-color .5s ease-out;
 	-o-transition: background-color .5s ease-out;
 	transition: background-color .5s ease-out;
-
-
-
+	span
+		display inline-block
+		margin 0
+		padding 0 0 0 1em
 	&:hover
-		background-color #34828C
-		color #6CA2A8
+		background-color: #E2E2E2;
+		color: #9B9B9B;
 	span
 		cursor pointer
 	i
 		float right
-		color #E7E7E7
+		margin-top .2em
+		color #9B9B9B
 
 .pista
 	position relative
@@ -203,8 +247,16 @@ body
 	background-color #c3c3c3
 
 
-// listado tipo-pistas
 
+#verReservasUser
+	overflow: hidden;
+	height: 150px;
+	width: 204px;
+	display: block;
+	float: left;
+	&:before
+		content ''
+// listado tipo-pistas
 
 // #calendario
 #calendario
@@ -216,8 +268,7 @@ body
 
 .tipo-calendario.doble
 	width 50%
-	max-width 550px
-	min-with 380px
+	max-width 297px
 	float left
 
 	&.doble
@@ -248,6 +299,7 @@ body
 		color white
 		font-weight 300
 		text-align left
+		font-size 16px
 
 
 .hora
@@ -305,7 +357,6 @@ body
 	position fixed
 	z-index 3
 	background rgba(0, 0, 0, 0.83);
-	filter: blur(80px);
 	height 100%
 	width 100%
 	top 0
@@ -331,7 +382,6 @@ body
 		position fixed
 		z-index 3
 		background rgba(0, 0, 0, 0.83);
-		filter: blur(80px);
 		height 100%
 		width 100%
 		top 0
@@ -612,17 +662,14 @@ body.outapp
 	overflow: hidden;
 	position: fixed;
 	ul
-		list-style-type none
-		padding 0
-		margin 0
-		width 100%
+		float right
 		li
-			width 100%
-			border-top 1px solid #44474F
-			list-style-type none
-			display inline-block
-			padding 0
-			margin 0
+			list-style-type: none;
+			display: block;
+			padding: 0;
+			/* width: 323px; */
+			float: left;
+			height: 150px;
 			&:last-child
 				border-bottom 1px solid #44474F
 			&:hover
@@ -652,3 +699,63 @@ body.outapp
         bottom: 0;
         width: 40px;
 }
+
+// busqueda listas
+#content
+	display none
+	input[type="radio"]
+		display none
+
+.deportes-tipo-pistas2
+	display none
+	h1
+		font-size: 1.8em;
+		margin: .67em 0;
+		text-align: center;
+		font-weight: 300;
+		margin-bottom: -0.6em;
+		color: rgb(219, 216, 216);
+		text-transform: uppercase;
+
+.mis-reservas-table-view
+	box-sizing: border-box;
+	text-align: center
+	tr
+		padding 0 1em
+		height: 3em;
+		border-bottom: 1px solid rgba(128, 128, 128, 0.08);
+	.luz0
+		i
+			display none
+	.anulado0
+		background white
+	.anulado1
+		background grisClaro
+		color dark-gray
+
+	td[data-anulado='0']
+		span
+			display inline-block
+			font-weight 100
+			padding .2em
+			cursor pointer
+			&:hover
+				&:after
+					content:' anular'
+					color #E0585E
+			i
+				color #E0585E
+
+	td[data-anulado='1']
+		span
+			display inline-block
+			border 1px solid #D8D3D3
+			border-radius 4px
+			padding .2em
+			font-weight 100
+			cursor no-drop
+			&:after
+				color #D8D3D3
+				content:' anulada'
+			i
+				color #D8D3D3

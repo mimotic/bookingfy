@@ -31,8 +31,8 @@ module.exports = Backbone.View.extend({
 
     this.graph = new Rickshaw.Graph( {
           element: document.querySelector("#chart"),
-          width: 580,
-          height: 250,
+          width: 300,
+          height: 150,
           series: [
             {
               color: 'steelblue',

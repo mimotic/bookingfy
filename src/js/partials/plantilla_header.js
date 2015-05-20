@@ -5,9 +5,10 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '<img src="img/logo_white.png" alt="logo" />'
 		+ '</figure>'
 		+ '</a>'
+		//+ '<a id="user-welcome-2" href="#">reservas</a>'
 		+ '<ul>'
-		+ '<li><a id="user-welcome" class="user-welcome" href="#"><i class="demo-icon icon-user">&#xe800;</i> {{{nombre}}} {{{apellidos}}}</a></li>'
-		+ '<li><a id="logout" href="#"><i class="demo-icon icon-user">&#xe804;</i> logout</a></li>'
+		+ '<li></li>'
+		+ '<li id="listItemWelcome"><a id="doNothing" class="user-welcome" href="#">{{{nombre}}} {{{apellidos}}}</a><a id="logout" href="#"><i class="demo-icon icon-user">&#xe804;</i></a></li>'
 		+ '</ul>';
 
 module.exports = plantillas;

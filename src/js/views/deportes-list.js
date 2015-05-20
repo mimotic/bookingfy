@@ -5,9 +5,13 @@ var Backbone   = require('backbone'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
+
   el: $('#deportes'),
 
+  padreItem: $('.deportes-tipo-pistas2'),
+
   template: Handlebars.compile(Plantilla.deporte),
+
 
   initialize: function () {
     this.listenTo(this.collection, "add", this.addOne, this);
@@ -16,6 +20,7 @@ module.exports = Backbone.View.extend({
 
   resetear: function () {
     this.$el.empty();
+    this.padreItem.hide();
   },
 
   render: function () {
@@ -28,11 +33,14 @@ module.exports = Backbone.View.extend({
   },
 
   mostrar: function(){
+    this.padreItem.show();
     this.$el.show();
+
   },
 
   ocultar: function(){
     this.$el.hide();
+   this.padre.hide();
   }
 
 
