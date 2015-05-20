@@ -49,7 +49,8 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "petición no aceptada, faltan valores o son incorrectos"), // 10
        array('estado' => "error", "msg" => "Ya existe otro usuario con mismo email, dni o expediente. Si considera que alguien ha robado su identidad por favor, contacte con soporte de la universidad."), // 11
        array('estado' => "error", "msg" => "No se han modificado datos, son iguales a los encontrados en la base de datos"), // 12
-       array('estado' => "error", "msg" => "Password incorrecta") // 13
+       array('estado' => "error", "msg" => "Password incorrecta"), // 13
+       array('estado' => "error", "msg" => "Error cargando estadisticas") // 14
        );
 return $errores[$id];
 }
@@ -518,7 +519,51 @@ $this->mostrarRespuesta($this->convertirJson($this->devolverError(5)), 200);
 }
 
 
+private function estadisticas() {
+ if ($_SERVER['REQUEST_METHOD'] != "GET") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+ }
 
+ // reservas por fecha
+ $query = $this->_conn->query("SELECT count(id) AS total, fecha_pista AS fecha FROM reservas WHERE anulado=0 GROUP BY fecha_pista");
+ $filasReservas = $query->fetchAll(PDO::FETCH_ASSOC);
+ $num = count($filasReservas);
+ if ($num > 0) {
+
+  // usuarios por fecha
+  $query2 = $this->_conn->query("SELECT count(id) AS total, fecha_alta AS fecha FROM usuarios WHERE rol=0 GROUP BY fecha_alta");
+  $filasUsuarios = $query2->fetchAll(PDO::FETCH_ASSOC);
+  $num = count($filasUsuarios);
+
+  if ($num > 0) {
+
+    // usuarios por fecha
+    $query3 = $this->_conn->query("SELECT count(id) AS total, fecha_alta AS fecha FROM usuarios WHERE rol=1 GROUP BY fecha_alta");
+    $filasAdmins = $query3->fetchAll(PDO::FETCH_ASSOC);
+    $num = count($filasAdmins);
+
+    if ($num > 0) {
+
+      // reservas por deportes
+      $query4 = $this->_conn->query("SELECT count(r.id) AS total, d.nombre, r.fecha_pista AS fecha, r.anulado FROM reservas AS r LEFT JOIN pistas AS p ON r.id_pista = p.id LEFT JOIN deporte AS d ON p.id_deporte = d.id WHERE r.anulado=0 GROUP BY r.fecha_pista");
+      $filasReservasDeportes = $query4->fetchAll(PDO::FETCH_ASSOC);
+      $num = count($filasReservasDeportes);
+
+      if ($num > 0) {
+
+        $respuesta['estado'] = 'correcto';
+        $respuesta['reservas'] = $filasReservas;
+        $respuesta['usuarios'] = $filasUsuarios;
+        $respuesta['administradores'] = $filasAdmins;
+        $respuesta['reservasDeportes'] = $filasReservasDeportes;
+
+        $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+
+      }else $this->mostrarRespuesta($this->devolverError(14), 200);
+    }else $this->mostrarRespuesta($this->devolverError(14), 200);
+  }else $this->mostrarRespuesta($this->devolverError(14), 200);
+ }else $this->mostrarRespuesta($this->devolverError(14), 200);
+}
 
 
 

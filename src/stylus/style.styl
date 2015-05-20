@@ -1,6 +1,7 @@
 @import "nib"
 @import "../../../bower_components/normalize.styl/normalize.styl"
 @import "../../../node_modules/backgrid/lib/backgrid.css"
+@import "rickshaw.styl"
 
 main-blue = #013660
 dark-gray = #333333
@@ -634,3 +635,20 @@ body.outapp
 				i
 					margin-left 1em
 
+
+// estadisticasAdmin
+
+#chart_container {
+        position: relative;
+        font-family: Arial, Helvetica, sans-serif;
+}
+#chart {
+        position: relative;
+        left: 40px;
+}
+#y_axis {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+}

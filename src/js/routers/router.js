@@ -20,6 +20,7 @@ var Backbone      = require('backbone'),
     DiaView       = require('../views/dia'),
     PerfilView    = require('../views/perfil'),
     ReservasUserView = require('../views/reservas-list'),
+    StatsView     = require('../views/stats-admin'),
 
     $             = require('jquery'),
     Moment        = require('moment');
@@ -36,6 +37,7 @@ module.exports = Backbone.Router.extend({
     "misreservas": "loadReservasUser",
     "reservas-usuarios": "loadReservasUser",
     "nuevo-usuario": "loadNuevoUsuario",
+    "estadisticas": "loadEstadisticas",
     "*path"  : "notFound"
   },
 
@@ -75,7 +77,6 @@ module.exports = Backbone.Router.extend({
 
   execute: function(callback, args) {
     this.requireLogin(callback, args);
-    // console.log( 'tipo login: ' + this.islogged());
     this.bodyClass();
   },
 
@@ -176,7 +177,6 @@ module.exports = Backbone.Router.extend({
 
     Backbone.Events.on('adminRegistroSuccessful' , function(args){
       Backbone.app.navigate("login", { trigger: false });
-      // self.loadLogin( false , args );
       alert(args.msg + ' --- ' + args.mail);
       self.navigate("", { trigger: true });
     });
@@ -191,6 +191,7 @@ module.exports = Backbone.Router.extend({
     if(this.registro) this.registro.resetear();
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+    if(this.statsView !== undefined) this.statsView.ocultar();
     if(args === true){
       this.loadDeportes();
     } else {
@@ -209,6 +210,7 @@ module.exports = Backbone.Router.extend({
     if(this.login) this.login.resetear();
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+    if(this.statsView !== undefined) this.statsView.ocultar();
     if(args === true){
       this.loadDeportes();
     } else{
@@ -234,6 +236,8 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
+    if(this.statsView !== undefined) this.statsView.ocultar();
+
     if(this.perfilView) this.perfilView.clean();
 
     this.deportes.reset();
@@ -248,6 +252,29 @@ module.exports = Backbone.Router.extend({
 
   },
 
+  loadEstadisticas: function(args){
+    var self = this;
+    self.adminZone();
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
+
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+    if(this.perfilView) this.perfilView.clean();
+
+    this.deportes.reset();
+    this.calendarios.reset();
+    this.reservasUser.reset();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+
+    self.statsView = new StatsView();
+  },
+
   loadDeportes: function () {
     var self = this;
 
@@ -259,6 +286,7 @@ module.exports = Backbone.Router.extend({
     }
 
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+    if(this.statsView !== undefined) this.statsView.ocultar();
 
     if(this.perfilView) this.perfilView.clean();
 

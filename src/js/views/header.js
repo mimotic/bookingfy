@@ -19,7 +19,8 @@ module.exports = Backbone.View.extend({
     'click #logout': 'logout',
     'click #user-welcome': 'goUserResume',
     'click #reservasAdmin': 'goreservas',
-    'click #nuevoUsuarioAdmin': 'goNuevoUsuarioAdmin'
+    'click #nuevoUsuarioAdmin': 'goNuevoUsuarioAdmin',
+    'click #estadisticasAdmin': 'goEstadisticasAdmin'
   },
 
   initialize: function () {
@@ -74,12 +75,17 @@ module.exports = Backbone.View.extend({
 
   goreservas: function (event) {
     event.preventDefault();
-    Backbone.app.navigate("/reservasUsuarios", { trigger: true });
+    Backbone.app.navigate("/reservas-usuarios", { trigger: true });
   },
 
   goNuevoUsuarioAdmin: function (event) {
     event.preventDefault();
     Backbone.app.navigate("/nuevo-usuario", { trigger: true });
+  },
+
+  goEstadisticasAdmin: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("/estadisticas", { trigger: true });
   },
 
   mostrar: function(){
