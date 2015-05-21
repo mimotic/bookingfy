@@ -45,6 +45,7 @@ module.exports = Backbone.View.extend({
     });
 
     $('#reservas_user').append(listView.render().el);
+    $('#content').show();
 
   },
 
@@ -55,10 +56,12 @@ module.exports = Backbone.View.extend({
 
   mostrar: function () {
     this.$el.show();
+    $('#content').show();
   },
 
   ocultar: function () {
     this.$el.hide();
+    $('#content').hide();
   }
 
 

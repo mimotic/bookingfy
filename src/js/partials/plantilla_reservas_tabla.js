@@ -26,10 +26,3 @@ plantillas.reservas_tabla = '<table class="mis-reservas-table-view"><thead><tr>'
     		+'</tbody></table>';
 
 module.exports = plantillas;
-
-
-            // '<div id="content">'
-            // +'<form><input type="text" name="what" /><br />'
-            // +'<input type="radio" name="where" value="all" checked /> All'
-            // +'<input type="radio" name="where" value="first" /> First'
-            // +'<input type="radio" name="where" value="all" /> Last</form></div>'

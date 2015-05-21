@@ -14,7 +14,9 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #confirmarReserva': 'reservar',
-    'click #cerrarModal': 'cancelar'
+    'click #cerrarModal': 'cancelar',
+    'click #checkedluz': 'checkOn',
+    'click #modalCalendario': 'closeUp'
   },
 
   initialize: function () {
@@ -23,6 +25,24 @@ module.exports = Backbone.View.extend({
 
   resetear: function () {
     this.$el.empty();
+  },
+
+  checkOn: function (){
+    var check= $('#checkedluz');
+    var check= $('#checkedluz');
+    var luz = $(".icon_lucero");
+
+    var isChecked = check.is(':checked');
+    if(isChecked === true) luz.addClass(' on');
+    else luz.removeClass('on');
+  },
+
+  closeUp: function(a){
+    console.log('clicked');
+    var self = this;
+    var container = $("#inContentModal");
+    if (!container.is(a.target) && container.has(a.target).length === 0) self.cancelar();
+
   },
 
   render: function () {
@@ -64,7 +84,7 @@ module.exports = Backbone.View.extend({
   		success: function(model, response) {
             // console.log('RESERVADOOOOO');
 
-            $('#modalCalendario div').html('<span>' + response.msg + '</span>');
+            $('#modalCalendario div').html('<span class="response">' + response.msg + '</span>');
 
             setTimeout(function(){
 
@@ -80,7 +100,7 @@ module.exports = Backbone.View.extend({
             // console.log('FALLOOOOOO');
 
 
-            $('#modalCalendario div').html('<span>'+response.msg+'</span>');
+            $('#modalCalendario div').html('<span class="response">'+response.msg+'</span>');
 
             setTimeout(function(){
               $('#modalCalendario').fadeOut();

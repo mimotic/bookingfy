@@ -8,7 +8,7 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		//+ '<a id="user-welcome-2" href="#">reservas</a>'
 		+ '<ul>'
 		+ '<li></li>'
-		+ '<li id="listItemWelcome"><a id="doNothing" class="user-welcome" href="#">{{{nombre}}} {{{apellidos}}}</a><a id="logout" href="#"><i class="demo-icon icon-user">&#xe804;</i></a></li>'
+		+ '<li id="listItemWelcome"><a id="doNothing" class="user-welcome" href="#">{{{nombre}}} {{{apellidos}}}</a><a id="logout" href="#"><i class="mimo-icon icon-user">&#xe803;</i></a></li>'
 		+ '</ul>';
 
 module.exports = plantillas;

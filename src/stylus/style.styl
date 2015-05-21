@@ -29,10 +29,20 @@ hueso = #F5F1F1
            url('../font/fontello.svg?7784711#fontello') format('svg');
       font-weight: normal;
       font-style: normal;
-    }
+ }
+@font-face {
+  font-family: 'mimo';
+  src: url('../font/mimo.eot?84007961');
+  src: url('../font/mimo.eot?84007961#iefix') format('embedded-opentype'),
+       url('../font/mimo.woff?84007961') format('woff'),
+       url('../font/mimo.ttf?84007961') format('truetype'),
+       url('../font/mimo.svg?84007961#mimo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .demo-icon
-	font-family: "fontello";
+.mimo-icon
 	font-style: normal;
 	font-weight: normal;
 	speak: none;
@@ -47,8 +57,10 @@ hueso = #F5F1F1
 	margin-left: .2em;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-
-
+.mimo-icon
+	font-family: "mimo";
+.demo-icon
+	font-family: "fontello";
 //reset
 figure
 	margin 0
@@ -64,11 +76,11 @@ body.outapp
 	-moz-background-size cover
 	-o-background-size cover
 	background-size cover
+
 .outapp
 	.tipo-pistas
 		display none
 body.inapp
-html
 	background hueso
 
 
@@ -152,7 +164,7 @@ body
 			float left
 			position relative
 			a#doNothing
-				font-size: 2em;
+				font-size: 1.3em;
 				font-weight: 700;
 			span#tenis
 				display: none;
@@ -169,17 +181,22 @@ body
 				font-weight 300
 				display inline-block
 				margin 0 1em 0 .5em
-				padding-top: 0.1em;
+				padding-top: 0.5em;
 				padding-right: 1em
 				&:hover
 					text-decoration underline
 			#logout
-				margin: 0.7em 0 0 -2.4em;
+				margin: 0.3em 0 0 -2em;
 				position: absolute;
-				background: rgb(231, 227, 227);
-				border-radius: 50%;
 				padding: 0.3em;
-				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+				font-size 1.2em
+				text-decoration none
+				-webkit-transition: color .5s ease-out;
+				-moz-transition: color .5s ease-out;
+				-o-transition: color .5s ease-out;
+				transition: color .5s ease-out;
+				&:hover
+					color rosaPalido
 
 
 
@@ -260,16 +277,52 @@ body
 
 // #calendario
 #calendario
-	display block
+	display none
 	margin 0 auto
-	width 100%
 	clear none
 	max-width 1124px
+	display: block;
+	width: 70%;
+	margin: 1em auto;
+	padding: 2em;
+	overflow: hidden;
+	border-radius: 8px;
+
+#claock
+	width 25%
+	margin 1em auto
+	display: block
+	overflow: hidden;
+	float left
+@media screen and (max-width:1350px)
+	#calendario
+		display block
+		margin 0 auto
+		clear none
+		max-width 1124px
+		display: block;
+		width: 60%;
+		margin: 1em auto;
+		padding: 2em;
+		overflow: hidden;
+		border-radius: 8px;
+
+	#claock
+		width 40%
+		margin 1em auto
+		display: block
+		overflow: hidden;
+		float left
+
+
+
+
 
 .tipo-calendario.doble
-	width 50%
-	max-width 297px
-	float left
+	width: 50%;
+	min-width: 280px;
+	float: left;
+	margin: 0 auto !important;
 
 	&.doble
 		margin 0
@@ -278,6 +331,7 @@ body
 	ul
 		margin 0
 		padding 0
+
 @media screen and (max-width:600px)
 	.tipo-calendario.doble
 		width 100%
@@ -328,19 +382,19 @@ body
 		background white
 	&:hover:after
 		content: ' no anulable'
-		text-transform uppercase
+		font-size: .8em
 .hora[data-estado="libre"]
 	&:hover:after
 		content: ' reservar'
 		color: verdeOk
 		text-align center
-		text-transform uppercase
+		font-size: .8em
 .hora[data-estado="owner"]
 	&:hover:after
 		content: ' anular'
 		color: rosaPalido
 		text-align center
-		text-transform uppercase
+		font-size: .8em
 .precios_calendar
 	color: #5c6c77;
 	display: inline-block;
@@ -363,18 +417,81 @@ body
 	left 0
 	display none
 	>div
-		position: fixed;
-		padding: 1.5em;
-		border: 8px solid #ededed;
-		height: 350px;
-		width: 550px;
-		/* margin: 7em auto; */
-		background: #fff;
-		-webkit-box-shadow: 0 0 6px #818181;
-		box-shadow: 0 0 6px #818181;
-		top: 94px;
-		left: 50%;
-		margin-left: -312px;
+		position: fixed
+		height: 350px
+		width: 550px
+		background: #fff
+		box-shadow: 0 4px 20px #000;
+		top: 94px
+		left: 50%
+		margin-left: -312px
+		.response
+			display block
+			width 80%
+			margin 1em auto
+		h2
+			background: rgb(37, 38, 42)
+			padding: 0.5em 0
+			margin: 0
+			color: rgb(135, 135, 137)
+			font-weight: 100;
+			font-size: 1.5em
+		p
+			padding-left 1.5em
+			font-weight 100
+			i
+				color: #CDCDCD;
+				background-color: rgb(148, 148, 148);
+				padding: 0.4em;
+				border-radius: 50%;
+				cursor pointer
+				-webkit-transition: color .5s ease-out;
+				-moz-transition: color .5s ease-out;
+				-o-transition: color .5s ease-out;
+				transition: color .5s ease-out;
+				-webkit-transition: background-color .3s ease-out;
+				-moz-transition: background-color .3s ease-out;
+				-o-transition: background-color .3s ease-out;
+				transition: background-color .3s ease-out;
+			.on
+				color #FFF !important
+				background-color: #57F0AA;
+				-webkit-transition: color .5s ease-out;
+				-moz-transition: color .5s ease-out;
+				-o-transition: color .5s ease-out;
+				transition: color .5s ease-out;
+				-webkit-transition: background-color .3s ease-out;
+				-moz-transition: background-color .3s ease-out;
+				-o-transition: background-color .3s ease-out;
+				transition: background-color .3s ease-out;
+			strong
+				font-weight 300
+				color dark-gray
+		#checkedluz
+			display none
+		.modal-botones
+			bottom 0
+			width 100%
+			clear both
+			position absolute
+			a
+				text-decoration none
+				width 50%
+				display inline-block;
+				padding 1em 0
+				margin 0
+				text-align center
+			.cancel-modal
+				background: #DD656A;
+				color rgb(129, 24, 28)
+			.supercerrar
+				color: rgb(40, 19, 19) !important;
+				background: rgb(153, 135, 135) !important;
+			.confirm-modal
+				background: #4AB564;
+				color: rgb(22, 77, 35);
+
+
 
 @media screen and (max-width:650px)
 	#modalCalendario,
@@ -654,33 +771,38 @@ body.outapp
 	width: 300px;
 	height: 100%;
 	left: 0;
-	overflow: hidden;
-	background-color: #26282d;
-	margin: 0;
-	-webkit-box-shadow: 0 1px 2px #666;
-	box-shadow: 0 1px 2px #666;
+	top 0
+	overflow: hidden ;
+	background-color: #26282d ;
+	margin: 0 ;
+	-webkit-box-shadow: 0 1px 2px #666 ;
+	box-shadow: 0 1px 2px #666 ;
 	overflow: hidden;
 	position: fixed;
 	ul
-		float right
+		float right !important
+		width 100%
 		li
+			width 100%
+			margin 0
 			list-style-type: none;
-			display: block;
-			padding: 0;
+			display: block ;
+			padding: 0 ;
 			/* width: 323px; */
-			float: left;
-			height: 150px;
+			float: left !important;
+			border-bottom 1px solid #44474F
+			// height: 150px !important;
 			&:last-child
-				border-bottom 1px solid #44474F
+				border-bottom 1px solid #44474F !important
 			&:hover
-				background #41454F
+				background #41454F !important
 			a
-				padding 1em 0
-				width 100%
-				display block
+				padding 1em 0 !important
+				width 100% !important
+				display block !important
 				text-decoration none !important
 				i
-					margin-left 1em
+					margin-left 1em !important
 
 
 // estadisticasAdmin
@@ -703,8 +825,28 @@ body.outapp
 // busqueda listas
 #content
 	display none
+	max-width 400px
+	margin 2em auto
+	position relative
 	input[type="radio"]
 		display none
+	input[type="text"]
+		width 100%
+		padding .5em 0 .5em 2em
+		font-weight 300
+		box-shadow 0 1px 3px rgba(0, 0, 0, .75)
+		border none
+		margin 1em 0
+		display block
+		position relative
+
+	.finding
+		position: absolute;
+		color: #A8A8A8;
+		z-index: 1;
+		top: 11px;
+		left: 5px;
+
 
 .deportes-tipo-pistas2
 	display none
@@ -720,6 +862,7 @@ body.outapp
 .mis-reservas-table-view
 	box-sizing: border-box;
 	text-align: center
+	margin: 0 auto;
 	tr
 		padding 0 1em
 		height: 3em;
@@ -737,8 +880,9 @@ body.outapp
 		span
 			display inline-block
 			font-weight 100
-			padding .2em
+			padding .2em 1em
 			cursor pointer
+
 			&:hover
 				&:after
 					content:' anular'
