@@ -370,8 +370,9 @@ private function usuarios() {
  $filas = $query->fetchAll(PDO::FETCH_ASSOC);
  $num = count($filas);
  if ($num > 0) {
-   $respuesta['estado'] = 'correcto';
-   $respuesta['usuarios'] = $filas;
+   // $respuesta['estado'] = 'correcto';
+   // $respuesta['usuarios'] = $filas;
+   $respuesta = $filas;
    $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
  }
  $this->mostrarRespuesta($this->devolverError(2), 204);

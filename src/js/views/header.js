@@ -20,6 +20,7 @@ module.exports = Backbone.View.extend({
     'click #doNothing': 'goUserResume',
     'click #user-welcome-2': 'goMisResrvas',
     'click #reservasAdmin': 'goreservas',
+    'click #usuariosAdmin': 'goUsuariosList',
     'click #nuevoUsuarioAdmin': 'goNuevoUsuarioAdmin',
     'click #estadisticasAdmin': 'goEstadisticasAdmin'
   },
@@ -92,6 +93,11 @@ module.exports = Backbone.View.extend({
   goEstadisticasAdmin: function (event) {
     event.preventDefault();
     Backbone.app.navigate("/estadisticas", { trigger: true });
+  },
+
+  goUsuariosList: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("/usuarios", { trigger: true });
   },
 
   mostrar: function(){
