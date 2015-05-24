@@ -23,6 +23,8 @@ var Backbone      = require('backbone'),
     ReservasUserView = require('../views/reservas-list'),
     UsuariosListView = require('../views/users-list'),
     StatsView     = require('../views/stats-admin'),
+    UserPerfil   = require('../views/user-perfil'),
+    Tiempo   = require('../views/eltiempo'),
 
     $             = require('jquery'),
     Moment        = require('moment');
@@ -55,7 +57,6 @@ module.exports = Backbone.Router.extend({
     var self = this;
     this.current = {};
 
-
     // init loader
     this.loader();
 
@@ -76,6 +77,8 @@ module.exports = Backbone.Router.extend({
     this.usuariosListView = new UsuariosListView({ collection: this.usuarios });
 
     this.dia = new Dia();
+
+    this.userPerfil = new UserPerfil();
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -116,6 +119,7 @@ module.exports = Backbone.Router.extend({
   },
 
   requireLogin: function(callback, args) {
+    this.userPerfil.ocultar();
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
     var sesion = Sesion.getInstance();
@@ -307,6 +311,8 @@ module.exports = Backbone.Router.extend({
   loadDeportes: function () {
     var self = this;
 
+    this.tiempo = new Tiempo({});
+
     if(this.headerView !== undefined){
         this.headerView.render();
         this.headerView.mostrar();
@@ -415,11 +421,13 @@ module.exports = Backbone.Router.extend({
 
     this.perfilView = new PerfilView({});
 
-
   },
 
 
   loadReservasUser: function () {
+
+    this.customEvents();
+
     var self = this;
 
     if(this.headerView !== undefined){
@@ -474,6 +482,8 @@ module.exports = Backbone.Router.extend({
     }else{
       this.headerView = new HeaderView({});
     }
+
+    this.userPerfil.ocultar();
 
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
