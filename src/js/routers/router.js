@@ -77,6 +77,7 @@ module.exports = Backbone.Router.extend({
     this.usuariosListView = new UsuariosListView({ collection: this.usuarios });
 
     this.dia = new Dia();
+    this.tiempo = new Tiempo({});
 
     this.userPerfil = new UserPerfil();
 
@@ -119,6 +120,7 @@ module.exports = Backbone.Router.extend({
   },
 
   requireLogin: function(callback, args) {
+    this.tiempo.ocultar();
     this.userPerfil.ocultar();
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
@@ -311,7 +313,12 @@ module.exports = Backbone.Router.extend({
   loadDeportes: function () {
     var self = this;
 
-    this.tiempo = new Tiempo({});
+    if(this.tiempo !== undefined){
+        this.tiempo = new Tiempo({});
+        this.tiempo.mostrar();
+    }else{
+        this.tiempo = new Tiempo({});
+    }
 
     if(this.headerView !== undefined){
         this.headerView.render();
