@@ -12,7 +12,8 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '<li><a id="nuevoUsuarioAdmin" href="#"><i class="demo-icon icon-user">&#xe802;</i> Nuevo Usuario</a></li>'
 		+ '<li><a id="pistasAdmin" href="#"><i class="demo-icon icon-user">&#xe819;</i> Gestión de Pistas</a></li>'
 		+ '<li><a id="estadisticasAdmin" href="#"><i class="demo-icon icon-user">&#xe82e;</i> Estadísticas</a></li>'
-		+ '<li><a id="logout" href="#"><i class="demo-icon icon-user">&#xe804;</i> logout</a></li>'
-		+ '</ul>';
+		+ '<li><a id="logout" href="#"><i class="mimo-icon icon-user">&#xe803;</i> logout</a></li>'
+		+ '</ul>'
+		+'<div id="menu-boton-responsive" href="#"><div id="middle"><div id="in-menu"><i class="demo-icon icon-user">&#xe82f;</i><i class="demo-icon icon-user">&#xe804;</i></div></div></div>';
 
 module.exports = plantillas;
