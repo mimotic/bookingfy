@@ -10,10 +10,15 @@ module.exports = Backbone.View.extend({
 
   padreItem: $('.deportes-tipo-pistas2'),
 
+  misReservas: $('#misReservasUser'),
+
   template: Handlebars.compile(Plantilla.deporte),
 
-
   initialize: function () {
+    this.misReservas.on('click',function(event) {
+      event.preventDefault();
+      Backbone.app.navigate("/misreservas", { trigger: true });
+    });
     this.listenTo(this.collection, "add", this.addOne, this);
     this.listenTo(this.collection, "reset", this.resetear, this);
   },
@@ -40,8 +45,7 @@ module.exports = Backbone.View.extend({
 
   ocultar: function(){
     this.$el.hide();
-   this.padre.hide();
+    this.padre.hide();
   }
-
 
 });

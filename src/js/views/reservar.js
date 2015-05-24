@@ -15,8 +15,8 @@ module.exports = Backbone.View.extend({
   events: {
     'click #confirmarReserva': 'reservar',
     'click #cerrarModal': 'cancelar',
-    'click #checkedluz': 'checkOn',
-    'click #modalCalendario': 'closeUp'
+    'click': 'closeUp',
+    'click #checkedluz': 'checkOn'
   },
 
   initialize: function () {
@@ -28,8 +28,7 @@ module.exports = Backbone.View.extend({
   },
 
   checkOn: function (){
-    var check= $('#checkedluz');
-    var check= $('#checkedluz');
+    var check = $('#checkedluz');
     var luz = $(".icon_lucero");
 
     var isChecked = check.is(':checked');
@@ -37,12 +36,10 @@ module.exports = Backbone.View.extend({
     else luz.removeClass('on');
   },
 
-  closeUp: function(a){
-    console.log('clicked');
+  closeUp: function(e){
     var self = this;
     var container = $("#inContentModal");
-    if (!container.is(a.target) && container.has(a.target).length === 0) self.cancelar();
-
+    if (!container.is(e.target) && container.has(e.target).length === 0) self.cancelar(e);
   },
 
   render: function () {

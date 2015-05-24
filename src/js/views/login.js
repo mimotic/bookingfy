@@ -102,8 +102,6 @@ module.exports = Backbone.View.extend({
                   }
               }
           });
-
-
         }else{
 
           mensajesError = _.omit(validar.datos, function(value, key, object) {

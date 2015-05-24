@@ -251,7 +251,7 @@ public function procesarLLamada() {
      if ($_SERVER['REQUEST_METHOD'] != "GET") {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
      }
-     $query = $this->_conn->query("SELECT id, nombre FROM deporte");
+     $query = $this->_conn->query("SELECT d.id, d.nombre FROM deporte AS d INNER JOIN pistas AS p ON p.id_deporte = d.id GROUP BY d.id");
      $filas = $query->fetchAll(PDO::FETCH_ASSOC);
      $num = count($filas);
      if ($num > 0) {

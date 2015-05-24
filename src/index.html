@@ -50,8 +50,9 @@
 	<section id="perfil"></section>
 
 	<section class="deportes-tipo-pistas2">
-	<h1>Reservar Pista</h1>
+		<h1>Reservar Pista</h1>
 		<ul class="tipo-pistas2 text-center" id="deportes"></ul>
+		<a id="misReservasUser" href="#"><i class="demo-icon icon-user">&#xe843;</i> mis reservas</a>
 	</section>
 
 	<section id="claock">
@@ -74,7 +75,16 @@
 
 
 	<!-- lógica de negocio -->
-  	<script type="text/javascript" src="/js/app.min.js"></script>
+  	<script type="text/javascript" src="/js/app.min.js">
+
+window.onresize = function () {
+	var height = screen.width;
+	var body = document.getElementsByTagName('body');
+
+	body[0].innerWidth = height;
+}
+
+  	</script>
 
 
 
