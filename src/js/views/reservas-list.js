@@ -4,9 +4,9 @@ var Backbone   = require('backbone'),
     Plantilla  = require('../partials/plantilla_reservas_tabla'),
     _          = require('underscore'),
     $          = require('jquery'),
-    Filter  = require('../grid/modelfilter'),
-    FormView  = require('../grid/formview'),
-    CollectionView  = require('../grid/colecionview'),
+    Filter  = require('../gridreservas/modelfilter'),
+    FormView  = require('../gridreservas/formview'),
+    CollectionView  = require('../gridreservas/colecionview'),
     PageableCollection = require("backbone.paginator");
 
 

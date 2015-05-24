@@ -71,7 +71,12 @@ module.exports = Backbone.View.extend({
               console.log('fecha pista',anular.fecha_pista );
 
               self.undelegateEvents();
-              Backbone.Events.trigger('resetCalendar', anular.id_deporte , anular.fecha_pista );
+
+              if(anular.id_deporte !== undefined){
+                Backbone.Events.trigger('resetCalendar', anular.id_deporte , anular.fecha_pista );
+              }else{
+                Backbone.Events.trigger('resetReservas');
+              }
 
             }, 2000);
             //

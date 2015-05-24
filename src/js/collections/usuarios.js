@@ -1,8 +1,16 @@
 var Backbone = require('backbone'),
-    Usuario    = require('../models/usuario');
+    Usuario    = require('../models/usuario'),
+    PageableCollection = require("backbone.paginator");
 
-module.exports = Backbone.Collection.extend({
-	//urlRoot: 'http:80//localhost/',
+    PageableCollection = Backbone.PageableCollection;
+
+module.exports = Backbone.PageableCollection.extend({
 	url: '/api/usuarios/',
-  	model: Usuario
+  	model: Usuario,
+  	state: {
+	    pageSize: 200,
+	    sortKey: "updated",
+	    order: 1
+  	},
+  	mode: "client"
 });

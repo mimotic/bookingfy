@@ -3,6 +3,7 @@ var Backbone      = require('backbone'),
     Deportes      = require('../collections/deportes'),
     Calendarios   = require('../collections/calendarios'),
     ReservasUser  = require('../collections/reservas-usuario'),
+    Usuarios      = require('../collections/usuarios'),
 
     Deporte       = require('../models/deporte'),
     Sesion        = require('../models/sesion'),
@@ -20,6 +21,7 @@ var Backbone      = require('backbone'),
     DiaView       = require('../views/dia'),
     PerfilView    = require('../views/perfil'),
     ReservasUserView = require('../views/reservas-list'),
+    UsuariosListView = require('../views/users-list'),
     StatsView     = require('../views/stats-admin'),
 
     $             = require('jquery'),
@@ -37,6 +39,7 @@ module.exports = Backbone.Router.extend({
     "misreservas": "loadReservasUser",
     "reservas-usuarios": "loadReservasUser",
     "nuevo-usuario": "loadNuevoUsuario",
+    "usuarios": "loadUsers",
     "estadisticas": "loadEstadisticas",
     "*path"  : "notFound"
   },
@@ -68,6 +71,9 @@ module.exports = Backbone.Router.extend({
 
     this.reservasUser = new ReservasUser();
     this.reservasUserView = new ReservasUserView({ collection: this.reservasUser });
+
+    this.usuarios = new Usuarios();
+    this.usuariosListView = new UsuariosListView({ collection: this.usuarios });
 
     this.dia = new Dia();
 
@@ -111,6 +117,7 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     this.reservasUserView.ocultar();
+    this.usuariosListView.ocultar();
     var sesion = Sesion.getInstance();
     if (sesion.get('mail')) {
       args.unshift(true);
@@ -159,6 +166,28 @@ module.exports = Backbone.Router.extend({
           }
       });
     });
+
+
+    Backbone.Events.on('resetReservas' , function(){
+        var sesion = Sesion.getInstance();
+        var sesionId = sesion.get('id_usuario');
+
+        // this.deportes.fetch();
+        self.reservasUser.fetch({
+            data: {
+                id_usuario: sesionId
+              },
+              type: 'POST',
+              success: function(response){
+                  self.reservasUserView.render();
+              },
+              error: function (collection, err) {
+                // console.log('error', collection, err);
+              }
+          });
+
+    });
+
 
     Backbone.Events.on('loginSuccessful' , function(args){
       console.log('login args',args);
@@ -432,7 +461,42 @@ module.exports = Backbone.Router.extend({
           }
       });
 
+  },
 
+
+
+  loadUsers: function () {
+    var self = this;
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
+
+    if(this.perfilView) this.perfilView.clean();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+
+    this.deportes.reset();
+    this.calendarios.reset();
+    this.reservasUser.reset();
+    this.usuarios.reset();
+
+    this.usuariosListView.mostrar();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+
+    if(typeof this.login == 'object') this.login.resetear();
+    if(typeof this.registro == 'object') this.registro.resetear();
+
+    this.usuarios.fetch({
+        success: function(response){
+          self.usuariosListView.render();
+        },
+        error: function (collection, err) {
+        }
+      });
 
   }
 

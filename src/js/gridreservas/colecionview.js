@@ -1,8 +1,8 @@
 var Backbone   = require('backbone'),
     _          = require('underscore'),
     $          = require('jquery'),
-    ItemView   = require('../grid/itemview'),
-    BaseView   = require('../grid/baseview'),
+    ItemView   = require('../gridreservas/itemview'),
+    BaseView   = require('../gridreservas/baseview'),
     Moment        = require('moment');
 
 module.exports = BaseView.extend({
