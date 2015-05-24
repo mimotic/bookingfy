@@ -482,8 +482,18 @@ body
 				color: rgb(40, 19, 19) !important;
 				background: rgb(153, 135, 135) !important;
 			.confirm-modal
+			#actualizarUserData
 				background: #4AB564;
 				color: rgb(22, 77, 35);
+#reg_pass_old
+	border none
+	border-radius 5px
+	background grisClaro
+	text-align center
+	display block
+	margin 2.5em auto 0
+	width 80%
+	padding 1em
 
 
 
@@ -589,6 +599,10 @@ body.outapp
 	font-weight: 300
 	text-align center
 	border-radius 0
+	-webkit-transition: height .2s ease-out;
+	-moz-transition: height .2s ease-out;
+	-o-transition: height .2s ease-out;
+	transition: height .2s ease-out;
 	label,
 	input
 		position relative
@@ -651,7 +665,6 @@ body.outapp
 		position relative
 		border 1px solid rosaPalido
 		padding 1em
-		bottom -30px
 		background rosaPalido
 		color white
 		text-align center
@@ -672,6 +685,10 @@ body.outapp
 		background verdeOk
 		color white
 		text-align center
+
+.outapp
+	#error
+		bottom -30px
 
 @media screen and (max-width:650px)
 	.login_users
@@ -984,16 +1001,17 @@ body.outapp
 
 #misReservasUser
 #misReservasUser2
-	text-align: center;
+	text-align: center
 	display: block
 	width 190px
 	padding: .8em 3em;
 	border-radius 5px
-	margin: 1em auto;
-	background-color: #332C42
-	color #D0CADB
+	margin: 1em auto
+	background-color hueso
+	border: 1px solid rgb(150, 150, 150)
+	color #5A5A5A
 	text-decoration: none
-	font-weight 100
+	font-weight 300
 	overflow hidden
 	text-transform uppercase
 
@@ -1007,5 +1025,8 @@ body.outapp
 	-o-transition: color .2s ease-out;
 	transition: color .2s ease-out;
 	&:hover
-		background-color black
-		color white
+		background-color: rgba(58, 58, 58, 1);
+		color: #B0B0B0;
+#eltiempo
+	span
+		display none

@@ -19,11 +19,18 @@ module.exports = Backbone.View.extend({
     'click #doactualizar': 'actualizarDatos',
     'click #actualizarUserData': 'updateUser',
     'click #cancelarModal': 'cancelarModal',
-    'click #misReservasUser2': 'goMisReservas'
+    'click #misReservasUser2': 'goMisReservas',
+    'click #actualizarUsuarioModal' : 'closeUp'
   },
 
   initialize: function () {
     this.render();
+  },
+
+  closeUp: function(e){
+    var self = this;
+    var container = $("#actualizarUsuarioModal > div");
+    if (!container.is(e.target) && container.has(e.target).length === 0) self.cancelarModal(e);
   },
 
   goMisReservas: function (event) {
