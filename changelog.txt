@@ -1,4 +1,46 @@
+- * 75e99c6 - 2015-05-25: botones 
+- * 973c437 - 2015-05-24: oculta vista del tiempo 
+- * 64e37ab - 2015-05-24: api del tiempo 
+- * a502665 - 2015-05-24: fix bug en anular reserva 
+- * d56a335 - 2015-05-24: mis reservas 
+- * 638b51f - 2015-05-24: listado de usuarios y anular reservas 
+- * fe7baa8 - 2015-05-21: reu 
+- * 4def985 - 2015-05-20: remaquetacion y refactor 
+- * 2eaa886 - 2015-05-20: first grafo 
+- * 4b64652 - 2015-05-20: tabla de reservas 
+- * a118c4b - 2015-05-19: stadisticas d3 
+- * 86b72f9 - 2015-05-19: admin registrer view 
+- * 86427d9 - 2015-05-19: menu admin 
+- * a968742 - 2015-05-19: refacor + admin 
+- * 36abb06 - 2015-05-19: perfil responsive a medias 
+- * 6049e22 - 2015-05-18: maquetando 
+- * 7fb6f03 - 2015-05-18: pruebas con la libreria backgrid 
+- * 5573a3d - 2015-05-18: lista de horas and header responsive 
+- * 8bd8aae - 2015-05-18: pintando que es gerundio 
+- * 5ca4ae8 - 2015-05-18: pintando que es gerundio 
+- * 0510d63 - 2015-05-18: login design 
+- * 56e8a83 - 2015-05-17: perfil usuario logica de negocio 
+- * 1a3fc5f - 2015-05-17: evento actualizar header 
+- * 700385b - 2015-05-17: actualizar objeto sesion 
+- * 9bf2dcd - 2015-05-17: servicio actualizar usuario 
+- * 0a56d05 - 2015-05-16: tabla reservas 
+- * 1ee3a41 - 2015-05-16: backgrid 
+- * 8845204 - 2015-05-16: preparing pull 
+- * f89ca7c - 2015-05-16: reset de reservasUser 
+- * b87c933 - 2015-05-16: npm table view 
+- * 4a4640c - 2015-05-16: reservas del usuario 
+- * 8c912ad - 2015-05-15: perfomance login/registro, servicio reservasUsuario 
+- * cb553a0 - 2015-05-14: example secret json 
+- * 6f863ff - 2015-05-14: usabilidad que lo llaman... 
+- * d28c275 - 2015-05-14: loader 
+- * 5b76900 - 2015-05-14: changed database structura fixing /anularReservas 
+- * 62888ae - 2015-05-14: refactor calendar anular/reservar re-render por bus de eventos 
+- * 6df0f43 - 2015-05-14: user perfil 
+- * 7024b56 - 2015-05-13: changed cache ignorefiles 
+- * c06dedd - 2015-05-13: pasing data 
+- * fba4016 - 2015-05-13: manejando vista perfil 
 - * e4ab656 - 2015-05-13: keypress enter event ^^ 
+- * 14844b3 - 2015-05-12: gruntfile 
 - * 6259b94 - 2015-05-12: gruntfile config 
 - * 3f1fbcf - 2015-05-12: cambio de estructura del proyecto 
 - * d988067 - 2015-05-12: actualiza datos de cabecera 
