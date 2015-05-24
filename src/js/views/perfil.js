@@ -59,7 +59,7 @@ module.exports = Backbone.View.extend({
   render: function () {
     var usuario = this.getUserData();
     var html = this.template(usuario);
-    this.$el.html(html);
+    this.$el.html(html).show();
     return this;
   },
 
@@ -232,6 +232,6 @@ module.exports = Backbone.View.extend({
             // console.log(mensajesError);
 
         }
-    },
+    }
 
 });
