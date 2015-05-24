@@ -263,8 +263,6 @@ body
 	width 45%
 	background-color #c3c3c3
 
-
-
 #verReservasUser
 	overflow: hidden;
 	height: 150px;
@@ -313,10 +311,6 @@ body
 		display: block
 		overflow: hidden;
 		float left
-
-
-
-
 
 .tipo-calendario.doble
 	width: 50%;
@@ -777,7 +771,7 @@ body.outapp
 	margin: 0 ;
 	-webkit-box-shadow: 0 1px 2px #666 ;
 	box-shadow: 0 1px 2px #666 ;
-	overflow: hidden;
+	overflow: auto;
 	position: fixed;
 	ul
 		float right !important
@@ -788,10 +782,8 @@ body.outapp
 			list-style-type: none;
 			display: block ;
 			padding: 0 ;
-			/* width: 323px; */
 			float: left !important;
 			border-bottom 1px solid #44474F
-			// height: 150px !important;
 			&:last-child
 				border-bottom 1px solid #44474F !important
 			&:hover
@@ -803,6 +795,93 @@ body.outapp
 				text-decoration none !important
 				i
 					margin-left 1em !important
+		li.current
+			background #41454F !important
+
+.admin
+	.header
+		#menu-boton-responsive
+			display none
+
+
+@media screen and (max-width:1000px)
+	.admin
+		padding-left: 0
+
+	.admin .header
+		width: 250px
+		height: 100%
+		left: 0
+		top 0
+		overflow: hidden
+		background-color: #26282d
+		margin: 0 0 0 -250px
+		-webkit-box-shadow: 0 1px 2px #666
+		box-shadow: 0 1px 2px #666
+		overflow: hidden
+		position: fixed
+		z-index 3
+		-webkit-transition: margin .2s ease-out;
+		-moz-transition: margin .2s ease-out;
+		-o-transition: margin .2s ease-out;
+		transition: margin .2s ease-out;
+		.black-fondo
+			display none
+
+	.admin .header.open
+		width: 250px
+		height: 100%
+		left: 0
+		top 0
+		overflow: hidden
+		background-color: #26282d
+		margin: 0 0 0 0
+		-webkit-box-shadow: 0 0 80px #000
+		box-shadow: 0 1px 2px #666
+		overflow: hidden
+		position: fixed
+		z-index 3
+		-webkit-transition: margin .2s ease-out;
+		-moz-transition: margin .2s ease-out;
+		-o-transition: margin .2s ease-out;
+		transition: margin .2s ease-out
+
+
+	.admin
+		.header
+			#menu-boton-responsive
+				display block
+				position fixed
+				position device-fixed
+				right 10px
+				top 10px
+				text-decoration none
+				cursor pointer
+				z-index 4
+				zoom 1
+				#middle
+					border-radius: 50%;
+					overflow hidden
+					#in-menu
+						padding .4em 0 0 .4em
+						height 28px
+						width 28px
+						color #fff
+						background-color rgba(70, 181, 190, 1)
+						i:first-child
+							display inline-block
+						i:last-child
+							display none
+
+
+	.header.open
+		#menu-boton-responsive #middle #in-menu
+			i:first-child
+				display none
+			i:last-child
+				display inline-block
+
+
 
 
 // estadisticasAdmin
@@ -886,7 +965,6 @@ body.outapp
 
 			&:hover
 				&:after
-					content:' anular'
 					color #E0585E
 			i
 				color #E0585E

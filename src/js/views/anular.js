@@ -62,8 +62,6 @@ module.exports = Backbone.View.extend({
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
-            console.log('MIMOTIC: success id reserva', anular.id_reserva);
-
             setTimeout(function(){
 
               $('#modalCalendario').fadeOut();

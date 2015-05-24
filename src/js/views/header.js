@@ -22,15 +22,26 @@ module.exports = Backbone.View.extend({
     'click #reservasAdmin': 'goreservas',
     'click #usuariosAdmin': 'goUsuariosList',
     'click #nuevoUsuarioAdmin': 'goNuevoUsuarioAdmin',
-    'click #estadisticasAdmin': 'goEstadisticasAdmin'
+    'click #estadisticasAdmin': 'goEstadisticasAdmin',
+    'click #menu-boton-responsive': 'toggleMenu',
+    'click ul li': 'currentClass'
   },
 
   initialize: function () {
-    this.render();
+    var self = this;
+
+    self.render();
+
+    $('body').on('click', self.closeUp);
   },
 
   resetear: function () {
     this.$el.empty();
+  },
+
+  currentClass: function (element){
+    var menu = $('#menu ul li').removeClass('current');
+    $('#' + element.target.id).parent().addClass('current');
   },
 
   getUserName: function (){
@@ -98,6 +109,22 @@ module.exports = Backbone.View.extend({
   goUsuariosList: function (event) {
     event.preventDefault();
     Backbone.app.loadUsers();
+  },
+
+  toggleMenu: function (event) {
+    event.preventDefault();
+    this.$el.toggleClass( "open" );
+  },
+
+  closeUp: function(e){
+    var self = this;
+    var container = $("#header");
+    var status = $("#header").hasClass('open');
+    if (status === true){
+      console.log('clicked');
+      if (!container.is(e.target) && container.has(e.target).length === 0) container.removeClass('open');
+    }
+
   },
 
   mostrar: function(){
