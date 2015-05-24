@@ -7,7 +7,7 @@ var Backbone   = require('backbone'),
 
 module.exports = BaseView.extend({
     events: {
-        'click': 'anular'
+        'click [data-anulado="0"] span': 'anular'
     },
 
 
