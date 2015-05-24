@@ -13,17 +13,22 @@ module.exports = Backbone.View.extend({
   el: $('#perfil'),
 
   template: Handlebars.compile(Plantilla.perfil),
+  misReservas: $('#misReservasUser2'),
 
   events: {
     'click #doactualizar': 'actualizarDatos',
     'click #actualizarUserData': 'updateUser',
-    'click #cancelarModal': 'cancelarModal'
-
-
+    'click #cancelarModal': 'cancelarModal',
+    'click #misReservasUser2': 'goMisReservas'
   },
 
   initialize: function () {
     this.render();
+  },
+
+  goMisReservas: function (event) {
+    event.preventDefault();
+    Backbone.app.navigate("/misreservas", { trigger: true });
   },
 
   resetear: function () {

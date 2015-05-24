@@ -14,7 +14,8 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #anularReserva': 'anular',
-    'click #cerrarModal': 'cancelar'
+    'click #cerrarModal': 'cancelar',
+    'click' : 'closeUp'
   },
 
   initialize: function () {
@@ -23,6 +24,12 @@ module.exports = Backbone.View.extend({
 
   resetear: function () {
     this.$el.empty();
+  },
+
+  closeUp: function(e){
+    var self = this;
+    var container = $("#inContentModal");
+    if (!container.is(e.target) && container.has(e.target).length === 0) self.cancelar(e);
   },
 
   render: function () {

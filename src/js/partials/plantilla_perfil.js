@@ -1,6 +1,7 @@
 var plantillas = plantillas || {};
 
 plantillas.perfil = '<div class="login_users">'
+		+ '<a id="misReservasUser2" href="#"><i class="demo-icon icon-user">&#xe843;</i> mis reservas</a>'
 		+ '<input type="hidden" id="reg_rol_usuario" name="reg_rol_usuario" value="{{rol}}">'
 		+ '<input type="hidden" id="reg_id_usuario" name="reg_id_usuario" value="{{id_usuario}}">'
 		+ '<i class="demo-icon icon-user in-inputs">&#xe800;</i> <input data-validado="" id="reg_name" type="text" name="" value="{{{nombre}}}" placeholder="Nombre">'
