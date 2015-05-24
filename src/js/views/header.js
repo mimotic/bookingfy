@@ -108,7 +108,7 @@ module.exports = Backbone.View.extend({
 
   goUsuariosList: function (event) {
     event.preventDefault();
-    Backbone.app.navigate("/usuarios", { trigger: true });
+    Backbone.app.loadUsers();
   },
 
   toggleMenu: function (event) {
