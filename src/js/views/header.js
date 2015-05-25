@@ -1,7 +1,6 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
-    mobile         = require('jquery-mobile'),
     ui         = require('jquery-ui'),
     Plantilla  = require('../partials/plantilla_header'),
     PlantillaAdmin  = require('../partials/plantilla_header_admin'),
