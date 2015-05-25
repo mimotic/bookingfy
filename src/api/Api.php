@@ -263,6 +263,43 @@ public function procesarLLamada() {
      $this->mostrarRespuesta($this->devolverError(2), 400);
    }
 
+
+   private function deportesAdmin() {
+     if ($_SERVER['REQUEST_METHOD'] != "GET") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     $query = $this->_conn->query("SELECT id, nombre FROM deporte");
+     $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+     $num = count($filas);
+     if ($num > 0) {
+       // $respuesta['estado'] = 'correcto';
+       // $respuesta['deportes'] = $filas;
+       $respuesta = $filas;
+       $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+     }
+     $this->mostrarRespuesta($this->devolverError(2), 400);
+   }
+
+
+   // Devuelve todas las pistas para la vista de Admin
+   private function pistasAdmin() {
+     if ($_SERVER['REQUEST_METHOD'] != "GET") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     $query = $this->_conn->query("SELECT d.id as id_deporte, d.nombre as nombre_deporte, p.id as id_pista, p.nombre as nombre_pista, p.precio_pista, p.precio_luz FROM deporte as d INNER JOIN pistas as p ON p.id_deporte = d.id");
+     $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+     $num = count($filas);
+     if ($num > 0) {
+       // $respuesta['estado'] = 'correcto';
+       // $respuesta['deportes'] = $filas;
+       $respuesta = $filas;
+       $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+     }
+     $this->mostrarRespuesta($this->devolverError(2), 400);
+   }
+
+
+
    // [GET] LISTAR PISTAS DE UN DEPORTE Y CON RESEVAS DE UN DÍA [GET]
    // curl http://bookingfy.dev/api/pistas
    private function pistas() {

@@ -22,6 +22,7 @@ module.exports = Backbone.View.extend({
     'click #reservasAdmin': 'goreservas',
     'click #usuariosAdmin': 'goUsuariosList',
     'click #nuevoUsuarioAdmin': 'goNuevoUsuarioAdmin',
+    'click #pistasAdmin': 'goGestionAdmin',
     'click #estadisticasAdmin': 'goEstadisticasAdmin',
     'click #menu-boton-responsive': 'toggleMenu',
     'click ul li': 'currentClass'
@@ -101,6 +102,11 @@ module.exports = Backbone.View.extend({
     Backbone.app.navigate("/nuevo-usuario", { trigger: true });
   },
 
+  goGestionAdmin: function(){
+    event.preventDefault();
+    Backbone.app.navigate("/gestion", { trigger: true });
+  },
+
   goEstadisticasAdmin: function (event) {
     event.preventDefault();
     Backbone.app.navigate("/estadisticas", { trigger: true });
@@ -108,7 +114,8 @@ module.exports = Backbone.View.extend({
 
   goUsuariosList: function (event) {
     event.preventDefault();
-    Backbone.app.loadUsers();
+    Backbone.app.navigate("/usuarios", { trigger: true });
+    // Backbone.app.loadUsers();
   },
 
   toggleMenu: function (event) {

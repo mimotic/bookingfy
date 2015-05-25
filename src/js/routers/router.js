@@ -1,6 +1,8 @@
 var Backbone      = require('backbone'),
 
     Deportes      = require('../collections/deportes'),
+    DeportesAdmin = require('../collections/deportes-admin'),
+    PistasAdmin = require('../collections/pistas-admin'),
     Calendarios   = require('../collections/calendarios'),
     ReservasUser  = require('../collections/reservas-usuario'),
     Usuarios      = require('../collections/usuarios'),
@@ -28,6 +30,9 @@ var Backbone      = require('backbone'),
     UserPerfil   = require('../views/user-perfil'),
     Tiempo   = require('../views/eltiempo'),
 
+    GestionDeportesView   = require('../views/gestion-deportes'),
+    GestionPistasView   = require('../views/gestion-pistas'),
+
     $             = require('jquery'),
     Moment        = require('moment');
 
@@ -44,6 +49,7 @@ module.exports = Backbone.Router.extend({
     "reservas-usuarios": "loadReservasUser",
     "nuevo-usuario": "loadNuevoUsuario",
     "usuarios": "loadUsers",
+    "gestion": "loadGestion",
     "estadisticas": "loadEstadisticas",
     "*path"  : "notFound"
   },
@@ -82,6 +88,13 @@ module.exports = Backbone.Router.extend({
     this.tiempo = new Tiempo({});
 
     this.userPerfil = new UserPerfil();
+
+    this.gestiondeportes = new DeportesAdmin();
+    this.gestionDeportesView = new GestionDeportesView({ collection: this.gestiondeportes });
+
+    this.gestionpistas = new PistasAdmin();
+    this.gestionPistasView = new GestionPistasView({ collection: this.gestionpistas });
+
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -126,6 +139,8 @@ module.exports = Backbone.Router.extend({
     this.userPerfil.ocultar();
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
+    this.gestionDeportesView.ocultar();
+    this.gestionPistasView.ocultar();
     var sesion = Sesion.getInstance();
     if (sesion.get('mail')) {
       args.unshift(true);
@@ -542,6 +557,58 @@ module.exports = Backbone.Router.extend({
         }
       });
 
+  },
+
+
+  loadGestion: function(){
+    var self = this;
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
+
+    this.userPerfil.ocultar();
+
+    if(this.perfilView) this.perfilView.clean();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+
+    this.deportes.reset();
+    this.calendarios.reset();
+    this.reservasUser.reset();
+    this.usuarios.reset();
+    this.gestiondeportes.reset();
+    this.gestionpistas.reset();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
+
+    if(typeof this.login == 'object') this.login.resetear();
+    if(typeof this.registro == 'object') this.registro.resetear();
+
+    this.gestiondeportes.fetch({
+          success: function(response){
+                // console.log("Success deportes");
+                self.gestionDeportesView.mostrar();
+                self.gestionDeportesView.render();
+          },
+          error: function (collection, err) {
+            // console.log('error', collection, err);
+          }
+    });
+
+    this.gestionpistas.fetch({
+          success: function(response){
+                // console.log("Success deportes");
+                self.gestionPistasView.mostrar();
+                self.gestionPistasView.render();
+          },
+          error: function (collection, err) {
+            // console.log('error', collection, err);
+          }
+    });
   }
 
 });
