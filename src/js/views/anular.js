@@ -62,8 +62,6 @@ module.exports = Backbone.View.extend({
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 
-            setTimeout(function(){
-
               $('#modalCalendario').fadeOut();
 
               console.log('fecha pista',anular.fecha_pista );
@@ -75,8 +73,6 @@ module.exports = Backbone.View.extend({
               }else{
                 Backbone.Events.trigger('resetReservas');
               }
-
-            }, 2000);
             //
         },
         error: function(model, response) {

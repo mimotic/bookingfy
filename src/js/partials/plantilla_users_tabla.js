@@ -1,6 +1,6 @@
 var plantillas = plantillas || {};
 
-plantillas.usuarios_tabla = '<table class="mis-reservas-table-view"><thead><tr>'
+plantillas.usuarios_tabla = '{{#if models}}<table class="mis-reservas-table-view"><thead><tr>'
             +'<th>Nombre</th>'
             +'<th>Apellidos</th>'
             +'<th>Expediente</th>'
@@ -12,8 +12,8 @@ plantillas.usuarios_tabla = '<table class="mis-reservas-table-view"><thead><tr>'
         	+'<tbody>'
         	+'{{#each models}}'
         	+'<tr data-cid={{cid}} class="anulado{{anulado}}">'
-        	+'<td>{{nombre}}</td>'
-        	+'<td>{{apellidos}}</td>'
+        	+'<td>{{{nombre}}}</td>'
+        	+'<td>{{{apellidos}}}</td>'
             +'<td>{{expediente}}</td>'
             +'<td>{{dni}}</td>'
             +'<td>{{mail}}</td>'
@@ -21,6 +21,6 @@ plantillas.usuarios_tabla = '<table class="mis-reservas-table-view"><thead><tr>'
             +'<td class="fecha_log_reserva">{{fecha_alta}}</td>'
         	+'</tr>'
         	+'{{/each}}'
-    		+'</tbody></table>';
+    		+'</tbody></table>{{/if models}}';
 
 module.exports = plantillas;

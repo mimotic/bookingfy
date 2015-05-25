@@ -30,14 +30,7 @@
 
 	<section id="login"></section>
 
-	<div id='content'>
-	    <form>
-	        <i class="mimo-icon icon-user in-inputs finding">&#xe800;</i><input type='text' name='what' placeholder="buscar..." /><br />
-	        <input type='radio' name='where' value='all' checked />
-	        <input type='radio' name='where' value='first' />
-	        <input type='radio' name='where' value='all' />
-	    </form>
-	</div>
+
 
 	<section id="registro"></section>
 	<section id="registroAdmin"></section>
@@ -47,7 +40,16 @@
         <div id="chart"></div>
 	</section>
 
+	<section id="backBotones" class="backBotones"></section>
 	<section id="perfil"></section>
+	<div id='content'>
+	    <form>
+	        <i class="mimo-icon icon-user in-inputs finding">&#xe800;</i><input type='text' name='what' placeholder="buscar..." /><br />
+	        <input type='radio' name='where' value='all' checked />
+	        <input type='radio' name='where' value='first' />
+	        <input type='radio' name='where' value='all' />
+	    </form>
+	</div>
 
 	<section class="deportes-tipo-pistas2">
 		<ul class="tipo-pistas2 text-center" id="deportes"></ul>
@@ -63,11 +65,12 @@
 	<section id="usuarios_list"></section>
 
 	<section id="claock">
-		<div id="datepickerDay"></div>
+		<div class="calendariopick calendariopick-left">
+			<div id="datepickerDay"></div>
+		</div>
+		<div id="datepicker-data" class="calendariopick calendariopick-right"></div>
 		<ul class="tipo-pistas text-center" id="pistas"></ul>
 	</section>
-
-
 
 	<section id="calendario"></section>
 
@@ -80,16 +83,7 @@
 
 
 	<!-- lógica de negocio -->
-  	<script type="text/javascript" src="/js/app.min.js">
-
-window.onresize = function () {
-	var height = screen.width;
-	var body = document.getElementsByTagName('body');
-
-	body[0].innerWidth = height;
-}
-
-  	</script>
+  	<script type="text/javascript" src="/js/app.min.js"></script>
 
 
 

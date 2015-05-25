@@ -308,10 +308,28 @@ body
 // 		float left
 
 #claock
-	margin 1em auto
+	width 100%
+	margin 0 auto
 	display: block
 	overflow: hidden;
+	float left;
+	padding 0
+.calendariopick
+	display none
+	width 50%
+	padding 0
+	margin 0
 	float left
+.calendariopick-right
+	padding-top: 6em;
+@media screen and (max-width:1000px)
+	.calendariopick
+		width 100%
+		padding 0
+		margin 0
+		float left
+	.calendariopick-right
+		padding-top: 0;
 @media screen and (max-width:1350px)
 	#calendario
 		display: none;
@@ -325,13 +343,6 @@ body
 		overflow: hidden;
 		-webkit-border-radius: 8px;
 		border-radius: 8px;
-
-	#claock
-		width 40%
-		margin 1em auto
-		display: block
-		overflow: hidden;
-		float left
 
 .tipo-calendario.doble
 	width: 50%;
@@ -943,26 +954,28 @@ body.outapp
 #content
 	display none
 	max-width 280px
-	margin 2em auto
-	position relative
+	margin: 2em auto 0;
+	position: relative;
 	input[type="radio"]
 		display none
 	input[type="text"]
-		width 100%
-		padding .5em 0 .5em 2em
-		font-weight 300
-		box-shadow 0 1px 3px rgba(0, 0, 0, 0.03)
-		border none
-		margin 1em 0
-		display block
-		position relative
+		width: 227.6px;
+		padding: .5em 0 .5em 2em;
+		font-weight: 300;
+		-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+		box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+		border: none;
+		margin: 1em auto;
+		display: inline-block;
+		position: relative;
+		border: 11px solid #e8e3e3;
 
 	.finding
 		position: absolute;
-		color: #A8A8A8;
+		color: #a8a8a8;
 		z-index: 1;
-		top: 11px;
-		left: 5px;
+		top: 37px;
+		left: 16px;
 
 
 .deportes-tipo-pistas2
@@ -981,6 +994,10 @@ body.outapp
 	box-sizing: border-box;
 	text-align: center
 	margin: 0 auto;
+	thead
+		background: #E06565;
+		color: #DADADA;
+		font-weight 100 !important
 	td
 	th
 		padding .5em .5em !important
@@ -1030,8 +1047,9 @@ body.outapp
 			width 850px
 
 
-#misReservasUser
-#misReservasUser2
+#misReservasUser,
+#misReservasUser2,
+#goHomeUser2
 	text-align: center
 	display: block
 	width 190px
@@ -1058,6 +1076,12 @@ body.outapp
 	&:hover
 		background-color: rgba(58, 58, 58, 1);
 		color: #B0B0B0;
+
+#goHomeUser2
+	background-color: #4093AB;
+	color: #F0F0F0;
+	border: 1px solid #2B6576;
+
 #eltiempo
 	span
 		display none
@@ -1095,6 +1119,51 @@ body.outapp
 	overflow hidden
 	margin 0
 	padding 0
+#backBotones
+	width 100%
+	margin 0
+	padding 0
+	overflow hidden
 
-// #claock
-// 	display none
+.col
+	width 50%
+	float left
+#goHomeUser2
+	border: none !important
+	box-shadow: 0 3px 0px rgb(58, 127, 147) !important;
+	&:hover
+		box-shadow: 0 3px 0px rgb(58, 127, 147) !important;
+		background-color rgb(58, 127, 147) !important
+		color white  !important
+#misReservasUser2
+	  border: 1px solid rgba(150, 150, 150, 0.28) !important
+.col-left
+	a
+		float right !important
+		margin-right .5em !important
+.col-right
+	a
+		float left !important
+		margin-left 1.5em !important
+@media screen and (max-width:800px)
+	.col
+			width 100%
+			float left
+	.col-left,
+	.col-right
+		a
+			float none !important
+			margin .5em  auto !important
+
+form
+	margin: 0
+
+#backBotones.onlyone
+	.col.col-left
+		width 100%
+	a
+		float: none !important;
+		margin: 1em auto !important;
+	.col.col-right
+		display none !important
+

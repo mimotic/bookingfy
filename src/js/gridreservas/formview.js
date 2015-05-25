@@ -9,6 +9,16 @@ module.exports = Backbone.View.extend({
         }, 200) ,
         'click input[name="where"]': function(e) {
             this.model.set('where', e.currentTarget.value);
-        }
+        },
+        'keydown': 'enter'
+    },
+
+    initialize: function () {
+        $('input[name="what"]').val('');
+    },
+
+    enter: function(e) {
+        var code = e.keyCode || e.which;
+        if(code == 13) e.preventDefault();
     }
 });

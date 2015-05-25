@@ -1,6 +1,6 @@
 var plantillas = plantillas || {};
 
-plantillas.tiempo = '<p class="eltimepop"><i class="demo-icon icon-user ffos">&#xe806;</i> El tiempo, próximos días</p><ul id="list-ul-time">'
+plantillas.tiempo = '<p class="eltimepop"><i class="demo-icon icon-user ffos">&#xe806;</i> El tiempo en el campus, próximos días</p><ul id="list-ul-time">'
 			+'{{#each days}}'
 			+ '<li>'
 			+'<p>{{date}}</p>'

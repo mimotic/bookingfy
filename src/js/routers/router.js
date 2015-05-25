@@ -19,7 +19,9 @@ var Backbone      = require('backbone'),
     CalendarioView = require('../views/calendarios'),
     HeaderView    = require('../views/header'),
     DiaView       = require('../views/dia'),
+    DiaViewBotones       = require('../views/dia-botones'),
     PerfilView    = require('../views/perfil'),
+    PerfilViewBotones    = require('../views/back-botones'),
     ReservasUserView = require('../views/reservas-list'),
     UsuariosListView = require('../views/users-list'),
     StatsView     = require('../views/stats-admin'),
@@ -225,6 +227,7 @@ module.exports = Backbone.Router.extend({
   loadLogin: function(args, datosLogin){
     if(this.registro) this.registro.resetear();
     if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
     if(this.statsView !== undefined) this.statsView.ocultar();
     if(args === true){
@@ -237,6 +240,7 @@ module.exports = Backbone.Router.extend({
       this.calendarios.reset();
       this.reservasUser.reset();
       if(this.diaView !== undefined) this.diaView.ocultar();
+      if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
       this.login = new LoginView( datosLogin );
     }
   },
@@ -244,6 +248,7 @@ module.exports = Backbone.Router.extend({
   loadRegistro: function(args){
     if(this.login) this.login.resetear();
     if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
     if(this.statsView !== undefined) this.statsView.ocultar();
     if(args === true){
@@ -253,6 +258,7 @@ module.exports = Backbone.Router.extend({
       this.calendarios.reset();
       this.reservasUser.reset();
       if(this.diaView !== undefined)this.diaView.ocultar();
+      if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
       this.registro = new RegistroView();
     }
 
@@ -274,12 +280,14 @@ module.exports = Backbone.Router.extend({
     if(this.statsView !== undefined) this.statsView.ocultar();
 
     if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     self.customEvents();
 
@@ -300,12 +308,14 @@ module.exports = Backbone.Router.extend({
 
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
     if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     self.statsView = new StatsView();
   },
@@ -331,12 +341,14 @@ module.exports = Backbone.Router.extend({
     if(this.statsView !== undefined) this.statsView.ocultar();
 
     if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
@@ -364,6 +376,7 @@ module.exports = Backbone.Router.extend({
     self.customEvents();
 
     if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
 
     this.deportes.reset();
@@ -394,6 +407,11 @@ module.exports = Backbone.Router.extend({
     this.diaView = new DiaView({ model: this.dia });
     this.diaView.mostrar();
 
+    this.diaViewBotones = new DiaViewBotones({
+      deporte: 'deporte'
+    });
+    this.diaViewBotones.mostrar();
+
     this.calendarios.fetch({
         data: {
           id: idDeporte,
@@ -419,6 +437,7 @@ module.exports = Backbone.Router.extend({
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     if(this.headerView !== undefined){
         this.headerView.render();
@@ -428,6 +447,8 @@ module.exports = Backbone.Router.extend({
     }
 
     this.perfilView = new PerfilView({});
+    if(this.perfilViewBotones) this.perfilViewBotones.render();
+    else this.perfilViewBotones = new PerfilViewBotones({});
 
   },
 
@@ -454,7 +475,11 @@ module.exports = Backbone.Router.extend({
 
     this.reservasUserView.mostrar();
 
+    if(this.perfilViewBotones) this.perfilViewBotones.render();
+    else this.perfilViewBotones = new PerfilViewBotones({});
+
     if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
@@ -504,6 +529,7 @@ module.exports = Backbone.Router.extend({
     this.usuariosListView.mostrar();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();

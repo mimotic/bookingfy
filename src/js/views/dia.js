@@ -10,11 +10,24 @@ module.exports = Backbone.View.extend({
 
   el: $('#datepickerDay'),
 
+  elparent: $('.calendariopick'),
+
+  events: {
+    'click misReservasUser2': 'algo'
+  },
+
   template: Handlebars.compile(Plantilla._datepicker),
 
   initialize: function () {
+    this.elparent.show();
     this.render();
     this.setCalendar();
+  },
+
+  algo: function(event) {
+    event.preventDefault();
+    console.log('click');
+
   },
 
   changeDateNow: function (date) {
@@ -72,6 +85,7 @@ module.exports = Backbone.View.extend({
 
   resetear: function () {
     this.$el.empty();
+    this.elparent.hide();
   },
 
   displayDatepicker: function (options) {
@@ -79,6 +93,7 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
+    this.elparent.show();
     var dia = this.model.toJSON();
     var html = this.template(dia);
     this.$el.html(html);
@@ -87,11 +102,13 @@ module.exports = Backbone.View.extend({
 
 
   mostrar: function(){
+    this.elparent.show();
     this.$el.show();
   },
 
   ocultar: function(){
     this.$el.html('');
+    this.elparent.hide();
   }
 
 });

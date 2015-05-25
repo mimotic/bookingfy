@@ -185,13 +185,15 @@ module.exports = Backbone.View.extend({
                 dataType:"json",
                 data: formValues,
                 success:function (data) {
+                    self.undelegateEvents();
 
                     if(data.estado=="error") {
                         $('.error').hide();
                         $('#error').html(data.msg).slideDown().fadeOut(5000);
-                        self.undelegateEvents();
+
                     }
                     else {
+
                         $('.error').hide();
                         $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
@@ -206,9 +208,7 @@ module.exports = Backbone.View.extend({
                         };
 
                         Sesion.setSesiondata(usuario);
-                        self.undelegateEvents();
                         Backbone.Events.trigger('updateUserData');
-                        // self.undelegateEvents();
 
                         // var args = {};
 
@@ -221,7 +221,6 @@ module.exports = Backbone.View.extend({
             });
 
         }else{
-
             mensajesError = _.omit(validar.datos, function(value, key, object) {
               return value === true;
             });
@@ -237,7 +236,7 @@ module.exports = Backbone.View.extend({
             $('.error').hide();
             $('#error').html(printErrores).slideDown().fadeOut(5000);
 
-            self.undelegateEvents();
+
 
             // console.log(mensajesError);
 
