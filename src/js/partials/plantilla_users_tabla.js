@@ -1,6 +1,6 @@
 var plantillas = plantillas || {};
 
-plantillas.usuarios_tabla = '{{#if models}}<table class="mis-reservas-table-view"><thead><tr>'
+plantillas.usuarios_tabla = '<table class="mis-reservas-table-view"><thead><tr>'
             +'<th>Nombre</th>'
             +'<th>Apellidos</th>'
             +'<th>Expediente</th>'
@@ -21,6 +21,6 @@ plantillas.usuarios_tabla = '{{#if models}}<table class="mis-reservas-table-view
             +'<td class="fecha_log_reserva">{{fecha_alta}}</td>'
         	+'</tr>'
         	+'{{/each}}'
-    		+'</tbody></table>{{/if models}}';
+    		+'</tbody></table>';
 
 module.exports = plantillas;
