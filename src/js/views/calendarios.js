@@ -16,6 +16,8 @@ module.exports = Backbone.View.extend({
     this.listenTo(this.collection, "reset", this.resetear, this);
   },
 
+  contador: 3,
+
   resetear: function () {
     this.$el.empty();
   },
@@ -25,6 +27,14 @@ module.exports = Backbone.View.extend({
   },
 
   addOne: function (calendario) {
+    if(this.contador === 3 || !(this.contador%2)){
+      this.$el.addClass('doble');
+    }else{
+      this.$el.removeClass('doble');
+    }
+
+    console.log('calendario',calendario);
+    this.contador++;
     var calendarView = new CalendarioView({ model: calendario });
     this.$el.append(calendarView.render().el);
   },

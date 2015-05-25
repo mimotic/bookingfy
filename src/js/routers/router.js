@@ -387,7 +387,8 @@ module.exports = Backbone.Router.extend({
     // dia & datapicker
     this.dia.set({
       deporte: idDeporte,
-      fecha: newFecha
+      fecha: newFecha,
+      fechaEs: Moment(this.fecha).format('DD/MM/YYYY')
     });
 
     this.diaView = new DiaView({ model: this.dia });

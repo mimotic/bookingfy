@@ -3,6 +3,7 @@ var Backbone   = require('backbone'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_tiempo'),
     Dia = require('../models/dia'),
+    localeEs     = require('../../../node_modules/moment/locale/es.js'),
     Moment     = require('moment');
 
   var API_WEATHER_KEY = "80114c7878f599621184a687fc500a12";
@@ -18,9 +19,6 @@ module.exports = Backbone.View.extend({
 
   template: Handlebars.compile(Plantilla.tiempo),
 
-  // events: {
-  // },
-
   initialize: function () {
     this.getTiempo();
   },
@@ -30,7 +28,6 @@ module.exports = Backbone.View.extend({
   },
 
   render: function (tiempo) {
-    // var tiempo = this.model.toJSON();
     var html = this.template(tiempo);
     this.$el.html(html);
     return this;
@@ -58,9 +55,9 @@ module.exports = Backbone.View.extend({
           cityWeather.days[i] = {
                     temp : data.list[i].temp.day.toFixed(0),
                     icon: IMG_WATHER_URL + data.list[i].weather[0].icon + ".png",
-                    date: Moment.unix(data.list[i].dt).format('DD-MM-YYYY')
+                    date: Moment.unix(data.list[i].dt).locale("es").format('dd')
           };
-        };
+        }
 
 
         console.log(cityWeather);

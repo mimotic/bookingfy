@@ -15,11 +15,9 @@ var Backbone   = require('backbone'),
 module.exports = Backbone.View.extend({
 
   tagName: 'div',
-  // className: 'tipo-calendario',
+
   className: function (){
-    // ya no funciona al cambiar logica, cambiar
     var calendario = this.model.toJSON();
-    console.log('calendario calses', calendario);
     var numeroPistas = calendario.numeroPistas;
     numeroPistas = (numeroPistas == 1)? 'simple' : 'doble';
     return 'tipo-calendario ' + numeroPistas;
@@ -44,8 +42,6 @@ module.exports = Backbone.View.extend({
 
     if (Number(sesion.get('rol')) == 1) {
 
-      // id_rest_usuario = Number(sesion.get('id_usuario'));
-
       for (var i = 0; i < calendario.horas.length; i++) {
          calendario.horas[i].id_usuario = Number(calendario.horas[i].id_usuario);
         if(id_rest_usuario == calendario.horas[i].id_usuario) calendario.horas[i].id_usuario = 'libre';
@@ -55,16 +51,14 @@ module.exports = Backbone.View.extend({
     }else{
       id_rest_usuario = Number(sesion.get('id_usuario'));
 
-      for (var i = 0; i < calendario.horas.length; i++) {
-         calendario.horas[i].id_usuario = Number(calendario.horas[i].id_usuario);
-        if(id_rest_usuario == calendario.horas[i].id_usuario) calendario.horas[i].id_usuario = 'owner';
-        else if(calendario.horas[i].id_usuario > 0) calendario.horas[i].id_usuario = 'ocupado';
-        else calendario.horas[i].id_usuario = 'libre';
+      for (var ii = 0; ii < calendario.horas.length; ii++) {
+         calendario.horas[ii].id_usuario = Number(calendario.horas[ii].id_usuario);
+        if(id_rest_usuario == calendario.horas[ii].id_usuario) calendario.horas[ii].id_usuario = 'owner';
+        else if(calendario.horas[ii].id_usuario > 0) calendario.horas[ii].id_usuario = 'ocupado';
+        else calendario.horas[ii].id_usuario = 'libre';
       }
 
     }
-
-
 
     var html = this.template(calendario);
     this.$el.html(html);

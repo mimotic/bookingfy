@@ -189,6 +189,7 @@ module.exports = Backbone.View.extend({
                     if(data.estado=="error") {
                         $('.error').hide();
                         $('#error').html(data.msg).slideDown().fadeOut(5000);
+                        self.undelegateEvents();
                     }
                     else {
                         $('.error').hide();
@@ -205,7 +206,7 @@ module.exports = Backbone.View.extend({
                         };
 
                         Sesion.setSesiondata(usuario);
-
+                        self.undelegateEvents();
                         Backbone.Events.trigger('updateUserData');
                         // self.undelegateEvents();
 
@@ -235,6 +236,8 @@ module.exports = Backbone.View.extend({
 
             $('.error').hide();
             $('#error').html(printErrores).slideDown().fadeOut(5000);
+
+            self.undelegateEvents();
 
             // console.log(mensajesError);
 

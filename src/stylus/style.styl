@@ -185,6 +185,10 @@ body
 				padding-right: 1em
 				&:hover
 					text-decoration underline
+				span
+					display block
+			.ffos
+				display none
 			#logout
 				margin: 0.3em 0 0 -2em;
 				position: absolute;
@@ -198,8 +202,15 @@ body
 				&:hover
 					color rosaPalido
 
-
-
+@media screen and (max-width:650px)
+	.header
+		ul
+			li#listItemWelcome
+				a
+					span
+						display none
+				.ffos
+					display inline-block
 .inapp #logotipoLink
 	margin: 0 ;
 	width: 221px;
@@ -207,7 +218,7 @@ body
 
 // listado de deportes
 .tipo-pistas2
-	box-shadow: 0 1px 6px #9e9898;
+	box-shadow: 0 1px 3px rgba(158, 152, 152, 0.47);
 	background: rgba(38, 40, 45, 0.06);
 	margin: 1em auto;
 	padding: 7px;
@@ -275,34 +286,44 @@ body
 
 // #calendario
 #calendario
-	display none
-	margin 0 auto
-	clear none
-	max-width 1124px
+	display: none;
+	margin: 0 auto;
+	clear: none;
+	max-width: 1124px;
 	display: block;
-	width: 70%;
+	width: 100%;
 	margin: 1em auto;
-	padding: 2em;
+	padding 0
 	overflow: hidden;
+	-webkit-border-radius: 8px;
 	border-radius: 8px;
+	float none
+
+// #calendario
+// 	.tipo-calendario.doble
+// 		float none
+// 		max-width 400px
+// #calendario.doble
+// 	.tipo-calendario.doble
+// 		float left
 
 #claock
-	width 25%
 	margin 1em auto
 	display: block
 	overflow: hidden;
 	float left
 @media screen and (max-width:1350px)
 	#calendario
-		display block
-		margin 0 auto
-		clear none
-		max-width 1124px
+		display: none;
+		margin: 0 auto;
+		clear: none;
+		max-width: 1124px;
 		display: block;
-		width: 60%;
+		width: 100%;
 		margin: 1em auto;
-		padding: 2em;
+		padding 0
 		overflow: hidden;
+		-webkit-border-radius: 8px;
 		border-radius: 8px;
 
 	#claock
@@ -317,6 +338,7 @@ body
 	min-width: 280px;
 	float: left;
 	margin: 0 auto !important;
+	display inline
 
 	&.doble
 		margin 0
@@ -681,13 +703,13 @@ body.outapp
 		position relative
 		border 1px solid verdeOk
 		padding 1em
-		bottom -30px
 		background verdeOk
 		color white
 		text-align center
 
 .outapp
 	#error
+	#no-error
 		bottom -30px
 
 @media screen and (max-width:650px)
@@ -920,7 +942,7 @@ body.outapp
 // busqueda listas
 #content
 	display none
-	max-width 400px
+	max-width 280px
 	margin 2em auto
 	position relative
 	input[type="radio"]
@@ -929,7 +951,7 @@ body.outapp
 		width 100%
 		padding .5em 0 .5em 2em
 		font-weight 300
-		box-shadow 0 1px 3px rgba(0, 0, 0, .75)
+		box-shadow 0 1px 3px rgba(0, 0, 0, 0.03)
 		border none
 		margin 1em 0
 		display block
@@ -959,6 +981,9 @@ body.outapp
 	box-sizing: border-box;
 	text-align: center
 	margin: 0 auto;
+	td
+	th
+		padding .5em .5em !important
 	tr
 		padding 0 1em
 		height: 3em;
@@ -971,20 +996,17 @@ body.outapp
 	.anulado1
 		background grisClaro
 		color dark-gray
-
 	td[data-anulado='0']
 		span
 			display inline-block
 			font-weight 100
 			padding .2em 1em
 			cursor pointer
-
 			&:hover
 				&:after
 					color #E0585E
 			i
 				color #E0585E
-
 	td[data-anulado='1']
 		span
 			display inline-block
@@ -998,6 +1020,15 @@ body.outapp
 				content:' anulada'
 			i
 				color #D8D3D3
+@media screen and (max-width:800px)
+	#reservas_user
+		width 100%
+		overflow hidden
+		overflow-x auto
+		height auto
+		.mis-reservas-table-view
+			width 850px
+
 
 #misReservasUser
 #misReservasUser2
@@ -1030,3 +1061,40 @@ body.outapp
 #eltiempo
 	span
 		display none
+
+#list-ul-time
+	margin 0
+	padding 0
+	display block
+	list-style none
+	overflow none
+	text-align center
+	li
+		margin .5em
+		background rgba(231, 231, 231, 0.52)
+		border-radius 5px
+		text-align center
+		list-style none
+		display inline-block
+		padding .5em 1em
+		box-shadow 0 1px 0px rgba(110, 110, 110, 0.21)
+		p
+			padding 0
+			margin 0
+		p:first-child
+			font-weight 100
+		p:last-child
+			font-weight 700
+
+.eltimepop
+	text-align center
+	color #A6A6A6
+	font-weight 100
+#eltiempo
+	display block
+	overflow hidden
+	margin 0
+	padding 0
+
+// #claock
+// 	display none

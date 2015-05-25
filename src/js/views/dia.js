@@ -12,17 +12,12 @@ module.exports = Backbone.View.extend({
 
   template: Handlebars.compile(Plantilla._datepicker),
 
-  // events: {
-  // },
-
   initialize: function () {
     this.render();
     this.setCalendar();
-    // console.log( this.getDate() );
   },
 
   changeDateNow: function (date) {
-    //$("#datePickerVal").val(data);
     console.log(date);
   },
 
@@ -36,11 +31,16 @@ module.exports = Backbone.View.extend({
   },
 
   setCalendar: function () {
+
+    var self = this;
+
     var formato = 'YYYY-MM-DD';
+    var formatoEs = 'DD-MM-YYYY';
 
     var idDeporte = this.model.get("deporte");
-    var fecha = this.model.get("fecha");
+    var fecha = (fecha)? self.getDate():this.model.get("fecha");
     fecha = Moment(fecha).format( formato );
+    fechaEs = Moment(fecha).format( formatoEs );
 
     this.displayDatepicker({
       closeText: 'Cerrar',
@@ -64,8 +64,6 @@ module.exports = Backbone.View.extend({
       minDate: 0,
       defaultDate: fecha,
       onSelect: function(date){
-        //this.changeDateNow(date);
-        // alert(date);
         Backbone.app.navigate("pistas/" + idDeporte + "/" + date, { trigger: true });
       }
 
