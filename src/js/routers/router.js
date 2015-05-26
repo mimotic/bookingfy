@@ -141,6 +141,8 @@ module.exports = Backbone.Router.extend({
     this.usuariosListView.ocultar();
     this.gestionDeportesView.ocultar();
     this.gestionPistasView.ocultar();
+    if(this.statsView !== undefined) this.statsView.ocultar();
+
     var sesion = Sesion.getInstance();
     if (sesion.get('mail')) {
       args.unshift(true);
@@ -233,6 +235,41 @@ module.exports = Backbone.Router.extend({
       self.navigate("", { trigger: true });
     });
   },
+
+
+  cleanViews: function(keep){
+
+
+
+    this.deportes.reset();
+    this.calendarios.reset();
+    this.reservasUser.reset();
+    this.usuarios.reset();
+    this.gestiondeportes.reset();
+    this.gestionpistas.reset();
+
+    this.tiempo.ocultar();
+    this.userPerfil.ocultar();
+    this.reservasUserView.ocultar();
+    this.usuariosListView.ocultar();
+    this.gestionDeportesView.ocultar();
+    this.gestionPistasView.ocultar();
+
+    if(this.statsView !== undefined) this.statsView.ocultar();
+
+    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilViewBotones) this.perfilViewBotones.clean();
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
+
+
+    if(typeof this.login == 'object') this.login.resetear();
+    if(typeof this.registro == 'object') this.registro.resetear();
+
+  },
+
+
 
   index: function(args){
     if(args === true) this.loadDeportes();
@@ -462,8 +499,11 @@ module.exports = Backbone.Router.extend({
     }
 
     this.perfilView = new PerfilView({});
-    if(this.perfilViewBotones) this.perfilViewBotones.render();
-    else this.perfilViewBotones = new PerfilViewBotones({});
+
+    if(this.islogged() == 'user'){
+      if(this.perfilViewBotones) this.perfilViewBotones.render();
+      else this.perfilViewBotones = new PerfilViewBotones({});
+    }
 
   },
 

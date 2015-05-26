@@ -40,7 +40,7 @@ module.exports = Backbone.View.extend({
     $.getJSON(API_WEATHER_WEEK_URL + "lat=" + lat + "&lon=" + lon + "&cnt=7&units=metric&mode=json",
       function getCurrentWeather(data){
 
-        console.log(data);
+        // console.log(data);
 
         var cityWeather = {};
         // cityWeather.zone = data.name;
@@ -60,7 +60,7 @@ module.exports = Backbone.View.extend({
         }
 
 
-        console.log(cityWeather);
+        // console.log(cityWeather);
 
         //render
         self.render(cityWeather);

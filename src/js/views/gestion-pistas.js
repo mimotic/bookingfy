@@ -1,6 +1,7 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Plantilla  = require('../partials/plantilla_gestion_pista'),
+    _          = require('underscore'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
@@ -8,6 +9,7 @@ module.exports = Backbone.View.extend({
   el: $('#gestion_pistas'),
 
   template: Handlebars.compile(Plantilla.gestion_pista),
+  templateCombo: Handlebars.compile(Plantilla.gestion_pista),
 
   initialize: function () {
     // this.listenTo(this.collection, "add", this.addOne, this);
@@ -19,11 +21,26 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    var models = {models: this.collection.toJSON()};
-    var html = this.template(models);
+    var models = this.collection.toJSON();
+    var pistas = models[0].pistas;
+
+    for (var i = 0; i < pistas.length; i++) {
+      var deportes = JSON.parse( JSON.stringify( models[0].deportes ) );
+
+      for (var j = 0; j < deportes.length; j++) {
+        if(deportes[j].id == pistas[i].id_deporte){
+          pistas[i].deportes = deportes;
+          pistas[i].deportes[j].seleccionado = "selected";
+          break;
+        }
+      };
+    };
+
+    var html = this.template({pistas: pistas});
     this.$el.html(html);
     return this;
   },
+
 
   mostrar: function(){
     this.$el.show();

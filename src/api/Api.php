@@ -288,11 +288,13 @@ public function procesarLLamada() {
      }
      $query = $this->_conn->query("SELECT d.id as id_deporte, d.nombre as nombre_deporte, p.id as id_pista, p.nombre as nombre_pista, p.precio_pista, p.precio_luz FROM deporte as d INNER JOIN pistas as p ON p.id_deporte = d.id");
      $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+
+     $query2 = $this->_conn->query("SELECT id, nombre FROM deporte");
+     $filas2 = $query2->fetchAll(PDO::FETCH_ASSOC);
      $num = count($filas);
      if ($num > 0) {
-       // $respuesta['estado'] = 'correcto';
-       // $respuesta['deportes'] = $filas;
-       $respuesta = $filas;
+       $respuesta['pistas'] = $filas;
+       $respuesta['deportes'] = $filas2;
        $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
      }
      $this->mostrarRespuesta($this->devolverError(2), 400);

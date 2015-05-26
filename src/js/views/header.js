@@ -18,6 +18,7 @@ module.exports = Backbone.View.extend({
     'click #logotipoLink': 'goHome',
     'click #logout': 'logout',
     'click #doNothing': 'goUserResume',
+    'click #user-welcome': 'goUserResume',
     'click #user-welcome-2': 'goMisResrvas',
     'click #reservasAdmin': 'goreservas',
     'click #usuariosAdmin': 'goUsuariosList',
