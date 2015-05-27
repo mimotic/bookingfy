@@ -12,6 +12,7 @@ module.exports = Backbone.View.extend({
   events: {
     'dblclick input': 'converting',
     'blur input': 'descoverting',
+    'touchstart input': 'converting',
     'keydown': 'keyAction'
   },
 
