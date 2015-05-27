@@ -9,11 +9,16 @@ module.exports = Backbone.View.extend({
   el: $('#gestion_pistas'),
 
   template: Handlebars.compile(Plantilla.gestion_pista),
-  templateCombo: Handlebars.compile(Plantilla.gestion_pista),
+
+  events : {
+      "change input" :"changed",
+      "change select" :"changed"
+  },
 
   initialize: function () {
     // this.listenTo(this.collection, "add", this.addOne, this);
     this.listenTo(this.collection, "reset", this.resetear, this);
+    // this.listenTo(this.collection, "change", this.modificado, this);
   },
 
   resetear: function () {
@@ -41,6 +46,10 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
+  changed: function(e){
+    console.log('modificada pista', e.currentTarget.id);
+    console.log('modificada pista', e.currentTarget.value);
+  },
 
   mostrar: function(){
     this.$el.show();
