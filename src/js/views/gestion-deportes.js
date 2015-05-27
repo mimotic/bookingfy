@@ -9,6 +9,30 @@ module.exports = Backbone.View.extend({
 
   template: Handlebars.compile(Plantilla.gestion_deporte),
 
+  events: {
+    'dblclick input': 'converting',
+    'blur input': 'descoverting',
+    'keydown': 'keyAction'
+  },
+
+  converting: function (e) {
+    var elem = e.target;
+    var elemData = $("#" + elem.id);
+    elemData.removeAttr('disabled');
+    elemData.focus();
+  },
+
+  descoverting: function (e) {
+    var elem = e.target;
+    var elemData = $("#" + elem.id);
+    elemData.attr({disabled: true});
+  },
+
+  keyAction: function(e) {
+        var code = e.keyCode || e.which;
+        if(code == 13) this.descoverting(e);
+  },
+
   initialize: function () {
     // this.listenTo(this.collection, "add", this.addOne, this);
     this.listenTo(this.collection, "reset", this.resetear, this);
