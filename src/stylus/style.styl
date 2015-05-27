@@ -322,7 +322,7 @@ body
 	float left
 .calendariopick-right
 	padding-top: 6em;
-@media screen and (max-width:1000px)
+@media screen and (max-width:640px)
 	.calendariopick
 		width 100%
 		padding 0
@@ -847,10 +847,8 @@ body.outapp
 		li.current
 			background #41454F !important
 
-.admin
-	.header
-		#menu-boton-responsive
-			display none
+#botonMenuresponsive-wrapper
+	display none
 
 
 @media screen and (max-width:1000px)
@@ -863,72 +861,79 @@ body.outapp
 		left: 0
 		top 0
 		overflow: hidden
-		background-color: #26282d
 		margin: 0 0 0 -250px
-		-webkit-box-shadow: 0 1px 2px #666
-		box-shadow: 0 1px 2px #666
+		box-shadow: none
 		overflow: hidden
 		position: fixed
 		z-index 3
-		-webkit-transition: margin .2s ease-out;
-		-moz-transition: margin .2s ease-out;
-		-o-transition: margin .2s ease-out;
-		transition: margin .2s ease-out;
+		-webkit-transition: background-color .2s ease-out;
+		-moz-transition: background-color .2s ease-out;
+		-o-transition: background-color .2s ease-out;
+		transition: background-color .2s ease-out;
+		-webkit-transition: margin .3s ease-out;
+		-moz-transition: margin .3s ease-out;
+		-o-transition: margin .3s ease-out;
+		transition: margin .3s ease-out;
 		.black-fondo
 			display none
 
 	.admin .header.open
-		width: 250px
+		width: 100%
 		height: 100%
 		left: 0
 		top 0
 		overflow: hidden
-		background-color: #26282d
 		margin: 0 0 0 0
-		-webkit-box-shadow: 0 0 80px #000
-		box-shadow: 0 1px 2px #666
+		box-shadow: none
 		overflow: hidden
 		position: fixed
 		z-index 3
-		-webkit-transition: margin .2s ease-out;
-		-moz-transition: margin .2s ease-out;
-		-o-transition: margin .2s ease-out;
-		transition: margin .2s ease-out
+		-webkit-transition: background-color 0s ease-out;
+		-moz-transition: background-color 0s ease-out;
+		-o-transition: background-color 0s ease-out;
+		transition: background-color 0s ease-out
+		-webkit-transition: margin 0s ease-out;
+		-moz-transition: margin 0s ease-out;
+		-o-transition: margin 0s ease-out;
+		transition: margin 0s ease-out;
 
 
-	.admin
-		.header
-			#menu-boton-responsive
-				display block
-				position fixed
-				position device-fixed
-				right 10px
-				top 10px
-				text-decoration none
-				cursor pointer
-				z-index 4
-				zoom 1
-				#middle
-					border-radius: 50%;
-					overflow hidden
-					#in-menu
-						padding .4em 0 0 .4em
-						height 28px
-						width 28px
-						color #fff
-						background-color rgba(70, 181, 190, 1)
-						i:first-child
-							display inline-block
-						i:last-child
-							display none
-
-
-	.header.open
-		#menu-boton-responsive #middle #in-menu
-			i:first-child
-				display none
-			i:last-child
-				display inline-block
+	.admin #botonMenuresponsive-wrapper
+		display block
+		position fixed
+		position device-fixed
+		right 10px
+		top 10px
+		text-decoration none
+		cursor pointer
+		z-index 5
+		zoom 1
+		#menu-boton-responsive
+			margin 0
+			padding 0
+			overflow hidden
+			height auto
+			width auto
+			#middle
+				border-radius: 50%;
+				overflow hidden
+				#in-menu
+					padding .4em 0 0 .4em
+					height 28px
+					width 28px
+					color #fff
+					background-color rgba(70, 181, 190, 1)
+					i:first-child
+						display inline-block
+					i:last-child
+						display none
+		#menu-boton-responsive.open
+			#middle
+				#in-menu
+					i:first-child
+						display none
+					i:last-child
+						display inline-block
 
 
 
@@ -1166,4 +1171,56 @@ form
 		margin: 1em auto !important;
 	.col.col-right
 		display none !important
+@media screen and (max-width: 1000px)
+	.admin
+		.header
+			background-color: rgba(0, 0, 0, 0.79)
 
+			.special-back
+				box-shadow: 1px 0 2px rgba(0, 0, 0, 0.54);
+				overflow: auto;
+				width: 250px !important;
+				background-color: rgba(38, 40, 45, 1);
+				position: relative;
+				width: auto;
+				height: 100%;
+				padding: 0;
+				margin: 0 0 0 -250px
+				position: fixed
+				z-index 4
+				-webkit-transition: margin .2s ease-out;
+				-moz-transition: margin .2s ease-out;
+				-o-transition: margin .2s ease-out;
+				transition: margin .2s ease-out;
+		.header.open
+			animation: pulse 8s ease infinite alternate, nudge 8s linear infinite alternate;
+			.special-back
+				left: 0;
+				top: 0;
+				margin: 0 0 0 0
+				height: 100% !important;
+				background-color: rgba(38, 40, 45, 1) !important;
+				-webkit-transition: margin .2s ease-out;
+				-moz-transition: margin .2s ease-out;
+				-o-transition: margin .2s ease-out;
+				transition: margin .2s ease-out;
+
+@keyframes pulse {
+			  0%, 100% {
+			    background-color: rgba(37, 45, 65, 0.8);
+			  }
+			  50% {
+			    background-color: rgba(38, 40, 45, 0.9);
+			  }
+			}
+@keyframes girator {
+			  0% {
+			    transform: rotate(0deg);
+			  }
+			   100%{
+			    transform: rotate(2000deg);
+			  }
+			}
+
+.admin #backBotones
+	display none !important

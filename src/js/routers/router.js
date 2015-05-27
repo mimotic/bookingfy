@@ -21,6 +21,7 @@ var Backbone      = require('backbone'),
     CalendarioView = require('../views/calendarios'),
     HeaderView    = require('../views/header'),
     DiaView       = require('../views/dia'),
+    BtnMenuResponsiveView  = require('../views/menu-responsive-buttom'),
     DiaViewBotones       = require('../views/dia-botones'),
     PerfilView    = require('../views/perfil'),
     PerfilViewBotones    = require('../views/back-botones'),
@@ -34,7 +35,8 @@ var Backbone      = require('backbone'),
     GestionPistasView   = require('../views/gestion-pistas'),
 
     $             = require('jquery'),
-    Moment        = require('moment');
+    Moment        = require('moment'),
+    AttachFastClick = require('fastclick');
 
 module.exports = Backbone.Router.extend({
   routes: {
@@ -64,6 +66,8 @@ module.exports = Backbone.Router.extend({
     // ambito clausura
     var self = this;
     this.current = {};
+
+    var isLogged = this.islogged().toLowerCase();
 
     // init loader
     this.loader();
@@ -95,6 +99,13 @@ module.exports = Backbone.Router.extend({
     this.gestionpistas = new PistasAdmin();
     this.gestionPistasView = new GestionPistasView({ collection: this.gestionpistas });
 
+    // boton menu responsive, only admin
+    if(this.btnMenuResponsiveView === undefined) this.btnMenuResponsiveView  = new BtnMenuResponsiveView();
+
+    // custom events
+    if((typeof this.customEvents) == 'function') this.customEvents();
+
+    AttachFastClick(document.body);
 
     // start html5 historial for Router
     Backbone.history.start({pushState: true});
@@ -107,7 +118,6 @@ module.exports = Backbone.Router.extend({
 
   bodyClass: function () {
     var isLogged = this.islogged();
-    console.log('rol',isLogged);
     var bodyTag = $("body");
 
     // switch class from body
@@ -178,7 +188,6 @@ module.exports = Backbone.Router.extend({
     var self = this;
 
     Backbone.Events.on('resetCalendar' , function(idDeporte, fecha){
-      console.log('eventooo',idDeporte, fecha);
 
       self.calendarios.fetch({
           data: {
@@ -215,9 +224,15 @@ module.exports = Backbone.Router.extend({
 
 
     Backbone.Events.on('loginSuccessful' , function(args){
-      console.log('login args',args);
       Backbone.app.navigate("login", { trigger: false });
       self.loadLogin( false , args );
+    });
+    var num = 1;
+    Backbone.Events.on('clickAdminButtomMenu' , function(){
+
+      console.log(++num);
+      self.headerView.toggleMenu();
+
     });
 
     Backbone.Events.on('updateUserData' , function(args){
@@ -238,8 +253,6 @@ module.exports = Backbone.Router.extend({
 
 
   cleanViews: function(keep){
-
-
 
     this.deportes.reset();
     this.calendarios.reset();
@@ -314,8 +327,6 @@ module.exports = Backbone.Router.extend({
       this.registro = new RegistroView();
     }
 
-    this.customEvents();
-
   },
 
   loadNuevoUsuario: function(args){
@@ -340,8 +351,6 @@ module.exports = Backbone.Router.extend({
 
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
-
-    self.customEvents();
 
     self.registroAdminView = new RegistroAdminView();
 
@@ -423,10 +432,6 @@ module.exports = Backbone.Router.extend({
 
     var self = this;
 
-    // console.log("newFecha "+ newFecha);
-
-    self.customEvents();
-
     if(this.perfilView) this.perfilView.clean();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
@@ -481,8 +486,6 @@ module.exports = Backbone.Router.extend({
 
   loadPerfil: function () {
 
-    this.customEvents();
-
     this.deportes.reset();
     this.calendarios.reset();
     this.reservasUser.reset();
@@ -509,8 +512,6 @@ module.exports = Backbone.Router.extend({
 
 
   loadReservasUser: function () {
-
-    this.customEvents();
 
     var self = this;
 

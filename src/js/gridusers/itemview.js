@@ -13,5 +13,6 @@ module.exports = BaseView.extend({
     	this.userPerfil = new UserPerfil({ model: this.model });
     	this.userPerfil.render();
     	this.userPerfil.mostrar();
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
     }
 });

@@ -118,17 +118,26 @@ module.exports = Backbone.View.extend({
   },
 
   toggleMenu: function (event) {
-    event.preventDefault();
+    if(event) event.preventDefault();
+    var buttonTag = $("#menu-boton-responsive");
     this.$el.toggleClass( "open" );
+    buttonTag.toggleClass( "open" );
   },
 
   closeUp: function(e){
     var self = this;
-    var container = $("#header");
-    var status = $("#header").hasClass('open');
+    var headerTag = $("#header");
+    var menuTag = $("#special-back");
+    var buttonTag = $("#botonMenuresponsive-wrapper");
+    var buttonTagClass = $("#menu-boton-responsive");
+    var status = headerTag.hasClass('open');
+    console.log('status',status)
     if (status === true){
-      console.log('clicked');
-      if (!container.is(e.target) && container.has(e.target).length === 0) container.removeClass('open');
+      console.log('statusINNN',status)
+      if (!buttonTag.is(e.target) && buttonTag.has(e.target).length === 0){
+        headerTag.removeClass('open');
+        buttonTagClass.removeClass('open');
+      }
     }
 
   },

@@ -1,6 +1,7 @@
 var plantillas = plantillas || {};
 
-plantillas.header = '<a id="logotipoLink" href="#">'
+plantillas.header = '<div id="special-back" class="special-back">'
+		+ '<a id="logotipoLink" href="#">'
 		+ '<figure class="logo">'
 		+ '<img src="img/logo_white.png" alt="logo" />'
 		+ '</figure>'
@@ -14,6 +15,6 @@ plantillas.header = '<a id="logotipoLink" href="#">'
 		+ '<li><a id="estadisticasAdmin" href="#"><i class="demo-icon icon-user">&#xe82e;</i> Estadísticas</a></li>'
 		+ '<li><a id="logout" href="#"><i class="mimo-icon icon-user">&#xe803;</i> logout</a></li>'
 		+ '</ul>'
-		+ '<div id="menu-boton-responsive" href="#"><div id="middle"><div id="in-menu"><i class="demo-icon icon-user">&#xe82f;</i><i class="demo-icon icon-user">&#xe804;</i></div></div></div>';
+		+ '<div>';
 
 module.exports = plantillas;
