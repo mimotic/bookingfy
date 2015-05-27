@@ -5,6 +5,7 @@ var Backbone      = require('backbone'),
     PistasAdmin = require('../collections/pistas-admin'),
     Calendarios   = require('../collections/calendarios'),
     ReservasUser  = require('../collections/reservas-usuario'),
+    ReservasAdmin = require('../collections/reservas-admin'),
     Usuarios      = require('../collections/usuarios'),
 
     Deporte       = require('../models/deporte'),
@@ -26,6 +27,7 @@ var Backbone      = require('backbone'),
     PerfilView    = require('../views/perfil'),
     PerfilViewBotones    = require('../views/back-botones'),
     ReservasUserView = require('../views/reservas-list'),
+    ReservasAdminView = require('../views/reservas-list-admin'),
     UsuariosListView = require('../views/users-list'),
     StatsView     = require('../views/stats-admin'),
     UserPerfil   = require('../views/user-perfil'),
@@ -48,7 +50,7 @@ module.exports = Backbone.Router.extend({
     "pistas/:idDeporte/:date": "loadCalendar",
     "perfil"  : "loadPerfil",
     "misreservas": "loadReservasUser",
-    "reservas-usuarios": "loadReservasUser",
+    "reservas-usuarios": "loadReservasAdmin",
     "nuevo-usuario": "loadNuevoUsuario",
     "usuarios": "loadUsers",
     "gestion": "loadGestion",
@@ -85,6 +87,9 @@ module.exports = Backbone.Router.extend({
     this.reservasUser = new ReservasUser();
     this.reservasUserView = new ReservasUserView({ collection: this.reservasUser });
 
+    this.reservasAdmin = new ReservasAdmin();
+    this.reservasAdminView = new ReservasAdminView({ collection: this.reservasAdmin });
+
     this.usuarios = new Usuarios();
     this.usuariosListView = new UsuariosListView({ collection: this.usuarios });
 
@@ -112,6 +117,7 @@ module.exports = Backbone.Router.extend({
   },
 
   execute: function(callback, args) {
+    this.resetCollections();
     this.requireLogin(callback, args);
     this.bodyClass();
   },
@@ -203,22 +209,34 @@ module.exports = Backbone.Router.extend({
 
 
     Backbone.Events.on('resetReservas' , function(){
+
+      if(self.islogged() == 'user'){
         var sesion = Sesion.getInstance();
         var sesionId = sesion.get('id_usuario');
 
-        // this.deportes.fetch();
-        self.reservasUser.fetch({
-            data: {
-                id_usuario: sesionId
-              },
-              type: 'POST',
-              success: function(response){
-                  self.reservasUserView.render();
-              },
-              error: function (collection, err) {
-                // console.log('error', collection, err);
-              }
-          });
+          // this.deportes.fetch();
+          self.reservasUser.fetch({
+              data: {
+                  id_usuario: sesionId
+                },
+                type: 'POST',
+                success: function(response){
+                    self.reservasUserView.render();
+                },
+                error: function (collection, err) {
+                  // console.log('error', collection, err);
+                }
+            });
+        }else{
+            self.reservasAdmin.fetch({
+                success: function(response){
+                    self.reservasAdminView.render();
+                },
+                error: function (collection, err) {
+                  // console.log('error', collection, err);
+                }
+            });
+        }
 
     });
 
@@ -252,14 +270,20 @@ module.exports = Backbone.Router.extend({
   },
 
 
+  resetCollections: function(){
+      this.deportes.reset();
+      this.calendarios.reset();
+      this.reservasUser.reset();
+      this.reservasAdmin.reset();
+      this.usuarios.reset();
+      this.gestiondeportes.reset();
+      this.gestionpistas.reset();
+  },
+
+
   cleanViews: function(keep){
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
-    this.usuarios.reset();
-    this.gestiondeportes.reset();
-    this.gestionpistas.reset();
+    this.resetCollections();
 
     this.tiempo.ocultar();
     this.userPerfil.ocultar();
@@ -301,9 +325,9 @@ module.exports = Backbone.Router.extend({
       if(this.headerView !== undefined){
           this.headerView.ocultar();
       }
-      this.deportes.reset();
-      this.calendarios.reset();
-      this.reservasUser.reset();
+      // this.deportes.reset();
+      // this.calendarios.reset();
+      // this.reservasUser.reset();
       if(this.diaView !== undefined) this.diaView.ocultar();
       if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
       this.login = new LoginView( datosLogin );
@@ -319,9 +343,9 @@ module.exports = Backbone.Router.extend({
     if(args === true){
       this.loadDeportes();
     } else{
-      this.deportes.reset();
-      this.calendarios.reset();
-      this.reservasUser.reset();
+      // this.deportes.reset();
+      // this.calendarios.reset();
+      // this.reservasUser.reset();
       if(this.diaView !== undefined)this.diaView.ocultar();
       if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
       this.registro = new RegistroView();
@@ -345,9 +369,9 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
@@ -371,9 +395,9 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
@@ -404,17 +428,15 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
     if(typeof this.login == 'object') this.login.resetear();
     if(typeof this.registro == 'object') this.registro.resetear();
-
-
 
     // this.deportes.fetch();
     this.deportes.fetch({
@@ -435,10 +457,9 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
-
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     if(this.headerView !== undefined){
@@ -486,9 +507,9 @@ module.exports = Backbone.Router.extend({
 
   loadPerfil: function () {
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
@@ -525,9 +546,9 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
 
     this.reservasUserView.mostrar();
 
@@ -544,7 +565,6 @@ module.exports = Backbone.Router.extend({
     var sesion = Sesion.getInstance();
     var sesionId = sesion.get('id_usuario');
 
-    // this.deportes.fetch();
     this.reservasUser.fetch({
         data: {
             id_usuario: sesionId
@@ -552,6 +572,49 @@ module.exports = Backbone.Router.extend({
           type: 'POST',
           success: function(response){
               self.reservasUserView.render();
+          },
+          error: function (collection, err) {
+            // console.log('error', collection, err);
+          }
+      });
+
+  },
+
+
+
+  loadReservasAdmin: function () {
+
+    var self = this;
+
+    if(this.headerView !== undefined){
+        this.headerView.render();
+        this.headerView.mostrar();
+    }else{
+      this.headerView = new HeaderView({});
+    }
+
+    if(this.perfilView) this.perfilView.clean();
+    if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
+
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
+    // this.reservasAdmin.reset();
+
+    this.reservasAdminView.mostrar();
+
+    if(this.perfilViewBotones) this.perfilViewBotones.render();
+    else this.perfilViewBotones = new PerfilViewBotones({});
+
+    if(this.diaView !== undefined) this.diaView.ocultar();
+    if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
+
+    if(typeof this.login == 'object') this.login.resetear();
+    if(typeof this.registro == 'object') this.registro.resetear();
+
+    this.reservasAdmin.fetch({
+          success: function(response){
+              self.reservasAdminView.render();
           },
           error: function (collection, err) {
             // console.log('error', collection, err);
@@ -577,10 +640,10 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
-    this.usuarios.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
+    // this.usuarios.reset();
 
     this.usuariosListView.mostrar();
 
@@ -616,12 +679,12 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
-    this.deportes.reset();
-    this.calendarios.reset();
-    this.reservasUser.reset();
-    this.usuarios.reset();
-    this.gestiondeportes.reset();
-    this.gestionpistas.reset();
+    // this.deportes.reset();
+    // this.calendarios.reset();
+    // this.reservasUser.reset();
+    // this.usuarios.reset();
+    // this.gestiondeportes.reset();
+    // this.gestionpistas.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();

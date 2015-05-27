@@ -9,10 +9,10 @@ var Backbone = require('backbone'),
     PageableCollection = Backbone.PageableCollection;
 
 module.exports = Backbone.PageableCollection.extend({
-	url: '/api/reservasAdmins/',
+	url: '/api/reservasAdmin/',
   	model: ReservaUsuario,
   	state: {
-	    pageSize: 100,
+	    pageSize: 500,
 	    sortKey: "updated",
 	    order: 1
   	},

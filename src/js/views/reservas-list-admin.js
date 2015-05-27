@@ -1,22 +1,21 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
-    ReservaView  = require('../views/reserva-single'),
-    Plantilla  = require('../partials/plantilla_reservas_tabla'),
+    Plantilla  = require('../partials/plantilla_reservas_tabla_admin'),
     PlantillaEmpty  = require('../partials/plantilla_reservas_tabla_empty'),
     _          = require('underscore'),
     $          = require('jquery'),
-    Filter  = require('../gridreservas/modelfilter'),
+    Filter  = require('../gridreservas/modelfilter-admin'),
     FormView  = require('../gridreservas/formview'),
     CollectionView  = require('../gridreservas/colecionview'),
     PageableCollection = require("backbone.paginator");
 
 
 module.exports = Backbone.View.extend({
-  el: $('#reservas_user'),
+  el: $('#reservas_admin'),
 
   ocultarBoton: $('#backBotones'),
 
-  template: Handlebars.compile(Plantilla.reservas_tabla),
+  template: Handlebars.compile(Plantilla.reservas_tabla_admin),
   templateEmpty: Handlebars.compile(PlantillaEmpty.reservas_tabla_empty),
 
   initialize: function () {
@@ -52,15 +51,15 @@ module.exports = Backbone.View.extend({
 
     this.ocultarBoton.addClass("onlyone");
 
-    $('#reservas_user').append(listView.render().el);
+    $('#reservas_admin').append(listView.render().el);
     $('#content').show();
 
   },
 
-  addOne: function (reserva) {
-    var reservaView = new ReservaView({ model: reserva });
-    this.$el.append(reservaView.render().el);
-  },
+  // addOne: function (reserva) {
+  //   var reservaView = new ReservaView({ model: reserva });
+  //   this.$el.append(reservaView.render().el);
+  // },
 
   mostrar: function () {
     this.$el.show();
