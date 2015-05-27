@@ -1047,7 +1047,7 @@ body.outapp
 			display inline-block
 			border 1px solid #D8D3D3
 			border-radius 4px
-			padding .2em
+			padding .2em .6em
 			font-weight 100
 			cursor no-drop
 			&:after
@@ -1064,6 +1064,21 @@ body.outapp
 		height auto
 		.mis-reservas-table-view
 			width 850px
+@media screen and (max-width:1300px)
+	#reservas_admin
+		width 100%
+		overflow hidden
+		overflow-x auto
+		height auto
+		.mis-reservas-table-view
+			width 950px
+	#usuarios_list
+		width 100%
+		overflow hidden
+		overflow-x auto
+		height auto
+		.mis-reservas-table-view
+			width 1000px
 
 
 #misReservasUser,
@@ -1250,3 +1265,8 @@ form
 		border none
 		background transparent
 		border 1px solid rgba(38, 40, 45, 0.05);
+
+.admin
+	#misReservasUser
+	#misReservasUser2
+		display none
