@@ -484,6 +484,24 @@ private function reservasUsuario() {
 }
 }
 
+private function reservasAdmin() {
+  if ($_SERVER['REQUEST_METHOD'] != "GET") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+  }
+
+   $query = $this->_conn->prepare("SELECT r.id,r.fecha_pista,r.luz,r.anulado,p.nombre as nombre_pista,p.precio_pista,p.precio_luz,d.nombre as nombre_deporte,h.inicio, u.mail FROM reservas AS r LEFT JOIN pistas AS p ON r.id_pista = p.id LEFT JOIN deporte AS d ON p.id_deporte = d.id LEFT JOIN horarios AS h ON r.id_hora = h.id LEFT JOIN usuarios as u ON r.id_usuario = u.id ORDER BY r.fecha_pista DESC, h.inicio DESC");
+   $query->execute();
+   $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+   $num = count($filas);
+   if ($num > 0) {
+    $respuesta = $filas;
+    $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+  }
+  else
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(8)), 200);
+
+}
+
 private function actualizarUsuario() {
 
  if ($_SERVER['REQUEST_METHOD'] != "PUT") {
