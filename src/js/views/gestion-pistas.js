@@ -10,15 +10,36 @@ module.exports = Backbone.View.extend({
 
   template: Handlebars.compile(Plantilla.gestion_pista),
 
-  events : {
-      "change input" :"changed",
-      "change select" :"changed"
+  events: {
+    "change input" :"changed",
+    "change select" :"changed",
+    'dblclick input': 'converting',
+    'blur input': 'descoverting',
+    'keydown': 'keyAction'
+  },
+
+  converting: function (e) {
+    var elem = e.target;
+    var elemData = $("#" + elem.id);
+    elemData.removeAttr('disabled');
+    elemData.focus();
+  },
+
+  descoverting: function (e) {
+    console.log('blur !!');
+    var elem = e.target;
+    var elemData = $("#" + elem.id);
+    elemData.attr({disabled: true});
+  },
+
+  keyAction: function(e) {
+        var code = e.keyCode || e.which;
+        if(code == 13) this.descoverting(e);
   },
 
   initialize: function () {
     // this.listenTo(this.collection, "add", this.addOne, this);
     this.listenTo(this.collection, "reset", this.resetear, this);
-    // this.listenTo(this.collection, "change", this.modificado, this);
   },
 
   resetear: function () {
@@ -53,7 +74,6 @@ module.exports = Backbone.View.extend({
 
   mostrar: function(){
     this.$el.show();
-
   },
 
   ocultar: function(){
