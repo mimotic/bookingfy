@@ -9,9 +9,10 @@ module.exports = Backbone.View.extend({
   el: $('#gestion_pistas'),
 
   template: Handlebars.compile(Plantilla.gestion_pista),
-  templateCombo: Handlebars.compile(Plantilla.gestion_pista),
 
   events: {
+    "change input" :"changed",
+    "change select" :"changed",
     'dblclick input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
@@ -34,7 +35,6 @@ module.exports = Backbone.View.extend({
 
   keyAction: function(e) {
         var code = e.keyCode || e.which;
-        console.log(e.target)
         if(code == 13) this.descoverting(e);
   },
 
@@ -68,6 +68,10 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
+  changed: function(e){
+    console.log('modificada pista', e.currentTarget.id);
+    console.log('modificada pista', e.currentTarget.value);
+  },
 
   mostrar: function(){
     this.$el.show();

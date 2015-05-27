@@ -10,6 +10,7 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.gestion_deporte),
 
   events: {
+    "change input" :"changed",
     'dblclick input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
@@ -35,7 +36,6 @@ module.exports = Backbone.View.extend({
   },
 
   initialize: function () {
-    // this.listenTo(this.collection, "add", this.addOne, this);
     this.listenTo(this.collection, "reset", this.resetear, this);
   },
 
@@ -48,6 +48,11 @@ module.exports = Backbone.View.extend({
     var html = this.template(models);
     this.$el.html(html);
     return this;
+  },
+
+  changed: function(e){
+    console.log('modificado deporte', e.currentTarget.id);
+    console.log('modificado deporte', e.currentTarget.value);
   },
 
   mostrar: function(){
