@@ -18,14 +18,27 @@ module.exports = BaseView.extend({
             });
         });
 
+        var datePista = '';
+        var compareDate = false;
+
         models = models.map(function (model) {
+
             if(model.fecha_pista){
+                datePista = Moment(model.fecha_pista).unix();
                 model.fecha_pista = Moment(model.fecha_pista).format('DD/MM/YYYY');
+            }
+
+            compareDate = Moment().unix();
+
+            console.log(datePista);
+
+            if((datePista - compareDate) < 0){
+                if(Number(model.anulado) === 0) model.anulado = 2;
             }
             return model;
         });
 
-        var kk;
+        var ordering = '';
 
         models = _.sortBy(models, function(param){
             ordering = param.cid.split('c');

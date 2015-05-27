@@ -1042,6 +1042,20 @@ body.outapp
 				content:' anulada'
 			i
 				color #D8D3D3
+	td[data-anulado='2']
+		span
+			display inline-block
+			border 1px solid #D8D3D3
+			border-radius 4px
+			padding .2em
+			font-weight 100
+			cursor no-drop
+			&:after
+				color #D8D3D3
+				content:' - pasada - '
+			i
+				display none
+
 @media screen and (max-width:800px)
 	#reservas_user
 		width 100%
