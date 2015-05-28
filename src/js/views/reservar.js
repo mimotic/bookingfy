@@ -16,7 +16,10 @@ module.exports = Backbone.View.extend({
     'click #confirmarReserva': 'reservar',
     'click #cerrarModal': 'cancelar',
     'click': 'closeUp',
-    'click #checkedluz': 'checkOn'
+    'click #checkedluz': 'checkOn',
+    'touchstart #checkedluz': 'checkOn',
+    'click #activar-check-lus': 'fireClick',
+    'touchstart #activar-check-lus': 'fireClick',
   },
 
   initialize: function () {
@@ -27,13 +30,18 @@ module.exports = Backbone.View.extend({
     this.$el.empty();
   },
 
-  checkOn: function (){
+  checkOn: function () {
     var check = $('#checkedluz');
     var luz = $(".icon_lucero");
 
     var isChecked = check.is(':checked');
     if(isChecked === true) luz.addClass(' on');
     else luz.removeClass('on');
+  },
+
+  fireClick: function() {
+    console.log('click !!!!!');
+    $('#checkedluz').click();
   },
 
   closeUp: function(e){
