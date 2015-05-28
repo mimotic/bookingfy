@@ -1118,7 +1118,15 @@ body.outapp
 					&:after
 						content: 'user'
 
-
+.mis-reservas-table-view
+		font-size .8em !important
+#usuarios_list
+		width 100%
+		overflow hidden
+		overflow-x auto
+		height auto
+		.mis-reservas-table-view
+			width 950px
 @media screen and (max-width:800px)
 	#reservas_user
 		width 100%
@@ -1128,8 +1136,7 @@ body.outapp
 		.mis-reservas-table-view
 			width 850px
 @media screen and (max-width:1300px)
-	.mis-reservas-table-view
-		font-size .8em !important;
+
 	#reservas_admin
 		width 100%
 		overflow hidden
@@ -1137,13 +1144,6 @@ body.outapp
 		height auto
 		.mis-reservas-table-view
 			width 800px
-	#usuarios_list
-		width 100%
-		overflow hidden
-		overflow-x auto
-		height auto
-		.mis-reservas-table-view
-			width 850px
 
 
 #misReservasUser,
@@ -1335,3 +1335,6 @@ form
 	#misReservasUser
 	#misReservasUser2
 		display none
+
+#activar-check-lus strong
+	cursor pointer
