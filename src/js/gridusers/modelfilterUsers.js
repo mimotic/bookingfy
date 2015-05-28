@@ -13,9 +13,9 @@ module.exports = Backbone.Model.extend({
         this.on('change:what change:where', this.filter);
     },
     filter: function() {
-        var what = this.get('what').trim(),
+        var what = this.get('what').trim().toLowerCase(),
             where = this.get('where'),
-            lookin = (where==='all') ? ['nombre', 'apellidos'] : where,
+            lookin = (where==='all') ? ['nombre', 'apellidos', 'expediente', 'dni', 'mail', 'fecha_alta'] : where,
             models;
 
         if (what==='') {

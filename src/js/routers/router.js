@@ -186,7 +186,10 @@ module.exports = Backbone.Router.extend({
 
   adminZone: function() {
     var isAdmin = this.islogged() == 'admin';
-    if (isAdmin === false) this.navigate('', { trigger: true });
+    if (isAdmin === false){
+      this.navigate('', { trigger: true });
+      exit;
+    }
   },
 
   customEvents: function(){
@@ -583,6 +586,7 @@ module.exports = Backbone.Router.extend({
 
 
   loadReservasAdmin: function () {
+    this.adminZone();
 
     var self = this;
 

@@ -32,7 +32,7 @@ module.exports = BaseView.extend({
 
             console.log(datePista);
 
-            if((datePista - compareDate) < 0){
+            if( ((datePista + (24*60*60) ) - compareDate) < 0){
                 if(Number(model.anulado) === 0) model.anulado = 2;
             }
             return model;

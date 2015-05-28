@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend({
     var dataOutput = fetchData;
 
     this.graph = new Rickshaw.Graph( {
-          element: document.querySelector("#chart"),
+          element: document.getElementById("#chart"),
           width: 300,
           height: 150,
           series: [

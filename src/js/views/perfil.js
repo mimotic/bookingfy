@@ -13,6 +13,7 @@ module.exports = Backbone.View.extend({
   el: $('#perfil'),
 
   template: Handlebars.compile(Plantilla.perfil),
+
   misReservas: $('#misReservasUser2'),
 
   events: {
@@ -65,7 +66,7 @@ module.exports = Backbone.View.extend({
 
   render: function () {
     var usuario = this.getUserData();
-    var html = this.template(usuario);
+    var html =  this.template(usuario);
     this.$el.html(html).show();
     return this;
   },
