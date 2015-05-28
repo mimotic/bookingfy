@@ -18,8 +18,6 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #doactualizar': 'updateUser'
-    // 'click #actualizarUserData': 'updateUser',
-    // 'click #cancelarModal': 'cancelarModal'
   },
 
   initialize: function () {
@@ -37,21 +35,19 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
+    Handlebars.registerHelper('ifCond', function(rol, options) {
+      if(rol === '1') {
+        return options.fn(this);
+      }
+      return options.inverse(this);
+    });
+
     var usuario = this.model.toJSON();
     var html = this.template(usuario);
     this.$el.html(html);
     return this;
   },
 
-  // cancelarModal: function(event) {
-  //   if(event) event.preventDefault();
-  //   $('#actualizarUsuarioModal').fadeOut();
-  // },
-
-  // actualizarDatos: function (event) {
-  //   if(event) event.preventDefault();
-  //   $('#actualizarUsuarioModal').show();
-  // },
 
   clean: function () {
     this.$el.empty();
@@ -132,24 +128,27 @@ module.exports = Backbone.View.extend({
             pwd = $('#reg_pass_new'),
             pwdOld = $('#reg_pass_old'),
             id_usuario = $('#reg_id_usuario'),
-            rol = $('#reg_rol_usuario'),
-            modal = $('#actualizarUsuarioModal');
+            rol = '0';
 
+        var isChecked = $('#rolAdmin').is(':checked');
+        if (isChecked === true) {
+          rol = '1';
+        }
+
+        console.log('id user', id_usuario.val());
 
         var formValues = {
+            id_usuario: id_usuario.val(),
             nombre: name.val(),
             apellidos: surname.val(),
             expediente: expediente.val(),
             dni: dni.val(),
             password: pwd.val(),
             mail: email.val(),
-            id_usuario: id_usuario.val(),
-            rol: rol.val(),
-            current_password: pwdOld.val()
+            rol: rol
         };
 
 
-        modal.hide();
         pwdOld.val('');
         pwd.val('');
 
@@ -162,7 +161,7 @@ module.exports = Backbone.View.extend({
             if(formValues.password !== '') formValues.password = Sha1(formValues.password);
             else formValues = _.omit(formValues, 'password');
 
-            formValues.current_password = Sha1(formValues.current_password);
+            // formValues.current_password = Sha1(formValues.current_password);
 
             console.log('formValues', formValues);
 
@@ -191,17 +190,10 @@ module.exports = Backbone.View.extend({
                           expediente: formValues.expediente
                         };
 
-                        Sesion.setSesiondata(usuario);
+                        // Sesion.setSesiondata(usuario);
 
-                        Backbone.Events.trigger('updateUserData');
-                        // self.undelegateEvents();
-
-
-                     // var args = {};
-             // args.mail = formValues.mail;
-                        // args.msg = data.msg;
-
-                        // Backbone.Events.trigger('loginSuccessful', args);
+                        // Backbone.Events.trigger('updateUserData');
+                        self.undelegateEvents();
                     }
                 }
             });

@@ -8,7 +8,7 @@ module.exports = Backbone.PageableCollection.extend({
 	url: '/api/usuarios/',
   	model: Usuario,
   	state: {
-	    pageSize: 200,
+	    pageSize: 500,
 	    sortKey: "updated",
 	    order: 1
   	},
