@@ -17,9 +17,9 @@ module.exports = Backbone.View.extend({
   misReservas: $('#misReservasUser2'),
 
   events: {
-    'click #doactualizar': 'actualizarDatos',
-    'click #actualizarUserData': 'updateUser',
-    'click #cancelarModal': 'cancelarModal'
+    'click #doactualizar': 'updateUser'
+    // 'click #actualizarUserData': 'updateUser',
+    // 'click #cancelarModal': 'cancelarModal'
   },
 
   initialize: function () {
@@ -43,15 +43,15 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
-  cancelarModal: function(event) {
-    if(event) event.preventDefault();
-    $('#actualizarUsuarioModal').fadeOut();
-  },
+  // cancelarModal: function(event) {
+  //   if(event) event.preventDefault();
+  //   $('#actualizarUsuarioModal').fadeOut();
+  // },
 
-  actualizarDatos: function (event) {
-    if(event) event.preventDefault();
-    $('#actualizarUsuarioModal').show();
-  },
+  // actualizarDatos: function (event) {
+  //   if(event) event.preventDefault();
+  //   $('#actualizarUsuarioModal').show();
+  // },
 
   clean: function () {
     this.$el.empty();
@@ -123,7 +123,7 @@ module.exports = Backbone.View.extend({
         var mensajesError = {};
         var printErrores = '';
 
-        var url = '/api/actualizarUsuario',
+        var url = '/api/actualizarUsuarioAdmin',
             name = $('#reg_name'),
             surname = $('#reg_surname'),
             dni = $('#reg_dni'),
@@ -134,8 +134,6 @@ module.exports = Backbone.View.extend({
             id_usuario = $('#reg_id_usuario'),
             rol = $('#reg_rol_usuario'),
             modal = $('#actualizarUsuarioModal');
-
-
 
 
         var formValues = {
@@ -198,9 +196,9 @@ module.exports = Backbone.View.extend({
                         Backbone.Events.trigger('updateUserData');
                         // self.undelegateEvents();
 
-                        // var args = {};
 
-                        // args.mail = formValues.mail;
+                     // var args = {};
+             // args.mail = formValues.mail;
                         // args.msg = data.msg;
 
                         // Backbone.Events.trigger('loginSuccessful', args);
