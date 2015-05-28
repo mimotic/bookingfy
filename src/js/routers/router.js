@@ -243,17 +243,21 @@ module.exports = Backbone.Router.extend({
 
     });
 
+    Backbone.Events.on('resetUsuarios' , function(){
+        self.usuarios.fetch({
+          success: function(response){
+            self.usuariosListView.render();
+          }
+      });
+    });
 
     Backbone.Events.on('loginSuccessful' , function(args){
       Backbone.app.navigate("login", { trigger: false });
       self.loadLogin( false , args );
     });
-    var num = 1;
+
     Backbone.Events.on('clickAdminButtomMenu' , function(){
-
-      console.log(++num);
       self.headerView.toggleMenu();
-
     });
 
     Backbone.Events.on('updateUserData' , function(args){

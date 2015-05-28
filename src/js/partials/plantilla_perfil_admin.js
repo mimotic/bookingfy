@@ -22,6 +22,7 @@ plantillas.perfil_admin = '<div class="login_users">'
 		+ '{{/ifCond}}'
 		+ '<div class="clear"></div>'
 		+ '<a id="doactualizar" href="#" class="rotate"><i class="demo-icon icon-user">&#xe833;</i> Actualizar Datos</a>'
+		+ '<a id="doborrar" href="#"><i class="demo-icon icon-user">&#xe811;</i> Eliminar Usuario</a>'
 		+ '<div class="clear"></div>'
 		+ '<div id="error" class="error"></div><div id="no-error" class="error">{{msg}}</div>'
 		+ '</div>';
