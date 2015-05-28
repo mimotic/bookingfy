@@ -2,7 +2,7 @@ var plantillas = plantillas || {};
 
 plantillas.perfil_admin = '<div class="login_users">'
 		+ '<h3>Modificar datos del user: <span>{{mail}}</span></h3>'
-		+ '<input type="hidden" id="reg_id_usuario" name="reg_id_usuario" value="{{id_usuario}}">'
+		+ '<input type="hidden" id="reg_id_usuario" name="reg_id_usuario" value="{{id}}">'
 		+ '<i class="demo-icon icon-user in-inputs">&#xe800;</i> <input data-validado="" id="reg_name" type="text" name="" value="{{{nombre}}}" placeholder="Nombre">'
 		+ '<div class="clear"></div>'
 		+ '<i class="demo-icon icon-user in-inputs">&#xe800;</i> <input data-validado="" id="reg_surname" type="text" name="" value="{{{apellidos}}}" placeholder="Apellidos">'
@@ -24,12 +24,6 @@ plantillas.perfil_admin = '<div class="login_users">'
 		+ '<a id="doactualizar" href="#" class="rotate"><i class="demo-icon icon-user">&#xe833;</i> Actualizar Datos</a>'
 		+ '<div class="clear"></div>'
 		+ '<div id="error" class="error"></div><div id="no-error" class="error">{{msg}}</div>'
-		+ '</div>'
-		+ '<div id="actualizarUsuarioModal" class="modal"><div>'
-		+ '<h2 class="text-center">Actualizar Datos</h2>'
-		+ '<input data-validado="" id="reg_pass_old" type="password" name="" placeholder="Introduzca su contrase actual">'
-		+ '<div class="modal-botones"><a id="actualizarUserData" href="#" class="rotate"><i class="demo-icon icon-user">&#xe833;</i> Actualizar Datos</a>'
-		+ '<a id="cancelarModal" class="cancel-modal" href="#"><i class="demo-icon icon-user">&#xe804;</i> Cancelar</a>'
-		+ '</div></div>';
+		+ '</div>';
 
 module.exports = plantillas;

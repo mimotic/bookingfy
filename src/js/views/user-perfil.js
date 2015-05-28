@@ -18,8 +18,6 @@ module.exports = Backbone.View.extend({
 
   events: {
     'click #doactualizar': 'updateUser'
-    // 'click #actualizarUserData': 'updateUser',
-    // 'click #cancelarModal': 'cancelarModal'
   },
 
   initialize: function () {
@@ -137,16 +135,16 @@ module.exports = Backbone.View.extend({
           rol = '1';
         }
 
-        console.log('rol', rol);
+        console.log('id user', id_usuario.val());
 
         var formValues = {
+            id_usuario: id_usuario.val(),
             nombre: name.val(),
             apellidos: surname.val(),
             expediente: expediente.val(),
             dni: dni.val(),
             password: pwd.val(),
             mail: email.val(),
-            id_usuario: id_usuario.val(),
             rol: rol
         };
 
@@ -192,17 +190,10 @@ module.exports = Backbone.View.extend({
                           expediente: formValues.expediente
                         };
 
-                        Sesion.setSesiondata(usuario);
+                        // Sesion.setSesiondata(usuario);
 
-                        Backbone.Events.trigger('updateUserData');
-                        // self.undelegateEvents();
-
-
-                     // var args = {};
-             // args.mail = formValues.mail;
-                        // args.msg = data.msg;
-
-                        // Backbone.Events.trigger('loginSuccessful', args);
+                        // Backbone.Events.trigger('updateUserData');
+                        self.undelegateEvents();
                     }
                 }
             });

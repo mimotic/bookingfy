@@ -620,7 +620,6 @@ private function actualizarUsuarioAdmin() {
 
            $query = $this->_conn->prepare("UPDATE usuarios SET nombre=:nombre,rol=:rol,apellidos=:apellidos,expediente=:expediente,dni=:dni,mail=:mail" . $queryPassword . " WHERE id =:id_usuario");
 
-           $query->bindValue(":nombre", $nombre);
            $query->bindValue(":id_usuario", $id_usuario);
            $query->bindValue(":nombre", $nombre);
            $query->bindValue(":apellidos", $apellidos);
