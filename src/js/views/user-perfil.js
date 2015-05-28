@@ -16,7 +16,8 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(PlantillaAdmin.perfil_admin),
 
   events: {
-    'click #doactualizar': 'updateUser'
+    'click #doactualizar': 'updateUser',
+    'click #doborrar': 'borrarUser'
   },
 
   initialize: function () {
@@ -109,6 +110,47 @@ module.exports = Backbone.View.extend({
         if(code == 13) this.register();
   },
 
+  borrarUser:function(e) {
+
+    if(e) e.preventDefault();
+
+    var self = this;
+    var mensajesError = {};
+    var printErrores = '';
+
+    var id_usuario = $('#reg_id_usuario');
+
+    var formValues = {
+      id_usuario: id_usuario.val()
+    };
+
+    console.log('dataBorrarUser', formValues);
+
+    $.ajax({
+                url:'/api/eliminarUsuario',
+                type:'POST',
+                dataType:"json",
+                data: formValues,
+                success:function (data) {
+
+
+
+                    if(data.estado=="error") {
+                        $('.error').hide();
+                        $('#error').html(data.msg).slideDown().fadeOut(5000);
+
+                        console.log('dataBorrarUser ERROR', data.msg);
+                    }
+                    else {
+                        $('.error').hide();
+                        $('#no-error').html(data.msg).slideDown().fadeOut(5000);
+                        console.log('dataBorrarUser ERROR', data.msg);
+                        Backbone.Events.trigger('resetUsuarios');
+                    }
+                }
+            });
+  },
+
 
   updateUser: function(evt){
 
@@ -188,11 +230,7 @@ module.exports = Backbone.View.extend({
                           dni: formValues.dni,
                           expediente: formValues.expediente
                         };
-
-                        // Sesion.setSesiondata(usuario);
-
-                        // Backbone.Events.trigger('updateUserData');
-                        // self.undelegateEvents();
+                        Backbone.Events.trigger('resetUsuarios');
                     }
                 }
             });

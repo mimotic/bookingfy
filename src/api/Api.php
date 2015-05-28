@@ -703,6 +703,42 @@ private function estadisticas() {
 
 
 
+private function eliminarUsuario() {
+
+ if ($_SERVER['REQUEST_METHOD'] != "POST") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+ }
+
+    if (isset($this->datosPeticion['id_usuario'])) {
+
+          $id = $this->datosPeticion['id_usuario'];
+          $id = (int) $id;
+
+           if ($id >= 0) {
+             $query = $this->_conn->prepare("delete from usuarios WHERE id =:id");
+             $query->bindValue(":id", $id);
+             $query->execute();
+                 //rowcount para insert, delete. update
+             $filasBorradas = $query->rowCount();
+             if ($filasBorradas == 1) {
+               $resp = array('estado' => "correcto", "msg" => "usuario borrado correctamente.");
+               $this->mostrarRespuesta($this->convertirJson($resp), 200);
+             } else {
+               $this->mostrarRespuesta($this->convertirJson($this->devolverError(4)), 200);
+             }
+           }
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(4)), 200);
+    }else{
+      $this->mostrarRespuesta($this->convertirJson($this->devolverError(4)), 200);
+    }
+}
+
+
+
+
+
+
+
 
 
 
