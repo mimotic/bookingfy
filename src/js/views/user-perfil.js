@@ -179,20 +179,6 @@ module.exports = Backbone.View.extend({
                         $('.error').hide();
                         $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
-                        var usuario = {
-                          id_usuario: formValues.id_usuario,
-                          nombre: formValues.nombre,
-                          apellidos: formValues.apellidos,
-                          mail: formValues.mail,
-                          rol: formValues.rol,
-                          dni: formValues.dni,
-                          expediente: formValues.expediente
-                        };
-
-                        // Sesion.setSesiondata(usuario);
-
-                        // Backbone.Events.trigger('updateUserData');
-                        // self.undelegateEvents();
                     }
                 }
             });

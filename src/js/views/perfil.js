@@ -25,7 +25,7 @@ module.exports = Backbone.View.extend({
   },
 
   initialize: function () {
-    this.render();
+   // this.render();
   },
 
   closeUp: function(e){
@@ -186,7 +186,6 @@ module.exports = Backbone.View.extend({
                 dataType:"json",
                 data: formValues,
                 success:function (data) {
-                    self.undelegateEvents();
 
                     if(data.estado=="error") {
                         $('.error').hide();

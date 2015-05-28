@@ -297,7 +297,7 @@ module.exports = Backbone.Router.extend({
 
     if(this.statsView !== undefined) this.statsView.ocultar();
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
@@ -333,7 +333,7 @@ module.exports = Backbone.Router.extend({
 
   loadLogin: function(args, datosLogin){
     if(this.registro) this.registro.resetear();
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
     if(this.statsView !== undefined) this.statsView.ocultar();
@@ -354,7 +354,7 @@ module.exports = Backbone.Router.extend({
 
   loadRegistro: function(args){
     if(this.login) this.login.resetear();
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
     if(this.statsView !== undefined) this.statsView.ocultar();
@@ -387,7 +387,7 @@ module.exports = Backbone.Router.extend({
 
     if(this.statsView !== undefined) this.statsView.ocultar();
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     // this.deportes.reset();
@@ -397,7 +397,8 @@ module.exports = Backbone.Router.extend({
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
-    self.registroAdminView = new RegistroAdminView();
+    if(this.registroAdminView === undefined) this.registroAdminView = new RegistroAdminView();
+    this.registroAdminView.render();
 
   },
 
@@ -413,7 +414,7 @@ module.exports = Backbone.Router.extend({
     }
 
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     // this.deportes.reset();
@@ -423,7 +424,8 @@ module.exports = Backbone.Router.extend({
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
 
-    self.statsView = new StatsView();
+    if(this.statsView === undefined) self.statsView = new StatsView();
+    this.statsView.fetchStats();
   },
 
   loadDeportes: function () {
@@ -446,7 +448,7 @@ module.exports = Backbone.Router.extend({
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
     if(this.statsView !== undefined) this.statsView.ocultar();
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     // this.deportes.reset();
@@ -475,7 +477,7 @@ module.exports = Backbone.Router.extend({
 
     var self = this;
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.perfilViewBotones) this.perfilViewBotones.clean();
 
     // this.deportes.reset();
@@ -543,7 +545,8 @@ module.exports = Backbone.Router.extend({
         this.headerView = new HeaderView({});
     }
 
-    this.perfilView = new PerfilView({});
+    if(this.perfilView===undefined) this.perfilView = new PerfilView({});
+    this.perfilView.render();
 
     if(this.islogged() == 'user'){
       if(this.perfilViewBotones) this.perfilViewBotones.render();
@@ -564,7 +567,7 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     // this.deportes.reset();
@@ -615,7 +618,7 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     // this.deportes.reset();
@@ -657,7 +660,7 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     // this.deportes.reset();
@@ -695,7 +698,7 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
-    if(this.perfilView) this.perfilView.clean();
+    if(this.perfilView) this.perfilView.resetear();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
     // this.deportes.reset();

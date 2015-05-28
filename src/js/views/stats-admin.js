@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.registro_admin),
 
   initialize: function () {
-    this.fetchStats();
+    // this.fetchStats();
   },
 
   render: function (fetchData) {
@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend({
             graph: self.graph,
             orientation: 'left',
             tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-            element: document.getElementById('y_axis'),
+            element: document.getElementById("#y_axis")
     } );
 
     this.graph.render();
@@ -59,6 +59,8 @@ module.exports = Backbone.View.extend({
 
   ocultar: function () {
     this.$el.empty();
+    // $('#y_axis').empty();
+    // $('#chart').empty();
   },
 
   generateData: function(dataAjax){

@@ -18,7 +18,7 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.registro_admin),
 
   initialize: function () {
-    this.render();
+    // this.render();
   },
 
   render: function () {
@@ -127,20 +127,16 @@ module.exports = Backbone.View.extend({
                     console.log(["Register request details: ", data]);
 
                     if(data.estado=="error") {
-                        $('.error').slideDown();
-                        $('#error').html(data.msg).slideDown();
-                    }
-                    else {
-                        $('.error').slideDown();
-                        $('#no-error').html(data.msg).slideDown();
+                        $('.error').hide();
+                        $('#error').html(data.msg).slideDown().fadeOut(5000);
+                    } else {
+                        $('.error').hide();
+                        $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
                         var args = {};
 
                         args.mail = formValues.mail;
                         args.msg = data.msg;
-
-                        self.undelegateEvents();
-                        Backbone.Events.trigger('adminRegistroSuccessful', args);
 
                     }
                 }
