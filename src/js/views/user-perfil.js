@@ -14,7 +14,6 @@ module.exports = Backbone.View.extend({
   el: $('#perfil'),
 
   template: Handlebars.compile(PlantillaAdmin.perfil_admin),
-  misReservas: $('#misReservasUser2'),
 
   events: {
     'click #doactualizar': 'updateUser'
@@ -193,7 +192,7 @@ module.exports = Backbone.View.extend({
                         // Sesion.setSesiondata(usuario);
 
                         // Backbone.Events.trigger('updateUserData');
-                        self.undelegateEvents();
+                        // self.undelegateEvents();
                     }
                 }
             });

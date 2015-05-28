@@ -21,7 +21,7 @@ module.exports = Backbone.View.extend({
 
   initialize: function () {
     // this.listenTo(this.model, "change", this.render, this);
-    this.render();
+    // this.render();
   },
 
   render: function () {
@@ -126,10 +126,8 @@ module.exports = Backbone.View.extend({
 
                     if(data.estado=="error") {
                         $('#error').html(data.msg).slideDown();
-                    }
-                    else {
-
-                        self.undelegateEvents();
+                    } else {
+                        // self.undelegateEvents();
 
                         var args = {};
 

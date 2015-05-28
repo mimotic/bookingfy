@@ -96,7 +96,7 @@ module.exports = Backbone.Router.extend({
     this.dia = new Dia();
     this.tiempo = new Tiempo({});
 
-    this.userPerfil = new UserPerfil();
+    //this.userPerfil = new UserPerfil();
 
     this.gestiondeportes = new DeportesAdmin();
     this.gestionDeportesView = new GestionDeportesView({ collection: this.gestiondeportes });
@@ -152,7 +152,7 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     this.tiempo.ocultar();
-    this.userPerfil.ocultar();
+    if(window.userperfil !== undefined)window.userperfil.clean();
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
     this.gestionDeportesView.ocultar();
@@ -289,7 +289,7 @@ module.exports = Backbone.Router.extend({
     this.resetCollections();
 
     this.tiempo.ocultar();
-    this.userPerfil.ocultar();
+    if(this.userPerfil !== undefined)this.userPerfil.ocultar();
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
     this.gestionDeportesView.ocultar();
@@ -309,6 +309,21 @@ module.exports = Backbone.Router.extend({
 
   },
 
+
+  render: function (view) {
+        //Close the current view
+        if (this.currentView) {
+            this.currentView.remove();
+        }
+
+        //render the new view
+        view.render();
+
+        //Set the current view
+        this.currentView = view;
+
+        return this;
+  },
 
 
   index: function(args){
@@ -349,9 +364,12 @@ module.exports = Backbone.Router.extend({
       // this.deportes.reset();
       // this.calendarios.reset();
       // this.reservasUser.reset();
-      if(this.diaView !== undefined)this.diaView.ocultar();
+      if(this.diaView !== undefined) this.diaView.ocultar();
       if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();
-      this.registro = new RegistroView();
+
+
+      if(this.registro === undefined) this.registro = new RegistroView();
+      this.registro.render();
     }
 
   },
@@ -639,8 +657,6 @@ module.exports = Backbone.Router.extend({
       this.headerView = new HeaderView({});
     }
 
-    this.userPerfil.ocultar();
-
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
@@ -668,6 +684,7 @@ module.exports = Backbone.Router.extend({
   },
 
 
+
   loadGestion: function(){
     var self = this;
 
@@ -677,8 +694,6 @@ module.exports = Backbone.Router.extend({
     }else{
       this.headerView = new HeaderView({});
     }
-
-    this.userPerfil.ocultar();
 
     if(this.perfilView) this.perfilView.clean();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
