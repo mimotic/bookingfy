@@ -48,7 +48,7 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "error anulando reserva"), // 9
        array('estado' => "error", "msg" => "petición no aceptada, faltan valores o son incorrectos"), // 10
        array('estado' => "error", "msg" => "Ya existe otro usuario con mismo email, dni o expediente. Si considera que alguien ha robado su identidad por favor, contacte con soporte de la universidad."), // 11
-       array('estado' => "error", "msg" => "No se han modificado datos, son iguales a los encontrados en la base de datos"), // 12
+       array('estado' => "error", "msg" => "No se han modificado datos, son iguales a los encontrados en la base de datos u ocurrió algún error"), // 12
        array('estado' => "error", "msg" => "Password incorrecta"), // 13
        array('estado' => "error", "msg" => "Error cargando estadisticas") // 14
        );
@@ -576,6 +576,82 @@ private function actualizarUsuario() {
 $this->mostrarRespuesta($this->convertirJson($this->devolverError(5)), 200);
 }
 
+
+private function actualizarUsuarioAdmin() {
+
+ if ($_SERVER['REQUEST_METHOD'] != "PUT") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+ }
+
+
+ if (isset($this->datosPeticion['id_usuario'])) {
+
+
+   if (isset($this->datosPeticion['password'])) $isPasword = true;
+   else $isPasword = false;
+
+   $nombre = $this->datosPeticion['nombre'];
+   $apellidos = $this->datosPeticion['apellidos'];
+   $expediente = $this->datosPeticion['expediente'];
+   $dni = $this->datosPeticion['dni'];
+   if($isPasword) $password = $this->datosPeticion['password'];
+   $mail = $this->datosPeticion['mail'];
+   $rol = $this->datosPeticion['rol'];
+   $id_usuario = $this->datosPeticion['id_usuario'];
+   $id_usuario = (int)$id_usuario;
+
+
+      if (!empty($nombre) and $id_usuario > 0) {
+
+        $query = $this->_conn->prepare("SELECT mail, expediente, dni FROM usuarios WHERE id != :id_usuario AND (mail=:mail OR expediente=:expediente OR dni=:dni )");
+
+        $query->bindValue(":mail", $mail);
+        $query->bindValue(":dni", $dni);
+        $query->bindValue(":expediente", $expediente);
+        $query->bindValue(":id_usuario", $id_usuario);
+
+        $query->execute();
+        $fila = $query->fetch(PDO::FETCH_ASSOC);
+
+        if($fila === false){
+
+           if($isPasword) $queryPassword = ",password=:password";
+           else $queryPassword = "";
+
+           $query = $this->_conn->prepare("UPDATE usuarios SET nombre=:nombre,rol=:rol,apellidos=:apellidos,expediente=:expediente,dni=:dni,mail=:mail" . $queryPassword . " WHERE id =:id_usuario");
+
+           $query->bindValue(":nombre", $nombre);
+           $query->bindValue(":id_usuario", $id_usuario);
+           $query->bindValue(":nombre", $nombre);
+           $query->bindValue(":apellidos", $apellidos);
+           $query->bindValue(":expediente", $expediente);
+           $query->bindValue(":dni", $dni);
+           $query->bindValue(":mail", $mail);
+           $query->bindValue(":rol", $rol);
+
+           if($isPasword) $query->bindValue(":password", $password);
+           $query->execute();
+           $filasActualizadas = $query->rowCount();
+           if ($filasActualizadas > 0) {
+             $resp = array('estado' => "correcto", "msg" => "Datos de usuario actualizados.");
+             $this->mostrarRespuesta($this->convertirJson($resp), 200);
+           }else{
+             $this->mostrarRespuesta($this->convertirJson($this->devolverError(12)), 200);
+           }
+
+        }else{
+          $this->mostrarRespuesta($this->convertirJson($this->devolverError(11)), 200);
+        }
+
+     }else{
+      $this->mostrarRespuesta($this->convertirJson($this->devolverError(10)), 200);
+     }
+
+
+  }else{
+    $this->mostrarRespuesta($this->convertirJson($this->devolverError(10)), 200);
+  }
+}
 
 private function estadisticas() {
  if ($_SERVER['REQUEST_METHOD'] != "GET") {
