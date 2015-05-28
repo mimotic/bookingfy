@@ -1,6 +1,7 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     $          = require('jquery'),
+    _          = require('underscore'),
     ui         = require('jquery-ui'),
     Plantilla  = require('../partials/plantilla_header'),
     PlantillaAdmin  = require('../partials/plantilla_header_admin'),
@@ -32,7 +33,9 @@ module.exports = Backbone.View.extend({
   initialize: function () {
     var self = this;
     self.render();
-    $('body').on('click', self.closeUp);
+    var isAdmin = self.getUserName().rol == 'admin';
+    if(isAdmin === true) $('body').on('click', self.closeUp);
+
   },
 
   resetear: function () {

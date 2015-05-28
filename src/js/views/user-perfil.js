@@ -3,6 +3,7 @@ var Backbone   = require('backbone'),
     _          = require('underscore'),
     $          = require('jquery'),
     Plantilla  = require('../partials/plantilla_perfil'),
+    PlantillaAdmin  = require('../partials/plantilla_perfil_admin'),
     Sesion     = require('../models/sesion'),
     Validator = require('validator'),
     Sha1       = require('sha1'),
@@ -12,7 +13,7 @@ module.exports = Backbone.View.extend({
 
   el: $('#perfil'),
 
-  template: Handlebars.compile(Plantilla.perfil),
+  template: Handlebars.compile(PlantillaAdmin.perfil_admin),
   misReservas: $('#misReservasUser2'),
 
   events: {

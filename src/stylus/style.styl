@@ -1055,6 +1055,69 @@ body.outapp
 				content:' - pasada - '
 			i
 				display none
+.admin
+	#perfil
+		.login_users
+			background-color: rgba(166, 182, 202, 0.4);
+			width: 100%;
+			max-width: 100%;
+			box-shadow: 0 1px 1px #BDBFC2;
+			h3
+				font-weight: 100;
+				display: inline-block;
+				color: white;
+				padding: 1em 3em;
+				background-color: rgb(73, 91, 115);
+				border-radius 10px
+				span
+					margin 0
+
+	#usuarios_list
+		.mis-reservas-table-view
+			tr:hover
+				cursor: pointer;
+				background: #FFF;
+			thead
+				background: #6893CB;
+				color: #E1E5EA;
+				font-weight: 100 !important;
+				tr:hover
+					cursor: default;
+					background: #6893CB;
+			.rol1
+				background-color: rgba(222, 255, 15, 0.04)
+			td[data-rol="1"]
+				span
+					box-shadow: 0 2px 0px rgb(40, 94, 163);
+					font-weight: 100;
+					display: inline-block;
+					margin: 0 auto;
+					border: 1px solid rgba(134, 182, 245, 0.54);
+					-webkit-border-radius: 5px;
+					border-radius: 5px;
+					background: rgba(0, 110, 255, 0.75);
+					color: #BFDAFC;
+					padding: 0.3em 0.5em;
+					i:last-child
+						display none
+					&:after
+						content: 'admin'
+			td[data-rol="0"]
+				span
+					box-shadow none
+					display: inline-block;
+					margin: 0 auto;
+					border: 1px solid rgba(160, 160, 160, 0.38);
+					border-radius: 5px;
+					border-radius: 5px;
+					background: rgba(0, 0, 0, 0.03);
+					color: #6893CB;
+					padding: .3em .5em;
+					i:first-child
+						display none
+					&:after
+						content: 'user'
+
 
 @media screen and (max-width:800px)
 	#reservas_user
@@ -1065,20 +1128,22 @@ body.outapp
 		.mis-reservas-table-view
 			width 850px
 @media screen and (max-width:1300px)
+	.mis-reservas-table-view
+		font-size .8em !important;
 	#reservas_admin
 		width 100%
 		overflow hidden
 		overflow-x auto
 		height auto
 		.mis-reservas-table-view
-			width 950px
+			width 800px
 	#usuarios_list
 		width 100%
 		overflow hidden
 		overflow-x auto
 		height auto
 		.mis-reservas-table-view
-			width 1000px
+			width 850px
 
 
 #misReservasUser,
