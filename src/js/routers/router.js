@@ -211,12 +211,20 @@ module.exports = Backbone.Router.extend({
     });
 
 
-    Backbone.Events.on('resetGestion' , function(){
+    Backbone.Events.on('resetGestion' , function(mensajeApi){
       self.gestiondeportes.fetch({
             success: function(response){
                   // console.log("Success deportes");
                   self.gestionDeportesView.mostrar();
                   self.gestionDeportesView.render();
+
+                  if(mensajeApi.estado == "error") {  // If there is an error, show the error messages
+                       $('.error').hide();
+                       $('#error').html(mensajeApi.msg).slideDown();
+                  } else {
+                      $('.error').hide();
+                      $('#no-error').html(mensajeApi.msg).slideDown();
+                  }
             }
       });
 
