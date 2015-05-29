@@ -12,8 +12,12 @@ plantillas.gestion_pista = '<div class="wrap wrap-pistas">'
   			+ '<option value="{{id}}" {{seleccionado}}>{{nombre}}</option>'
   			+ '{{/each}}'
 			+ '</select>'
-			+ '<div class="clear"></div>'
+			+ '<span id="deletePista" data-pista={{id_pista}}><i class="demo-icon icon-user">&#xe811;</i></span>'
 			+ '{{/each}}'
+			+ '<div class="clear"></div>'
+			+ '<div id="error" class="error"></div>'
+			+ '<div id="no-error" class="error"></div>'
+			+ '<div class="clear"></div>'
 			+ '</div>';
 
 module.exports = plantillas;

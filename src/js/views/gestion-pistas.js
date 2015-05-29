@@ -16,7 +16,8 @@ module.exports = Backbone.View.extend({
     'blur input': 'descoverting',
     'touchstart input': 'converting',
     'keydown': 'keyAction',
-    "change .wrap-pistas input" :"updatePista"
+    "change .wrap-pistas input" :"updatePista",
+    'click #deletePista': 'deletePista',
   },
 
   converting: function (e) {
@@ -121,6 +122,43 @@ module.exports = Backbone.View.extend({
         }
     });
   },
+
+
+  deletePista: function(e){
+
+      if(e) e.preventDefault();
+
+      var idPista = $(e.currentTarget).attr('data-pista');
+
+      var formValues = {
+            id_pista: idPista
+        };
+
+        console.log(formValues);
+
+       $.ajax({
+          url:'/api/eliminarPista',
+          type:'POST',
+          dataType:"json",
+          data: formValues,
+          success:function (data) {
+              console.log(["Register request details: ", data]);
+              console.log(data.msg);
+
+              if(data.estado=="error") {
+                $('.error').hide();
+                $('#error').html(data.msg).slideDown().fadeOut(5000);
+
+              } else {
+                $('.error').hide();
+                $('#no-error').html(data.msg).slideDown().fadeOut(5000);
+
+                Backbone.Events.trigger('resetGestion', data);
+              }
+          }
+       });
+  },
+
 
   mostrar: function(){
     this.$el.show();
