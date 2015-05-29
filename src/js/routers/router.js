@@ -211,6 +211,26 @@ module.exports = Backbone.Router.extend({
     });
 
 
+    Backbone.Events.on('resetGestion' , function(){
+      self.gestiondeportes.fetch({
+            success: function(response){
+                  // console.log("Success deportes");
+                  self.gestionDeportesView.mostrar();
+                  self.gestionDeportesView.render();
+            }
+      });
+
+      self.gestionpistas.fetch({
+            success: function(response){
+                  // console.log("Success deportes");
+                  self.gestionPistasView.mostrar();
+                  self.gestionPistasView.render();
+            }
+      });
+
+    });
+
+
     Backbone.Events.on('resetReservas' , function(){
 
       if(self.islogged() == 'user'){
