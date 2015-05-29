@@ -116,17 +116,15 @@ module.exports = Backbone.Router.extend({
     Backbone.history.start({pushState: true});
   },
 
+  cont: 0,
+
   execute: function(callback, args) {
     var isLogged = this.islogged();
     this.resetCollections();
     this.requireLogin(callback, args);
     this.bodyClass();
-    if(isLogged == 'admin') this.closeMenu();
-  },
-
-  closeMenu: function(){
-    $("#botonMenuresponsive-wrapper").removeClass('open');
-    $("#menu-boton-responsive").removeClass('open');
+    var isOpen = $('#header').hasClass('open');
+    if(isLogged == 'admin' && isOpen === true) Backbone.Events.trigger('clickAdminButtomMenu');
   },
 
   bodyClass: function () {

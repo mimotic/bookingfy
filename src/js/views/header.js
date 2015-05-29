@@ -27,7 +27,8 @@ module.exports = Backbone.View.extend({
     'click #pistasAdmin': 'goGestionAdmin',
     'click #estadisticasAdmin': 'goEstadisticasAdmin',
     'click #menu-boton-responsive': 'toggleMenu',
-    'click ul li': 'currentClass'
+    'click ul li': 'currentClass',
+    'click .admin #header.open': 'closeUp'
   },
 
   initialize: function () {

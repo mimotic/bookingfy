@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
 
   closeUp: function(e){
     var self = this;
-    var container = $("#modalCalendario > div");
+    var container = $("#modalCalendario > div:first-child");
     if (!container.is(e.target) && container.has(e.target).length === 0) self.cancelar(e);
   },
 
