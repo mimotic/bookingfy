@@ -53,7 +53,8 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "Error cargando estadisticas"), // 14
        array('estado' => "error", "msg" => "Error eliminando deporte"), // 15
        array('estado' => "error", "msg" => "Error actualizando deporte") ,// 16
-       array('estado' => "error", "msg" => "Error actualizando pista") // 17
+       array('estado' => "error", "msg" => "Error actualizando pista"), // 17
+       array('estado' => "error", "msg" => "Error Eliminando Pista") // 18
        );
 return $errores[$id];
 }
@@ -245,7 +246,7 @@ public function procesarLLamada() {
      }
    }
 
-   private function eliminarDeporte() {
+private function eliminarDeporte() {
 
  if ($_SERVER['REQUEST_METHOD'] != "POST") {
    $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
@@ -808,6 +809,36 @@ private function modificarPista() {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(17)), 200);
     }else{
       $this->mostrarRespuesta($this->convertirJson($this->devolverError(17)), 200);
+    }
+}
+
+private function eliminarPista() {
+
+ if ($_SERVER['REQUEST_METHOD'] != "POST") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+ }
+
+    if (isset($this->datosPeticion['id_pista'])) {
+
+          $id = $this->datosPeticion['id_deporte'];
+          $id = (int) $id;
+
+           if ($id >= 0) {
+             $query = $this->_conn->prepare("delete from pistas WHERE id =:id");
+             $query->bindValue(":id", $id);
+             $query->execute();
+                 //rowcount para insert, delete. update
+             $filasBorradas = $query->rowCount();
+             if ($filasBorradas == 1) {
+               $resp = array('estado' => "correcto", "msg" => "Pista eliminada correctamente. Se han eliminado sus reservas asociadas.");
+               $this->mostrarRespuesta($this->convertirJson($resp), 200);
+             } else {
+               $this->mostrarRespuesta($this->convertirJson($this->devolverError(18)), 200);
+             }
+           }
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(18)), 200);
+    }else{
+      $this->mostrarRespuesta($this->convertirJson($this->devolverError(18)), 200);
     }
 }
 
