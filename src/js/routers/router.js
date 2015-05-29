@@ -705,12 +705,6 @@ module.exports = Backbone.Router.extend({
     if(this.perfilView) this.perfilView.resetear();
     if(this.registroAdminView !== undefined) this.registroAdminView.ocultar();
 
-    // this.deportes.reset();
-    // this.calendarios.reset();
-    // this.reservasUser.reset();
-    // this.usuarios.reset();
-    // this.gestiondeportes.reset();
-    // this.gestionpistas.reset();
 
     if(this.diaView !== undefined) this.diaView.ocultar();
     if(this.diaViewBotones !== undefined) this.diaViewBotones.ocultar();

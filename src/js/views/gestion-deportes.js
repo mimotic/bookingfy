@@ -14,6 +14,7 @@ module.exports = Backbone.View.extend({
     'dblclick input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
+    'click #deleteDeporte': 'deleteDeporte',
     'keydown': 'keyAction'
   },
 
@@ -53,6 +54,38 @@ module.exports = Backbone.View.extend({
   changed: function(e){
     console.log('modificado deporte', e.currentTarget.id);
     console.log('modificado deporte', e.currentTarget.value);
+  },
+
+  deleteDeporte: function(e){
+
+      var idDeporte = $(e.currentTarget).attr('data-deporte');
+
+      console.log('iddeporte', idDeporte);
+
+      var formValues = {
+            id_deporte: idDeporte
+        };
+
+       $.ajax({
+          url:'/api/eliminarDeporte',
+          type:'POST',
+          dataType:"json",
+          data: formValues,
+          success:function (data) {
+              console.log(["Register request details: ", data]);
+              console.log(data.msg);
+
+              if(data.estado=="error") {
+                $('.error').hide();
+                $('#error').html(data.msg).slideDown().fadeOut(5000);
+
+              } else {
+                $('.error').hide();
+                $('#no-error').html(data.msg).slideDown().fadeOut(5000);
+
+              }
+          }
+       });
   },
 
   mostrar: function(){
