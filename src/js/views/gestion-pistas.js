@@ -134,6 +134,8 @@ module.exports = Backbone.View.extend({
             id_pista: idPista
         };
 
+        console.log(formValues);
+
        $.ajax({
           url:'/api/eliminarPista',
           type:'POST',
