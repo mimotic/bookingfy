@@ -50,7 +50,9 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "Ya existe otro usuario con mismo email, dni o expediente. Si considera que alguien ha robado su identidad por favor, contacte con soporte de la universidad."), // 11
        array('estado' => "error", "msg" => "No se han modificado datos, son iguales a los encontrados en la base de datos u ocurrió algún error"), // 12
        array('estado' => "error", "msg" => "Password incorrecta"), // 13
-       array('estado' => "error", "msg" => "Error cargando estadisticas") // 14
+       array('estado' => "error", "msg" => "Error cargando estadisticas"), // 14
+       array('estado' => "error", "msg" => "Error eliminando deporte"), // 15
+       array('estado' => "error", "msg" => "Error actualizando deporte") // 16
        );
 return $errores[$id];
 }
@@ -243,6 +245,68 @@ public function procesarLLamada() {
        $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
      }
    }
+
+   private function eliminarDeporte() {
+
+ if ($_SERVER['REQUEST_METHOD'] != "POST") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+ }
+
+    if (isset($this->datosPeticion['id_deporte'])) {
+
+          $id = $this->datosPeticion['id_deporte'];
+          $id = (int) $id;
+
+           if ($id >= 0) {
+             $query = $this->_conn->prepare("delete from deporte WHERE id =:id");
+             $query->bindValue(":id", $id);
+             $query->execute();
+                 //rowcount para insert, delete. update
+             $filasBorradas = $query->rowCount();
+             if ($filasBorradas == 1) {
+               $resp = array('estado' => "correcto", "msg" => "Deporte eliminado correctamente. Esto elimina sus pistas y reservas asociadas");
+               $this->mostrarRespuesta($this->convertirJson($resp), 200);
+             } else {
+               $this->mostrarRespuesta($this->convertirJson($this->devolverError(15)), 200);
+             }
+           }
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(15)), 200);
+    }else{
+      $this->mostrarRespuesta($this->convertirJson($this->devolverError(15)), 200);
+    }
+}
+
+   private function modificarDeporte() {
+
+ if ($_SERVER['REQUEST_METHOD'] != "POST") {
+   $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+ }
+
+    if (isset($this->datosPeticion['id_deporte']) && isset($this->datosPeticion['new_name_deporte'])) {
+
+          $name = $this->datosPeticion['new_name_deporte'];
+          $id = $this->datosPeticion['id_deporte'];
+          $id = (int) $id;
+
+           if ($id >= 0) {
+             $query = $this->_conn->prepare("update deporte set nombre=:name WHERE id=:id");
+             $query->bindValue(":id", $id);
+             $query->bindValue(":name", $name);
+             $query->execute();
+                 //rowcount para insert, delete. update
+             $filasBorradas = $query->rowCount();
+             if ($filasBorradas == 1) {
+               $resp = array('estado' => "correcto", "msg" => "Deporte Actualizado Correctamente");
+               $this->mostrarRespuesta($this->convertirJson($resp), 200);
+             } else {
+               $this->mostrarRespuesta($this->convertirJson($this->devolverError(16)), 200);
+             }
+           }
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(16)), 200);
+    }else{
+      $this->mostrarRespuesta($this->convertirJson($this->devolverError(16)), 200);
+    }
+}
 
 
    // LISTAR DEPORTES [GET]
@@ -732,8 +796,6 @@ private function eliminarUsuario() {
       $this->mostrarRespuesta($this->convertirJson($this->devolverError(4)), 200);
     }
 }
-
-
 
 
 

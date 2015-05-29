@@ -10,12 +10,13 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.gestion_deporte),
 
   events: {
-    "change input" :"changed",
+    "change .wrap-deportes input" :"updateDeporte",
     'dblclick input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
     'click #deleteDeporte': 'deleteDeporte',
     'keydown': 'keyAction'
+
   },
 
   converting: function (e) {
@@ -51,9 +52,44 @@ module.exports = Backbone.View.extend({
     return this;
   },
 
-  changed: function(e){
-    console.log('modificado deporte', e.currentTarget.id);
-    console.log('modificado deporte', e.currentTarget.value);
+  updateDeporte: function(e){
+
+    if(e) e.preventDefault();
+
+    var self = this;
+    var mensajesError = {};
+    var printErrores = '';
+
+    var id_deporte = $(e.currentTarget).attr('data-deporte');
+    var new_name_deporte = e.currentTarget.value;
+
+    var formValues = {
+      id_deporte: id_deporte,
+      new_name_deporte: new_name_deporte
+    };
+
+    console.log('dataBorrarUser', formValues);
+
+    $.ajax({
+                url:'/api/modificarDeporte',
+                type:'POST',
+                dataType:"json",
+                data: formValues,
+                success:function (data) {
+
+                    if(data.estado=="error") {
+                        $('.error').hide();
+                        $('#error').html(data.msg).slideDown().fadeOut(5000);
+                    }
+                    else {
+                        $('.error').hide();
+                        $('#no-error').html(data.msg).slideDown().fadeOut(5000);
+
+                        Backbone.Events.trigger('resetGestion');
+                    }
+                }
+            });
+
   },
 
   deleteDeporte: function(e){
@@ -83,6 +119,7 @@ module.exports = Backbone.View.extend({
                 $('.error').hide();
                 $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
+                Backbone.Events.trigger('resetGestion');
               }
           }
        });
