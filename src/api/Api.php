@@ -820,7 +820,7 @@ private function eliminarPista() {
 
     if (isset($this->datosPeticion['id_pista'])) {
 
-          $id = $this->datosPeticion['id_deporte'];
+          $id = $this->datosPeticion['id_pista'];
           $id = (int) $id;
 
            if ($id >= 0) {
