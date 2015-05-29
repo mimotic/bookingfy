@@ -11,12 +11,12 @@ module.exports = Backbone.View.extend({
   template: Handlebars.compile(Plantilla.gestion_pista),
 
   events: {
-    "change input" :"changed",
-    "change select" :"changed",
+    // "change select" :"changed",
     'dblclick input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
-    'keydown': 'keyAction'
+    'keydown': 'keyAction',
+    "change .wrap-pistas input" :"updatePista"
   },
 
   converting: function (e) {
@@ -71,6 +71,55 @@ module.exports = Backbone.View.extend({
   changed: function(e){
     console.log('modificada pista', e.currentTarget.id);
     console.log('modificada pista', e.currentTarget.value);
+  },
+
+  updatePista: function (e){
+    if(e) e.preventDefault();
+
+
+    console.log('VALOR modificada pista', e.currentTarget.value);
+
+    var self = this;
+    var mensajesError = {};
+    var printErrores = '';
+
+    var id_pista = $(e.currentTarget).attr('data-pista');
+    var tipo_dato = $(e.currentTarget).attr('data-tipo');
+    var val_dato = e.currentTarget.value;
+
+
+
+    var formValues = {
+      id_pista: id_pista
+    };
+
+    if(tipo_dato == 'precio_luz') formValues.precio_luz = val_dato;
+    if(tipo_dato == 'precio_pista') formValues.precio_pista = val_dato;
+    if(tipo_dato == 'nombre') formValues.nombre = val_dato;
+
+
+
+    console.log('dataBorrarUser', formValues);
+
+
+
+    $.ajax({
+        url:'/api/modificarPista',
+        type:'POST',
+        dataType:"json",
+        data: formValues,
+        success:function (data) {
+
+            if(data.estado=="error") {
+                $('.error').hide();
+                $('#error').html(data.msg).slideDown().fadeOut(5000);
+            }
+            else {
+
+                Backbone.Events.trigger('resetGestion', data);
+            }
+        }
+    });
   },
 
   mostrar: function(){

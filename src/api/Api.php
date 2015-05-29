@@ -52,7 +52,8 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "Password incorrecta"), // 13
        array('estado' => "error", "msg" => "Error cargando estadisticas"), // 14
        array('estado' => "error", "msg" => "Error eliminando deporte"), // 15
-       array('estado' => "error", "msg" => "Error actualizando deporte") // 16
+       array('estado' => "error", "msg" => "Error actualizando deporte") ,// 16
+       array('estado' => "error", "msg" => "Error actualizando pista") // 17
        );
 return $errores[$id];
 }
@@ -232,8 +233,6 @@ public function procesarLLamada() {
            $id = $this->_conn->lastInsertId();
            $respuesta['estado'] = 'correcto';
            $respuesta['msg'] = 'Deporte creado correctamente';
-           $respuesta['horas']['id'] = $id;
-           $respuesta['horas']['nombre'] = $nombre;
            $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
          }
          else
@@ -276,7 +275,7 @@ public function procesarLLamada() {
     }
 }
 
-   private function modificarDeporte() {
+private function modificarDeporte() {
 
  if ($_SERVER['REQUEST_METHOD'] != "POST") {
    $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
@@ -762,6 +761,55 @@ private function estadisticas() {
  }else $this->mostrarRespuesta($this->devolverError(14), 200);
 }
 
+
+private function modificarPista() {
+
+     if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+
+    if( isset($this->datosPeticion['id_pista']) && (isset($this->datosPeticion['precio_luz']) || isset($this->datosPeticion['precio_pista']) ||  isset($this->datosPeticion['nombre']))){
+
+          $querieArguments = '';
+
+          if ( isset($this->datosPeticion['nombre']) ){
+            $name = $this->datosPeticion['nombre'];
+            $querieArguments = 'nombre=:name';
+          }
+          if ( isset($this->datosPeticion['precio_luz']) ){
+            $precio_luz = $this->datosPeticion['precio_luz'];
+            $querieArguments = 'precio_luz=:precio_luz';
+          }
+          if ( isset($this->datosPeticion['precio_pista']) ){
+            $precio_pista = $this->datosPeticion['precio_pista'];
+            $querieArguments = 'precio_pista=:precio_pista';
+          }
+
+
+          $id = $this->datosPeticion['id_pista'];
+          $id = (int) $id;
+
+           if ($id >= 0) {
+             $query = $this->_conn->prepare("update pistas set $querieArguments WHERE id=:id");
+             $query->bindValue(":id", $id);
+             if ( isset($this->datosPeticion['nombre']) ) $query->bindValue(":name", $name);
+             if ( isset($this->datosPeticion['precio_pista']) ) $query->bindValue(":precio_pista", $precio_pista);
+             if ( isset($this->datosPeticion['precio_luz']) ) $query->bindValue(":precio_luz", $precio_luz);
+             $query->execute();
+                 //rowcount para insert, delete. update
+             $filasBorradas = $query->rowCount();
+             if ($filasBorradas == 1) {
+               $resp = array('estado' => "correcto", "msg" => "Pista Actualizada Correctamente");
+               $this->mostrarRespuesta($this->convertirJson($resp), 200);
+             } else {
+               $this->mostrarRespuesta($this->convertirJson($this->devolverError(17)), 200);
+             }
+           }
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(17)), 200);
+    }else{
+      $this->mostrarRespuesta($this->convertirJson($this->devolverError(17)), 200);
+    }
+}
 
 
 
