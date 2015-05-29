@@ -1,6 +1,7 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Plantilla  = require('../partials/plantilla_gestion_pista'),
+    AddPistaView  = require('../views/add-pista'),
     _          = require('underscore'),
     $          = require('jquery');
 
@@ -18,6 +19,7 @@ module.exports = Backbone.View.extend({
     'keydown': 'keyAction',
     "change .wrap-pistas input" :"updatePista",
     'click #deletePista': 'deletePista',
+    'click #addpista': 'addPista'
   },
 
   converting: function (e) {
@@ -72,6 +74,16 @@ module.exports = Backbone.View.extend({
   changed: function(e){
     console.log('modificada pista', e.currentTarget.id);
     console.log('modificada pista', e.currentTarget.value);
+  },
+
+
+  addPista: function(e){
+    if(e) e.preventDefault();
+    var models = this.collection.toJSON();
+    var deportes = models[0];
+
+    console.log(deportes);
+    this.addPistaView = new AddPistaView({model: deportes});
   },
 
   updatePista: function (e){
