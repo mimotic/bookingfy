@@ -432,6 +432,17 @@ body
 	font-weight: 300;
 	float: right;
 	padding-right: .8em;
+#inContentModal
+	span.response
+		display block
+		text-align center
+		font-size 2em
+		font-weight 800
+		padding 2em 0 0
+		margin 1.5em auto 0
+		overflow hidden
+		color verdeAguoso
+
 
 #modalCalendario,
 .modal
@@ -444,14 +455,13 @@ body
 	left 0
 	display none
 	>div
-		position: fixed
-		height: 350px
-		width: 550px
-		background: #fff
+		position: relative;
+		height: 350px;
+		max-width: 550px;
+		background: #fff;
+		-webkit-box-shadow: 0 4px 20px #000;
 		box-shadow: 0 4px 20px #000;
-		top: 94px
-		left: 50%
-		margin-left: -312px
+		margin: 0.5em auto;
 		.response
 			display block
 			width 80%
@@ -648,7 +658,8 @@ body.outapp
 		text-align center
 	#dologin,
 	#doregister,
-	#doactualizar
+	#doactualizar,
+	#doborrar
 		text-transform uppercase
 
 		-webkit-transition: background-color .8s ease-out;
@@ -1058,10 +1069,10 @@ body.outapp
 .admin
 	#perfil
 		.login_users
-			background-color: rgba(166, 182, 202, 0.4);
-			width: 100%;
-			max-width: 100%;
-			box-shadow: 0 1px 1px #BDBFC2;
+			background-color: rgba(166,182,202,0.4);
+			margin: 1em auto;
+			max-width: 618.7px;
+			box-shadow: 0 1px 1px #bdbfc2;
 			h3
 				font-weight: 100;
 				display: inline-block;
@@ -1350,6 +1361,152 @@ form
 	width: 80%;
 	padding: 1em;
 
+#deleteDeporte
+#deletePista
+	right: 14px;
+	cursor: pointer;
+	padding: .3em .4em;
+	color: #e0585e;
+	border: 1px solid #e0585e;
+	margin-top: 15px;
+	border-radius: 3px;
+	background-color: rgba(255, 255, 255, 0);
+	-webkit-transition: color .2s ease-out;
+	-moz-transition: color .2s ease-out;
+	-o-transition: color .2s ease-out;
+	transition: color .2s ease-out;
+	-webkit-transition: background-color .5s ease-out;
+	-moz-transition: background-color .5s ease-out;
+	-o-transition: background-color .5s ease-out;
+	transition: background-color .5s ease-out;
+	position absolute
+	&:hover
+		background-color #e0585e
+		color white
+		-webkit-transition: color .2s ease-out;
+		-moz-transition: color .2s ease-out;
+		-o-transition: color .2s ease-out;
+		transition: color .2s ease-out;
+		-webkit-transition: background-color .5s ease-out;
+		-moz-transition: background-color .5s ease-out;
+		-o-transition: background-color .5s ease-out;
+		transition: background-color .5s ease-out;
 
 
+.wrap-pistas
+.wrap-deportes
+	width: 300px;
+	padding: 0 2em;
+	margin: 1em .5em;
+	height: auto;
+	overflow: hidden;
+	position: relative;
+	float: left;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	#no-error
+		display: none;
+		text-align: center;
+		padding: .5em;
+		background-color: rgb(102, 187, 73);
+		color: white;
+		font-weight: 100;
+	.clear
+		background-color: rgb(223, 223, 223);
+		width: 100%;
+		clear: both;
+		overflow: hidden;
+		height: 1px;
+	.clear:first-child
+		background-color: rgba(223, 223, 223,0.2);
+		width: 100%;
+		clear: both;
+		overflow: hidden;
+		height: 1px;
+	h3
+		display: inline-block;
+		background-color: white;
+		color: #4D6181;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.42);
+		font-size: 1.4em;
+		padding: .7em 0;
+		text-align: center;
+		font-weight: 100;
+		width 100%
+		i
+			opacity .2
+	#adddeporte
+	#addpista
+		position: absolute;
+		top: 57.5px;
+		display: inline-block;
+		background-color: #7FE84B;
+		-webkit-border-radius: 50%;
+		border-radius: 50%;
+		padding: 0.1em;
+		font-size: 1.8em;
+		color: #3C771E;
+		box-shadow: 0 1px 4.7px rgba(0,0,0,0.71);
+		right: 8px;
+		-webkit-transition: color .2s ease-out;
+		-moz-transition: color .2s ease-out;
+		-o-transition: color .2s ease-out;
+		transition: color .2s ease-out;
+		-webkit-transition: background-color .5s ease-out;
+		-moz-transition: background-color .5s ease-out;
+		-o-transition: background-color .5s ease-out;
+		transition: background-color .5s ease-out;
+		-webkit-transition: webkit-box-shadow .5s ease-out;
+		-moz-transition: box-shadow .5s ease-out;
+		-o-transition: box-shadow .5s ease-out;
+		transition: box-shadow .5s ease-out;
+		&:hover
+			-webkit-transition: color .2s ease-out;
+			-moz-transition: color .2s ease-out;
+			-o-transition: color .2s ease-out;
+			transition: color .2s ease-out;
+			-webkit-transition: background-color .5s ease-out;
+			-moz-transition: background-color .5s ease-out;
+			-o-transition: background-color .5s ease-out;
+			transition: background-color .5s ease-out;
+			-webkit-transition: box-shadow .5s ease-out;
+			-moz-transition: box-shadow .5s ease-out;
+			-o-transition: box-shadow .5s ease-out;
+			transition: box-shadow .5s ease-out;
+			background: #65B53D;
+			color: #91EC64;
+			box-shadow: 0 0.3px 6px rgba(0, 0, 0, 1.24);
+
+	input:disabled
+	input[disabled]
+		-webkit-text-fill-color:#880000
+		border none
+.admin
+	footer
+		display none
+	#modalCalendario
+		input
+			line-height: normal;
+			width: 100%;
+			margin: .2em 0;
+			border: none;
+			text-align: center;
+			padding: 10px 0;
+			position: relative;
+			background-color: rgb(249, 249, 249);
+		select
+			text-transform: none;
+			margin: 2em 0 0 10%;
+			height: 4em;
+			overflow: hidden;
+			text-align: center;
+	#doactualizar
+		margin-right .5em
+	#doborrar
+		color: #F5F1F1;
+		background-color: #DB4545;
+		box-shadow: 0 3px 0 #A83131;
+		&:hover
+			background-color: #A83131;
+			color: #F5F1F1;
+			box-shadow: 0 3px 0 #A83131;
 

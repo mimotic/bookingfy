@@ -48,6 +48,7 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
+    $('.error').slideDown();
     var models = {models: this.collection.toJSON()};
     var html = this.template(models);
     this.$el.html(html);
@@ -78,6 +79,8 @@ module.exports = Backbone.View.extend({
 
     console.log('dataBorrarUser', formValues);
 
+    var algo = {};
+
     $.ajax({
                 url:'/api/modificarDeporte',
                 type:'POST',
@@ -91,7 +94,12 @@ module.exports = Backbone.View.extend({
                     }
                     else {
 
-                        Backbone.Events.trigger('resetGestion', data);
+
+
+                        algo.estadoDeportes = data.estadoDeportes;
+                        algo.msgDeportes = data.msg;
+
+                        Backbone.Events.trigger('resetGestion', algo);
                     }
                 }
             });
