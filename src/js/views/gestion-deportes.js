@@ -90,10 +90,8 @@ module.exports = Backbone.View.extend({
                         $('#error').html(data.msg).slideDown().fadeOut(5000);
                     }
                     else {
-                        $('.error').hide();
-                        $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
-                        Backbone.Events.trigger('resetGestion');
+                        Backbone.Events.trigger('resetGestion', data);
                     }
                 }
             });
@@ -127,7 +125,7 @@ module.exports = Backbone.View.extend({
                 $('.error').hide();
                 $('#no-error').html(data.msg).slideDown().fadeOut(5000);
 
-                Backbone.Events.trigger('resetGestion');
+                Backbone.Events.trigger('resetGestion', data);
               }
           }
        });
