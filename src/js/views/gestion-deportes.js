@@ -1,6 +1,7 @@
 var Backbone   = require('backbone'),
     Handlebars = require('handlebars'),
     Plantilla  = require('../partials/plantilla_gestion_deporte'),
+    AddDeporteView  = require('../views/add-deporte'),
     $          = require('jquery');
 
 module.exports = Backbone.View.extend({
@@ -15,6 +16,7 @@ module.exports = Backbone.View.extend({
     'blur input': 'descoverting',
     'touchstart input': 'converting',
     'click #deleteDeporte': 'deleteDeporte',
+    'click #adddeporte': 'addDeporte',
     'keydown': 'keyAction'
 
   },
@@ -50,6 +52,12 @@ module.exports = Backbone.View.extend({
     var html = this.template(models);
     this.$el.html(html);
     return this;
+  },
+
+  addDeporte: function(e){
+    if(e) e.preventDefault();
+
+    this.addDeporteView = new AddDeporteView();
   },
 
   updateDeporte: function(e){
@@ -94,9 +102,9 @@ module.exports = Backbone.View.extend({
 
   deleteDeporte: function(e){
 
-      var idDeporte = $(e.currentTarget).attr('data-deporte');
+      if(e) e.preventDefault();
 
-      console.log('iddeporte', idDeporte);
+      var idDeporte = $(e.currentTarget).attr('data-deporte');
 
       var formValues = {
             id_deporte: idDeporte

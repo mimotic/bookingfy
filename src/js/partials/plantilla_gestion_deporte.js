@@ -9,8 +9,11 @@ plantillas.gestion_deporte = '<div class="wrap wrap-deportes">'
 			+ '<span id="deleteDeporte" data-deporte={{id}}><i class="demo-icon icon-user">&#xe811;</i></span>'
 			+'{{/each}}'
 			+ '<div class="clear"></div>'
+			+ '<a id="adddeporte" href="#">Añadir Deporte</a>'
+			+ '<div class="clear"></div>'
 			+ '<div id="error" class="error"></div>'
 			+ '<div id="no-error" class="error"></div>'
+			+ '<div class="clear"></div>'
 			+ '</div>';
 
 module.exports = plantillas;
