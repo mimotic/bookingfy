@@ -13,6 +13,8 @@ plantillas.gestion_pista = '<div class="wrap wrap-pistas">'
   			+ '{{/each}}'
 			+ '</select>'
 			+ '<div class="clear"></div>'
+			+ '<span id="deletePista" data-pista={{id_pista}}><i class="demo-icon icon-user">&#xe811;</i></span>'
+			+ '<div class="clear"></div>'
 			+ '{{/each}}'
 			+ '</div>';
 
