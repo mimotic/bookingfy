@@ -54,17 +54,17 @@ module.exports = Backbone.View.extend({
     var models = this.collection.toJSON();
     var pistas = models[0].pistas;
 
-    for (var i = 0; i < pistas.length; i++) {
-      var deportes = JSON.parse( JSON.stringify( models[0].deportes ) );
+    // for (var i = 0; i < pistas.length; i++) {
+    //   var deportes = JSON.parse( JSON.stringify( models[0].deportes ) );
 
-      for (var j = 0; j < deportes.length; j++) {
-        if(deportes[j].id == pistas[i].id_deporte){
-          pistas[i].deportes = deportes;
-          pistas[i].deportes[j].seleccionado = "selected";
-          break;
-        }
-      };
-    };
+    //   for (var j = 0; j < deportes.length; j++) {
+    //     if(deportes[j].id == pistas[i].id_deporte){
+    //       pistas[i].deportes = deportes;
+    //       pistas[i].deportes[j].seleccionado = "selected";
+    //       break;
+    //     }
+    //   };
+    // };
 
     var html = this.template({pistas: pistas});
     this.$el.html(html);
@@ -82,7 +82,6 @@ module.exports = Backbone.View.extend({
     var models = this.collection.toJSON();
     var deportes = models[0];
 
-    console.log(deportes);
     this.addPistaView = new AddPistaView({model: deportes});
   },
 
