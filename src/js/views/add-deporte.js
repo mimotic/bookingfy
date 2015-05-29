@@ -83,6 +83,7 @@ module.exports = Backbone.View.extend({
   cancelar: function(event){
   	event.preventDefault();
   	$('#modalCalendario').fadeOut();
+    this.undelegateEvents();
   }
 
 });
