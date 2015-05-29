@@ -54,7 +54,8 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "Error eliminando deporte"), // 15
        array('estado' => "error", "msg" => "Error actualizando deporte") ,// 16
        array('estado' => "error", "msg" => "Error actualizando pista"), // 17
-       array('estado' => "error", "msg" => "Error Eliminando Pista") // 18
+       array('estado' => "error", "msg" => "Error Eliminando Pista"), // 18
+       array('estado' => "error", "msg" => "Error Creando Pista") // 19
        );
 return $errores[$id];
 }
@@ -843,6 +844,37 @@ private function eliminarPista() {
 }
 
 
+private function nuevaPista() {
+     if ($_SERVER['REQUEST_METHOD'] != "POST") {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(1)), 405);
+     }
+     if (isset( $this->datosPeticion['nombre'] ) && isset( $this->datosPeticion['id_deporte'] ) && isset( $this->datosPeticion['precio_pista'] ) && isset( $this->datosPeticion['precio_luz'] )) {
+
+
+
+       $nombre = $this->datosPeticion['nombre'];
+       $id_deporte = $this->datosPeticion['id_deporte'];
+       $precio_pista = $this->datosPeticion['precio_pista'];
+       $precio_luz = $this->datosPeticion['precio_luz'];
+
+         $query = $this->_conn->prepare("INSERT into pistas (nombre,id_deporte,precio_pista,precio_luz) VALUES (:nombre,:id_deporte,:precio_pista,:precio_luz)");
+         $query->bindValue(":nombre", $nombre);
+         $query->bindValue(":id_deporte", $id_deporte);
+         $query->bindValue(":precio_pista", $precio_pista);
+         $query->bindValue(":precio_luz", $precio_luz);
+         $query->execute();
+         if ($query->rowCount() == 1) {
+           $id = $this->_conn->lastInsertId();
+           $respuesta['estado'] = 'correcto';
+           $respuesta['msg'] = 'Pista creada correctamente';
+           $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+         }
+         else
+           $this->mostrarRespuesta($this->convertirJson($this->devolverError(19)), 400);
+     } else {
+       $this->mostrarRespuesta($this->convertirJson($this->devolverError(19)), 400);
+     }
+   }
 
 
 
