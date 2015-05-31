@@ -228,7 +228,7 @@ module.exports = Backbone.Router.extend({
                   //      $('#error').html(mensajeApi.msgDeportes).slideDown();
                   // } else {
                       $('.error').hide();
-                      $('#no-error').html(mensajeApi.msg).slideDown();
+                      $('#no-error-gestion').html(mensajeApi.msg).slideDown().fadeOut(8000);
                   // }
             }
       });
@@ -243,7 +243,7 @@ module.exports = Backbone.Router.extend({
                   //      $('.pistaMal').html(mensajeApi.msg).slideDown();
                   // } else {
                       $('.error').hide();
-                      $('#no-error').html(mensajeApi.msg).slideDown();
+                      $('#no-error-gestion').html(mensajeApi.msg).slideDown().fadeOut(8000);
                   // }
             }
       });

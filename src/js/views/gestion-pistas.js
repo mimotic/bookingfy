@@ -124,7 +124,7 @@ module.exports = Backbone.View.extend({
 
             if(data.estado=="error") {
                 $('.error').hide();
-                $('#error').html(data.msg).slideDown().fadeOut(5000);
+                $('#error-gestion').html(data.msg).slideDown().fadeOut(5000);
             } else {
                 Backbone.Events.trigger('resetGestion', data);
             }
@@ -156,7 +156,7 @@ module.exports = Backbone.View.extend({
 
               if(data.estado=="error") {
                 $('.error').hide();
-                $('#error').html(data.msg).slideDown().fadeOut(5000);
+                $('#error-gestion').html(data.msg).slideDown().fadeOut(5000);
               } else {
                 Backbone.Events.trigger('resetGestion', data);
               }
