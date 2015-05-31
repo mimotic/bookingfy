@@ -78,7 +78,7 @@ module.exports = Backbone.View.extend({
 
     }
 
-    console.log("estadisticas", response.reservas);
+    // console.log("estadisticas", response.reservas);
 
     return response;
 

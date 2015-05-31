@@ -56,9 +56,6 @@ module.exports = Backbone.View.extend({
             precio_luz: precioLuz
           };
 
-
-          console.log(formValues);
-
           $.ajax({
                 url:'/api/nuevaPista',
                 type:'POST',

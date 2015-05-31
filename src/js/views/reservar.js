@@ -40,7 +40,7 @@ module.exports = Backbone.View.extend({
   },
 
   fireClick: function() {
-    console.log('click !!!!!');
+    // console.log('click !!!!!');
     $('#checkedluz').click();
   },
 
@@ -69,11 +69,11 @@ module.exports = Backbone.View.extend({
     if (isChecked === true) {
       withLight = '1';
     }
-    console.log("luz = " + withLight);
-    console.log(isChecked);
+    // console.log("luz = " + withLight);
+    // console.log(isChecked);
 
 
-    console.log("RESERVAR", reserva);
+    // console.log("RESERVAR", reserva);
     // coger check de luz
 
   	this.model.fetch({
