@@ -96,8 +96,6 @@ module.exports = Backbone.Router.extend({
     this.dia = new Dia();
     this.tiempo = new Tiempo({});
 
-    //this.userPerfil = new UserPerfil();
-
     this.gestiondeportes = new DeportesAdmin();
     this.gestionDeportesView = new GestionDeportesView({ collection: this.gestiondeportes });
 
@@ -157,7 +155,10 @@ module.exports = Backbone.Router.extend({
 
   requireLogin: function(callback, args) {
     this.tiempo.ocultar();
-    if(window.userperfil !== undefined)window.userperfil.clean();
+    if(window.userperfil !== undefined){
+      window.userperfil.resetear();
+      window.userperfil.undelegateEvents();
+    }
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
     this.gestionDeportesView.ocultar();
@@ -222,13 +223,13 @@ module.exports = Backbone.Router.extend({
                   self.gestionDeportesView.mostrar();
                   self.gestionDeportesView.render();
 
-                  if(mensajeApi.estadoDeportes == "error") {  // If there is an error, show the error messages
-                       $('.error').hide();
-                       $('#error').html(mensajeApi.msgDeportes).slideDown();
-                  } else {
+                  // if(mensajeApi.estadoDeportes == "error") {  // If there is an error, show the error messages
+                  //      $('.error').hide();
+                  //      $('#error').html(mensajeApi.msgDeportes).slideDown();
+                  // } else {
                       $('.error').hide();
-                      $('#no-error').html(mensajeApi.msgDeportes).slideDown();
-                  }
+                      $('#no-error').html(mensajeApi.msg).slideDown();
+                  // }
             }
       });
 
@@ -237,13 +238,13 @@ module.exports = Backbone.Router.extend({
                   self.gestionPistasView.mostrar();
                   self.gestionPistasView.render();
 
-                  if( mensajeApi.estado == "error") {
-                       $('.error').hide();
-                       $('.pistaMal').html(mensajeApi.msg).slideDown();
-                  } else {
+                  // if( mensajeApi.estado == "error") {
+                  //      $('.error').hide();
+                  //      $('.pistaMal').html(mensajeApi.msg).slideDown();
+                  // } else {
                       $('.error').hide();
-                      $('.pistaa').html(mensajeApi.msg).slideDown();
-                  }
+                      $('#no-error').html(mensajeApi.msg).slideDown();
+                  // }
             }
       });
     });
@@ -331,7 +332,10 @@ module.exports = Backbone.Router.extend({
     this.resetCollections();
 
     this.tiempo.ocultar();
-    if(this.userPerfil !== undefined)this.userPerfil.ocultar();
+    if(window.userperfil !== undefined){
+      window.userperfil.resetear();
+      window.userperfil.undelegateEvents();
+    }
     this.reservasUserView.ocultar();
     this.usuariosListView.ocultar();
     this.gestionDeportesView.ocultar();

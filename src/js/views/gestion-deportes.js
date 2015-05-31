@@ -77,10 +77,6 @@ module.exports = Backbone.View.extend({
       new_name_deporte: new_name_deporte
     };
 
-    console.log('dataBorrarUser', formValues);
-
-    var algo = {};
-
     $.ajax({
                 url:'/api/modificarDeporte',
                 type:'POST',
@@ -91,15 +87,8 @@ module.exports = Backbone.View.extend({
                     if(data.estado=="error") {
                         $('.error').hide();
                         $('#error').html(data.msg).slideDown().fadeOut(5000);
-                    }
-                    else {
-
-
-
-                        algo.estadoDeportes = data.estadoDeportes;
-                        algo.msgDeportes = data.msg;
-
-                        Backbone.Events.trigger('resetGestion', algo);
+                    } else {
+                        Backbone.Events.trigger('resetGestion', data);
                     }
                 }
             });
@@ -126,11 +115,7 @@ module.exports = Backbone.View.extend({
               if(data.estado=="error") {
                 $('.error').hide();
                 $('#error').html(data.msg).slideDown().fadeOut(5000);
-
               } else {
-                $('.error').hide();
-                $('#no-error').html(data.msg).slideDown().fadeOut(5000);
-
                 Backbone.Events.trigger('resetGestion', data);
               }
           }

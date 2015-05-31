@@ -191,8 +191,7 @@ module.exports = Backbone.View.extend({
                         $('.error').hide();
                         $('#error').html(data.msg).slideDown().fadeOut(5000);
 
-                    }
-                    else {
+                    } else {
 
                         $('.error').hide();
                         $('#no-error').html(data.msg).slideDown().fadeOut(5000);
@@ -209,13 +208,6 @@ module.exports = Backbone.View.extend({
 
                         Sesion.setSesiondata(usuario);
                         Backbone.Events.trigger('updateUserData');
-
-                        // var args = {};
-
-                        // args.mail = formValues.mail;
-                        // args.msg = data.msg;
-
-                        // Backbone.Events.trigger('loginSuccessful', args);
                     }
                 }
             });
@@ -235,10 +227,6 @@ module.exports = Backbone.View.extend({
 
             $('.error').hide();
             $('#error').html(printErrores).slideDown().fadeOut(5000);
-
-
-
-            // console.log(mensajesError);
 
         }
     }

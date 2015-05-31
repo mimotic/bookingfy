@@ -13,9 +13,6 @@ plantillas.gestion_pista = '<div class="wrap wrap-pistas">'
 			+ '<div class="clear"></div>'
 			+ '<a id="addpista" href="#"><i class="demo-icon icon-user">&#xe80b;</i></a>'
 			+ '<div class="clear"></div>'
-			+ '<div id="error" class="error pistaMal"></div>'
-			+ '<div id="no-error" class="error pistaa"></div>'
-			+ '<div class="clear"></div>'
 			+ '</div>';
 
 module.exports = plantillas;

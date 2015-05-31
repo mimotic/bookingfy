@@ -17,8 +17,6 @@ module.exports = BaseView.extend({
         }
 
     	this.userPerfil = new UserPerfil({ model: this.model });
-    	// window.userPerfil.render();
-    	// window.userPerfil.mostrar();
 
         this.userPerfil.render();
 

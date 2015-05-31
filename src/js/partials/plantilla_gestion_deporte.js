@@ -10,9 +10,6 @@ plantillas.gestion_deporte = '<div class="wrap wrap-deportes">'
 			+ '<div class="clear"></div>'
 			+ '<a id="adddeporte" href="#"><i class="demo-icon icon-user">&#xe80b;</i></a>'
 			+ '<div class="clear"></div>'
-			+ '<div id="error" class="error"></div>'
-			+ '<div id="no-error" class="error"></div>'
-			+ '<div class="clear"></div>'
 			+ '</div>';
 
 module.exports = plantillas;

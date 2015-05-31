@@ -124,10 +124,8 @@ module.exports = Backbone.View.extend({
 
             if(data.estado=="error") {
                 $('.error').hide();
-                $('.pistaMal').html(data.msg).slideDown().fadeOut(5000);
-            }
-            else {
-
+                $('#error').html(data.msg).slideDown().fadeOut(5000);
+            } else {
                 Backbone.Events.trigger('resetGestion', data);
             }
         }
@@ -158,12 +156,8 @@ module.exports = Backbone.View.extend({
 
               if(data.estado=="error") {
                 $('.error').hide();
-                $('.pistaMal').html(data.msg).slideDown().fadeOut(5000);
-
+                $('#error').html(data.msg).slideDown().fadeOut(5000);
               } else {
-                $('.error').hide();
-                $('.pistaa').html(data.msg).slideDown().fadeOut(5000);
-
                 Backbone.Events.trigger('resetGestion', data);
               }
           }
