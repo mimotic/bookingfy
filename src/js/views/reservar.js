@@ -15,11 +15,11 @@ module.exports = Backbone.View.extend({
   events: {
     'click #confirmarReserva': 'reservar',
     'click #cerrarModal': 'cancelar',
-    'click': 'closeUp',
-    'click #checkedluz': 'checkOn',
-    'touchstart #checkedluz': 'checkOn',
-    'click #activar-check-lus': 'fireClick',
-    'touchstart #activar-check-lus': 'fireClick',
+    'click': 'closeUp'
+    // 'click #checkedluz': 'checkOn',
+    // 'touchstart #checkedluz': 'checkOn',
+    // 'click #activar-check-lus': 'fireClick',
+    // 'touchstart #activar-check-lus': 'fireClick',
   },
 
   initialize: function () {
