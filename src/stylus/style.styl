@@ -298,7 +298,11 @@ body
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	float none
-
+@-moz-document url-prefix() {
+	.admin #calendario{
+		float left
+	}
+}
 // #calendario
 // 	.tipo-calendario.doble
 // 		float none
@@ -1495,7 +1499,6 @@ form
 		select
 			text-transform: none;
 			margin: 2em 0 0 10%;
-			height: 4em;
 			overflow: hidden;
 			text-align: center;
 	#doactualizar

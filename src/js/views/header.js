@@ -105,7 +105,7 @@ module.exports = Backbone.View.extend({
     Backbone.app.navigate("/nuevo-usuario", { trigger: true });
   },
 
-  goGestionAdmin: function(){
+  goGestionAdmin: function(event){
     event.preventDefault();
     Backbone.app.navigate("/gestion", { trigger: true });
   },
