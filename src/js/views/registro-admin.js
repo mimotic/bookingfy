@@ -104,7 +104,7 @@ module.exports = Backbone.View.extend({
             email = $('#reg_email'),
             pwd = $('#reg_pass');
 
-            console.log('iput rol', rolAdmin);
+            // console.log('iput rol', rolAdmin);
 
         var formValues = {
             nombre: name.val(),
@@ -124,7 +124,7 @@ module.exports = Backbone.View.extend({
                 dataType:"json",
                 data: formValues,
                 success:function (data) {
-                    console.log(["Register request details: ", data]);
+                    // console.log(["Register request details: ", data]);
 
                     if(data.estado=="error") {
                         $('.error').hide();

@@ -33,7 +33,6 @@ module.exports = Backbone.View.extend({
       this.$el.removeClass('doble');
     }
 
-    console.log('calendario',calendario);
     this.contador++;
     var calendarView = new CalendarioView({ model: calendario });
     this.$el.append(calendarView.render().el);

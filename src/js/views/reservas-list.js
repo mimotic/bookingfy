@@ -43,7 +43,7 @@ module.exports = Backbone.View.extend({
 
     if(isCollection == 'error') templateOps = self.templateEmpty;
 
-    console.log('flt.filtered',flt.filtered);
+    // console.log('flt.filtered',flt.filtered);
 
     var listView = new CollectionView({
         template: templateOps,

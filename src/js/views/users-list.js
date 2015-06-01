@@ -26,7 +26,7 @@ module.exports = Backbone.View.extend({
 
     var flt = new Filter({collection: self.collection});
 
-    console.log(flt.attributes);
+    // console.log(flt.attributes);
     var inputView = new FormView({
         el: 'form',
         model: flt

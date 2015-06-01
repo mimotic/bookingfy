@@ -30,7 +30,6 @@ module.exports = Backbone.View.extend({
   },
 
   descoverting: function (e) {
-    console.log('blur !!');
     var elem = e.target;
     var elemData = $("#" + elem.id);
     elemData.attr({disabled: true});
@@ -60,8 +59,8 @@ module.exports = Backbone.View.extend({
   },
 
   changed: function(e){
-    console.log('modificada pista', e.currentTarget.id);
-    console.log('modificada pista', e.currentTarget.value);
+    // console.log('modificada pista', e.currentTarget.id);
+    // console.log('modificada pista', e.currentTarget.value);
   },
 
 
@@ -77,7 +76,7 @@ module.exports = Backbone.View.extend({
     if(e) e.preventDefault();
 
 
-    console.log('VALOR modificada pista', e.currentTarget.value);
+    // console.log('VALOR modificada pista', e.currentTarget.value);
 
     var self = this;
     var mensajesError = {};
@@ -99,7 +98,7 @@ module.exports = Backbone.View.extend({
 
 
 
-    console.log('dataBorrarUser', formValues);
+    // console.log('dataBorrarUser', formValues);
 
 
 
@@ -131,16 +130,14 @@ module.exports = Backbone.View.extend({
             id_pista: idPista
         };
 
-        console.log(formValues);
-
        $.ajax({
           url:'/api/eliminarPista',
           type:'POST',
           dataType:"json",
           data: formValues,
           success:function (data) {
-              console.log(["Register request details: ", data]);
-              console.log(data.msg);
+              // console.log(["Register request details: ", data]);
+              // console.log(data.msg);
 
               if(data.estado=="error") {
                 $('.error').hide();

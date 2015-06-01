@@ -26,12 +26,11 @@ module.exports = Backbone.View.extend({
 
   algo: function(event) {
     event.preventDefault();
-    console.log('click');
 
   },
 
   changeDateNow: function (date) {
-    console.log(date);
+    // console.log(date);
   },
 
   getDate: function(){

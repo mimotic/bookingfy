@@ -122,7 +122,7 @@ module.exports = Backbone.View.extend({
                 dataType:"json",
                 data: formValues,
                 success:function (data) {
-                    console.log(["Register request details: ", data]);
+                    // console.log(["Register request details: ", data]);
 
                     if(data.estado=="error") {
                         $('#error').html(data.msg).slideDown();

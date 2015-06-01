@@ -124,7 +124,7 @@ module.exports = Backbone.View.extend({
       id_usuario: id_usuario.val()
     };
 
-    console.log('dataBorrarUser', formValues);
+    // console.log('dataBorrarUser', formValues);
 
     $.ajax({
                 url:'/api/eliminarUsuario',
@@ -139,12 +139,12 @@ module.exports = Backbone.View.extend({
                         $('.error').hide();
                         $('#error').html(data.msg).slideDown().fadeOut(5000);
 
-                        console.log('dataBorrarUser ERROR', data.msg);
+                        // console.log('dataBorrarUser ERROR', data.msg);
                     }
                     else {
                         $('.error').hide();
                         $('#no-error').html(data.msg).slideDown().fadeOut(5000);
-                        console.log('dataBorrarUser ERROR', data.msg);
+                        // console.log('dataBorrarUser ERROR', data.msg);
                         Backbone.Events.trigger('resetUsuarios');
                     }
                 }
@@ -176,7 +176,7 @@ module.exports = Backbone.View.extend({
           rol = '1';
         }
 
-        console.log('id user', id_usuario.val());
+        // console.log('id user', id_usuario.val());
 
         var formValues = {
             id_usuario: id_usuario.val(),
@@ -204,7 +204,7 @@ module.exports = Backbone.View.extend({
 
             // formValues.current_password = Sha1(formValues.current_password);
 
-            console.log('formValues', formValues);
+            // console.log('formValues', formValues);
 
             $.ajax({
                 url:url,

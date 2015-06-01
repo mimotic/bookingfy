@@ -48,8 +48,6 @@ module.exports = Backbone.View.extend({
 
     // coger check de luz
 
-    console.log("ANULAR", anular);
-
   	this.model.fetch({
   		data: {
           id_reserva: anular.id_reserva,
@@ -64,8 +62,6 @@ module.exports = Backbone.View.extend({
 
               $('#modalCalendario').fadeOut();
 
-              console.log('fecha pista',anular.fecha_pista );
-
               self.undelegateEvents();
 
               if(anular.id_deporte !== undefined){
@@ -76,8 +72,6 @@ module.exports = Backbone.View.extend({
             //
         },
         error: function(model, response) {
-            // console.log('FALLOOOOOO', response);
-            console.log('MIMOTIC: error id reserva', anular.id_reserva);
 
             $('#modalCalendario div').html('<span>'+response.msg+'</span>');
 

@@ -135,9 +135,9 @@ module.exports = Backbone.View.extend({
     var buttonTag = $("#botonMenuresponsive-wrapper");
     var buttonTagClass = $("#menu-boton-responsive");
     var status = headerTag.hasClass('open');
-    console.log('status',status)
+    //console.log('status',status)
     if (status === true){
-      console.log('statusINNN',status)
+      //console.log('statusINNN',status)
       if (!buttonTag.is(e.target) && buttonTag.has(e.target).length === 0){
         headerTag.removeClass('open');
         buttonTagClass.removeClass('open');

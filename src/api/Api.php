@@ -55,7 +55,9 @@ class Api extends Rest {
        array('estado' => "error", "msg" => "Error actualizando deporte") ,// 16
        array('estado' => "error", "msg" => "Error actualizando pista"), // 17
        array('estado' => "error", "msg" => "Error Eliminando Pista"), // 18
-       array('estado' => "error", "msg" => "Error Creando Pista") // 19
+       array('estado' => "error", "msg" => "Error Creando Pista"), // 19
+       array('estado' => "error", "msg" => "Esta Reserva Ya existe, refresque su navegador"), // 20
+       array('estado' => "error", "msg" => "Error creando la reserva, pruebe de nuevo.") // 21
        );
 return $errores[$id];
 }
@@ -420,24 +422,41 @@ private function modificarDeporte() {
   $id_hora = $this->datosPeticion['id_hora'];
   $fecha_pista = $this->datosPeticion['fecha_pista'];
   $luz = $this->datosPeticion['luz'];
-  $anulado = $this->datosPeticion['anulado'];
+  // $anulado = $this->datosPeticion['anulado'];
 
-  $query = $this->_conn->prepare("INSERT INTO reservas( id_usuario, id_pista, id_hora, fecha_pista, luz, fecha_log, anulado) VALUES (:id_usuario,:id_pista,:id_hora,:fecha_pista,:luz,NOW(),0)");
+  $queryComrpueba = $this->_conn->prepare("SELECT id FROM reservas WHERE id_pista = :id_pista AND id_hora = :id_hora AND fecha_pista = :fecha_pista AND anulado = 0");
 
-  $query->bindValue(":id_usuario", $id_usuario);
-  $query->bindValue(":id_pista", $id_pista);
-  $query->bindValue(":id_hora", $id_hora);
-  $query->bindValue(":fecha_pista", $fecha_pista);
-  $query->bindValue(":luz", $luz);
-  $query->execute();
+  $queryComrpueba->bindValue(":id_pista", $id_pista);
+  $queryComrpueba->bindValue(":id_hora", $id_hora);
+  $queryComrpueba->bindValue(":fecha_pista", $fecha_pista);
+  $queryComrpueba->execute();
 
-  if ($query->rowCount() == 1) {
-   $respuesta['estado'] = 'correcto';
-   $respuesta['msg'] = 'Su pista ha sido reservada, ¡que gane el mejor!';
-   $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
- } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+  if ($queryComrpueba->rowCount() > 0) {
+    $this->mostrarRespuesta($this->convertirJson($this->devolverError(20)), 200);
+  }else{
 
-} else $this->mostrarRespuesta($this->convertirJson($this->devolverError(7)), 400);
+    $query = $this->_conn->prepare("INSERT INTO reservas( id_usuario, id_pista, id_hora, fecha_pista, luz, fecha_log, anulado) VALUES (:id_usuario,:id_pista,:id_hora,:fecha_pista,:luz,NOW(),0)");
+
+    $query->bindValue(":id_usuario", $id_usuario);
+    $query->bindValue(":id_pista", $id_pista);
+    $query->bindValue(":id_hora", $id_hora);
+    $query->bindValue(":fecha_pista", $fecha_pista);
+    $query->bindValue(":luz", $luz);
+    $query->execute();
+
+    if ($query->rowCount() == 1) {
+     $respuesta['estado'] = 'correcto';
+     $respuesta['msg'] = 'Su pista ha sido reservada, ¡que gane el mejor!';
+     $this->mostrarRespuesta($this->convertirJson($respuesta), 200);
+   } else $this->mostrarRespuesta($this->convertirJson($this->devolverError(21)), 400);
+
+  }
+
+
+
+
+
+} else $this->mostrarRespuesta($this->convertirJson($this->devolverError(21)), 400);
 
 }
 

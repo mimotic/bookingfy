@@ -178,7 +178,7 @@ module.exports = Backbone.View.extend({
 
             formValues.current_password = Sha1(formValues.current_password);
 
-            console.log('formValues', formValues);
+            // console.log('formValues', formValues);
 
             $.ajax({
                 url:url,
