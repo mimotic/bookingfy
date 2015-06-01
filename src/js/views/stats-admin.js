@@ -29,6 +29,8 @@ module.exports = Backbone.View.extend({
     var self = this;
     var dataOutput = fetchData;
 
+    console.log('data-stats', fetchData);
+
     this.graph = new Rickshaw.Graph( {
           element: document.getElementById("#chart"),
           width: 300,
@@ -58,9 +60,9 @@ module.exports = Backbone.View.extend({
   },
 
   ocultar: function () {
-    this.$el.empty();
-    // $('#y_axis').empty();
-    // $('#chart').empty();
+    // this.$el.empty();
+    $('#y_axis').empty();
+    $('#chart').empty();
   },
 
   generateData: function(dataAjax){

@@ -762,6 +762,8 @@ module.exports = Backbone.Router.extend({
           },
           error: function (collection, err) {
             // console.log('error', collection, err);
+                self.gestionDeportesView.mostrar();
+                self.gestionDeportesView.render();
           }
     });
 
@@ -773,6 +775,8 @@ module.exports = Backbone.Router.extend({
           },
           error: function (collection, err) {
             // console.log('error', collection, err);
+                self.gestionPistasView.mostrar();
+                self.gestionPistasView.render();
           }
     });
   }
