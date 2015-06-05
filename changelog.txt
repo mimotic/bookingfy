@@ -1,3 +1,51 @@
+- * ed69365 - 2015-06-01: minor changes 
+- * 0403420 - 2015-06-01: solucionado bug al borrar todas las pistas 
+- * 384bf0a - 2015-05-31: selectores 
+- * 4f8ef97 - 2015-05-31: refactor 
+- * 13fb2f9 - 2015-05-31: ocultar mensajes de error 
+- * 7220bee - 2015-05-31: modificado html de mensajes en gestion de pistas 
+- * e7750aa - 2015-05-29: rc0 
+- * ce12b33 - 2015-05-29: pre 
+- * 6770a02 - 2015-05-29: modal añadir pista 
+- * 7b553f1 - 2015-05-29: stilos 
+- * 9811dcb - 2015-05-29: servicio añadir pistas nuevas 
+- * ad893c2 - 2015-05-29: borrar de pista 
+- * 16e3d0d - 2015-05-29: papelera para borrar pista 
+- * 4b8a26f - 2015-05-29: servicio eliminar pistas fix 
+- * 3b0b483 - 2015-05-29: servicio eliminar pistas 
+- * f16bdde - 2015-05-29: update pistas 
+- * 0bb7409 - 2015-05-29: ajuste en añadir deporte 
+- * 49b4944 - 2015-05-29: añadir nuevo deporte 
+- * ba2f180 - 2015-05-29: update sql, pass response via backbone events to view 
+- * 1c1e2cf - 2015-05-29: borrar deporte 
+- * fa26cea - 2015-05-29: modificar deporte name 
+- * 7dd900b - 2015-05-29: solucionado bug registro nuevo usuario admin 
+- * 5aeedb1 - 2015-05-29: borrar users 
+- * 807db06 - 2015-05-29: solucionado bug en perfiles de usuarios 
+- * 7a5568f - 2015-05-28: asd 
+- * 31ea862 - 2015-05-28: integracion con ws actulizar usuario 
+- * 2cf6a8e - 2015-05-28: modificar usuario en zona Admin 
+- * cc2ba54 - 2015-05-28: servicio cambiar rol de usuario 
+- * 5bea183 - 2015-05-28: user-perfil modification 
+- * 6c03a7b - 2015-05-28: pasing code 
+- * e5b4080 - 2015-05-28: tables and date admin updated 
+- * 5e8600e - 2015-05-28: reservas en vista administrador 
+- * ab2e72d - 2015-05-28: fechas a pasado reservas no anulables 
+- * 5c5b7eb - 2015-05-27: views para reservas admin 
+- * 0b7642f - 2015-05-27: api reservas admin get 
+- * f778e2c - 2015-05-27: touch tap event 
+- * 5acb608 - 2015-05-27: get change values in gestion pistas 
+- * 5478f5a - 2015-05-27: changing on doble click inputs 
+- * fd73165 - 2015-05-27: menu perfomance 
+- * 4a046d6 - 2015-05-26: combo en gestion de pistas 
+- * 68adfa1 - 2015-05-26: headjs 
+- * 26de285 - 2015-05-26: open/close 
+- * 7d3aff5 - 2015-05-26: gestion de pistas 
+- * 8633ac9 - 2015-05-25: fix user bugs, sort list collection table, vaciar input tras busqueda, etc 
+- * 2600f40 - 2015-05-25: beta 0.8 
+- * a07b871 - 2015-05-25: modales inputs 
+- * fdd1f4d - 2015-05-25: show perfil usuario 
+- * d667ad3 - 2015-05-25: alert 
 - * 75e99c6 - 2015-05-25: botones 
 - * 973c437 - 2015-05-24: oculta vista del tiempo 
 - * 64e37ab - 2015-05-24: api del tiempo 

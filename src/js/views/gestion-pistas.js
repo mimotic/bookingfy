@@ -13,7 +13,7 @@ module.exports = Backbone.View.extend({
 
   events: {
     // "change select" :"changed",
-    'dblclick input': 'converting',
+    'click input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
     'keydown': 'keyAction',
@@ -25,14 +25,15 @@ module.exports = Backbone.View.extend({
   converting: function (e) {
     var elem = e.target;
     var elemData = $("#" + elem.id);
-    elemData.removeAttr('disabled');
+    elemData.removeClass('disabled');
     elemData.focus();
   },
 
   descoverting: function (e) {
     var elem = e.target;
     var elemData = $("#" + elem.id);
-    elemData.attr({disabled: true});
+
+    elemData.addClass('disabled');
   },
 
   keyAction: function(e) {
@@ -124,7 +125,10 @@ module.exports = Backbone.View.extend({
 
       if(e) e.preventDefault();
 
-      var idPista = $(e.currentTarget).attr('data-pista');
+      var confirmar = confirm('¿seguro que quiere eliminar la pista?');
+
+      if(confirmar === true){
+        var idPista = $(e.currentTarget).attr('data-pista');
 
       var formValues = {
             id_pista: idPista
@@ -147,6 +151,9 @@ module.exports = Backbone.View.extend({
               }
           }
        });
+      }
+
+
   },
 
 

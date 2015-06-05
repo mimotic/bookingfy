@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend({
 
   events: {
     "change .wrap-deportes input" :"updateDeporte",
-    'dblclick input': 'converting',
+    'click input': 'converting',
     'blur input': 'descoverting',
     'touchstart input': 'converting',
     'click #deleteDeporte': 'deleteDeporte',
@@ -24,14 +24,15 @@ module.exports = Backbone.View.extend({
   converting: function (e) {
     var elem = e.target;
     var elemData = $("#" + elem.id);
-    elemData.removeAttr('disabled');
+    elemData.removeClass('disabled');
     elemData.focus();
   },
 
   descoverting: function (e) {
     var elem = e.target;
     var elemData = $("#" + elem.id);
-    elemData.attr({disabled: true});
+
+    elemData.addClass('disabled');
   },
 
   keyAction: function(e) {
@@ -98,27 +99,32 @@ module.exports = Backbone.View.extend({
 
       if(e) e.preventDefault();
 
-      var idDeporte = $(e.currentTarget).attr('data-deporte');
+      var confirmar = confirm('¿seguro que quiere eliminar el deporte?');
 
-      var formValues = {
-            id_deporte: idDeporte
-        };
+      if(confirmar === true){
 
-       $.ajax({
-          url:'/api/eliminarDeporte',
-          type:'POST',
-          dataType:"json",
-          data: formValues,
-          success:function (data) {
+        var idDeporte = $(e.currentTarget).attr('data-deporte');
 
-              if(data.estado=="error") {
-                $('.error').hide();
-                $('#error-gestion').html(data.msg).slideDown().fadeOut(5000);
-              } else {
-                Backbone.Events.trigger('resetGestion', data);
-              }
-          }
-       });
+        var formValues = {
+              id_deporte: idDeporte
+          };
+
+         $.ajax({
+            url:'/api/eliminarDeporte',
+            type:'POST',
+            dataType:"json",
+            data: formValues,
+            success:function (data) {
+
+                if(data.estado=="error") {
+                  $('.error').hide();
+                  $('#error-gestion').html(data.msg).slideDown().fadeOut(5000);
+                } else {
+                  Backbone.Events.trigger('resetGestion', data);
+                }
+            }
+         });
+     }
   },
 
   mostrar: function(){
