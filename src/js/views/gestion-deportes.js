@@ -129,7 +129,6 @@ module.exports = Backbone.View.extend({
 
   mostrar: function(){
     this.$el.show();
-
   },
 
   ocultar: function(){
